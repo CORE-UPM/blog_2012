@@ -15,10 +15,10 @@
      </p>
 
      <footer>
-        <form method='post' action='/posts/<%= posts[i].id %>'>
+	<a href="/posts/<%= posts[i].id %>/edit"> Editar </a>
+        <form id="formuborra" style="display:inline;" method='post' action="/posts/<%= posts[i].id %>">
           <input type='hidden' name='_method' value='delete'>
-          <a href="/posts/<%= posts[i].id %>/edit"> Editar </a> 
-          <a href="" onclick="submit();return false"> Borrar </a>  
+          <a href="" onclick="document.getElementById('formuborra').submit();return false"> Borrar </a>  
         </form>
      </footer>
   </article>
