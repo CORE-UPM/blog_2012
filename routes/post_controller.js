@@ -66,6 +66,23 @@ function posts_to_xml(posts) {
     return xml.end({pretty: true});
 }
 
+// GET /posts/search?txtSearch="texto"
+exports.search = function(req, res, next) {
+
+    var txt='%'+req.query.txtSearch+'%';
+
+    models.Post
+        .findAll({where: ["title like ? OR body like ?", txt, txt], order: "updatedAt DESC"})
+        .success(function(posts) {
+	        res.render('posts/search', {posts: posts});
+
+	})
+        .error(function(error) {
+            console.log("Error: No puedo listar los posts.");
+            res.redirect('/');
+        });
+};
+
 
 // GET /posts/33
 exports.show = function(req, res, next) {
