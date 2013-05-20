@@ -172,9 +172,7 @@ app.get('/orphancomments',
 
 app.get('/posts.:format?',
         function(req, res, next) {
-
           paginate(req, res, next, 'Post');
-            console.log("Here!, before access to database");
         },
         postController.index);
 
@@ -206,6 +204,13 @@ app.delete('/posts/:postid([0-9]+)',
            sessionController.requiresLogin,
            postController.loggedUserIsAuthor,
            postController.destroy);
+
+app.post('/posts/search',
+          function(req, res, next) {
+          paginate(req, res, next, 'Post Search');
+        },
+        postController.browser);
+
 
 //---------------------
 

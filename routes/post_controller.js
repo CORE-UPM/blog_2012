@@ -7,15 +7,15 @@ var models = require('../models/models.js');
 */
 exports.load = function(req, res, next, id) {
 
-   models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            if (post) {
+   posts = models.Post
+        .findAll({where: {title: req.title_post, body: req.body_post}})
+        .success(function(posts) {
+            if (posts) {
                 req.post = post;
                 next();
             } else {
-                req.flash('error', 'No existe el post con id='+id+'.');
-                next('No existe el post con id='+id+'.');
+                req.flash('error', 'No existe ningún post con esas características');
+                next('No existe ningún post con esas características');
             }
         })
         .error(function(error) {
@@ -43,13 +43,8 @@ exports.loggedUserIsAuthor = function(req, res, next) {
 
 // GET /posts
 exports.index = function(req, res, next) {
-
-      console.log("Here, before access to database");
-
-
     var format = req.params.format || 'html';
     format = format.toLowerCase();
-
 
     models.Post
         .findAll({
@@ -295,6 +290,23 @@ exports.update = function(req, res, next) {
         });
 };
 
+exports.browser = function(req, res, next) {
+     models.Post
+        .find({where: {id: Number(id)}})
+        .success(function(post) {
+            if (post) {
+                req.post = post;
+                next();
+            } else {
+                req.flash('error', 'No existe el post con id='+id+'.');
+                next('No existe el post con id='+id+'.');
+            }
+        })
+        .error(function(error) {
+            next(error);
+        });
+}
+
 // DELETE /posts/33
 exports.destroy = function(req, res, next) {
 
@@ -344,4 +356,6 @@ exports.destroy = function(req, res, next) {
        .error(function(error) {
            next(error);
        });
+
 };
+

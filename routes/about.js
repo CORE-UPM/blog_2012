@@ -4,6 +4,5 @@
  */
 
 exports.about = function(req, res){
-  console.log('>>>>>');
   res.render('about');
 };
