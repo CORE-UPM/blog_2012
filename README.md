@@ -1,6 +1,6 @@
-# Proyecto CORE/SWCM
+# Proyecto SWCM Julio Alberto Seijas Diego
 
-Proyecto de la asignatura CORE 2012-2013
+Proyecto de la asignatura SWCM 2012-2013
 
 ## Temario
 
