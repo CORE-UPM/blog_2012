@@ -14,8 +14,8 @@ exports.index = function(req, res, next) {
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
-                  });
+                    posts: posts,
+                    cont:res.cont });
                   break;
               case 'json':
                   res.send(posts);
@@ -82,7 +82,7 @@ exports.show = function(req, res, next) {
               case 'html':
               case 'htm':
                   if (post) {
-                    res.render('posts/show', { post: post });
+                    res.render('posts/show', { post: post , cont:res.cont });
                   } else {
                     console.log('No existe ningun post con id='+id+'.');
                     res.redirect('/posts');
@@ -146,7 +146,7 @@ exports.new = function(req, res, next) {
           body: 'Introduzca el texto del articulo'
         });
     
-    res.render('posts/new', {post: post});
+    res.render('posts/new', {post: post , cont:res.cont});
 };
 
 // POST /posts
@@ -161,7 +161,7 @@ exports.create = function(req, res, next) {
     var validate_errors = post.validate();
     if (validate_errors) {
         console.log("Errores de validacion:", validate_errors);
-        res.render('posts/new', {post: post});
+        res.render('posts/new', {post: post , cont:res.cont});
         return;
     } 
     
@@ -171,7 +171,7 @@ exports.create = function(req, res, next) {
         })
         .error(function(error) {
             console.log("Error: No puedo crear el post:", error);
-            res.render('posts/new', {post: post});
+            res.render('posts/new', {post: post , cont:res.cont});
         });
 };
 
@@ -184,7 +184,7 @@ exports.edit = function(req, res, next) {
         .find({where: {id: Number(id)}})
         .success(function(post) {
             if (post) {
-                res.render('posts/edit', {post: post});
+                res.render('posts/edit', {post: post , cont:res.cont});
             } else {
                 console.log('No existe ningun post con id='+id+'.');
                 res.redirect('/posts');
@@ -211,7 +211,7 @@ exports.update = function(req, res, next) {
                 var validate_errors = post.validate();
                 if (validate_errors) {
                     console.log("Errores de validacion:", validate_errors);
-                    res.render('posts/edit', {post: post});
+                    res.render('posts/edit', {post: post , cont:res.cont});
                     return;
                 } 
                 post.save(['title', 'body'])
@@ -220,7 +220,7 @@ exports.update = function(req, res, next) {
                     })
                     .error(function(error) {
                         console.log("Error: No puedo editar el post:", error);
-                        res.render('posts/edit', {post: post});
+                        res.render('posts/edit', {post: post , cont:res.cont});
                     });
             } else {
                 console.log('No existe ningun post con id='+id+'.');
@@ -253,6 +253,36 @@ exports.destroy = function(req, res, next) {
                     });
             } else {
                 console.log('No existe ningun post con id='+id+'.');
+                res.redirect('/posts');
+            }
+        })
+        .error(function(error) {
+            console.log(error);
+            res.redirect('/');
+        });
+};
+
+
+
+// GET /search/item
+exports.search = function(req, res, next) {
+
+
+    //var url = require('url');
+    //var queryObject = url.parse(req.url,true).query;
+    //console.log(queryObject);
+    //var query = queryObject.item;
+    var query =  req.param("item");
+    var item = '%' +query+ '%'; // '%' + query.replace(" ","%") + '%';
+
+    models.Post
+        .findAll({where: ["title LIKE ? OR body LIKE ?", item, item], order:"updatedAt DESC"})
+        .success(function(posts) {
+            if (posts) {
+		console.log(posts);
+                res.render('posts/search', {posts: posts , cont:res.cont, query: query});
+            } else {
+                console.log('No se encuentran posts con esa búsqueda');
                 res.redirect('/posts');
             }
         })

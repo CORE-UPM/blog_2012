@@ -1,28 +1,29 @@
 <!DOCTYPE html>
-<html lang="es">
-<head>
-   <meta charset="utf-8">
-   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-   <title>CORE</title>
-</head>
+<html lang="en">
+	<head>
+		<meta charset="utf-8">
+		<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+		<title>Hackathon Reviews</title>
+	</head>
+	<body>
+		<header>
+			<h1><a href="/">HackathonReviews</a></h1><a href="/"><span>.herokuapp.com</span></a>
+			<p> Contador de visitas: <%= cont %></p>
 
-<body>
-  <header>
-    <h1> COmputación en REd - CORE</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/Posts">Posts</a>
-    </nav>
-  </header>
-       
-  <section>
-   <hr />
-   <%- body %>
-   <hr />
-  </section>
-
-  <footer>
-    <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
-  </footer>
-</body>
+			<form action="/posts/search" method="GET">
+				<input name="item" value="Buscar por..."/>
+				<input type="submit" value="Enviar"/>
+			</form>
+		<nav>
+      		 	<a href="/">Home</a>
+     			 <a href="/Posts">Posts</a>
+    		</nav>
+		</header>
+		<section>
+   		<%- body %>
+  		</section>
+		<footer>
+			
+		</footer>
+	</body>
 </html>

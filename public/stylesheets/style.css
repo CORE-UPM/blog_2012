@@ -1,12 +1,54 @@
+* {
+	margin: 0;
+	padding: 0;
+	text-decoration:none;
+}
 body {
-  padding: 20px;
-  background-image: url("/images/bg.jpg");
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+  font: 90% "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
-a {
+header, section, footer {
+	max-width: 1000px;
+	width:95%;
+	margin: 0 auto;
+	padding: 30px 0;
+}
+
+header, section {
+	border-bottom: solid 1px #444;
+}
+
+a, a:visited {
   color: #00B7FF;
 }
+h1 {
+	font-size: 250%;
+	display:inline;
+}
+header span {
+	font-weight: bold;
+	color: #000;
+}
+h3 {
+	font-size: 150%;
+}
+header p {
+	float: right;
+}
+header form{
+	float:right;
+}
+
+footer {
+	text-align:center;
+}
+footer p{
+	text-align:left;
+}
+footer video {
+	margin-bottom:15px;
+}
+
 
 article {
   border: 2px solid #ffffff;

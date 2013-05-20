@@ -8,6 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
+  , count = require('./count')
   , partials = require('express-partials')
   , postController = require('./routes/post_controller.js');
 
@@ -20,6 +21,7 @@ app.configure(function(){
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
   app.use(express.favicon());
+  app.use(count.getCount());
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
@@ -57,6 +59,7 @@ app.post('/posts', postController.create);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
 app.put('/posts/:postid([0-9]+)', postController.update);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.get('/posts/search', postController.search);
 
 //---------------------
 
