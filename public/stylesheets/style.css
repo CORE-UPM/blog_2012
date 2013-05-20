@@ -7,10 +7,6 @@ body {
 a {
   color: #00B7FF;
 }
-
-article {
-  border: 2px solid #ffffff;
-  padding: 7px;
-  margin: 20px;
-  background-color: #e5f5ff;
+#buscador{
+	left:700px; top:20px; position: relative;
 }
