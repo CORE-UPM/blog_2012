@@ -1,5 +1,5 @@
 
-// Definicion del modelo Post:
+// Definicion de la clase Post:
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Post',
