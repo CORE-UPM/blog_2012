@@ -1,7 +1,9 @@
 
 // Definicion del modelo Post:
 
-module.exports = function(sequelize, DataTypes) {
+module.exports = function(sequelize, DataTypes){
+  console.log("im at post model");
+
   return sequelize.define('Post',
             { authorId: {
                  type: DataTypes.INTEGER,

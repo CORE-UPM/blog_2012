@@ -29,7 +29,7 @@ exports.load = function(req, res, next, id) {
 * Comprueba que el usuario logeado es el author.
 */
 exports.loggedUserIsAuthor = function(req, res, next) {
-    
+
     if (req.session.user && req.session.user.id == req.post.authorId) {
         next();
     } else {
@@ -44,8 +44,12 @@ exports.loggedUserIsAuthor = function(req, res, next) {
 // GET /posts
 exports.index = function(req, res, next) {
 
+      console.log("Here, before access to database");
+
+
     var format = req.params.format || 'html';
     format = format.toLowerCase();
+
 
     models.Post
         .findAll({
@@ -57,8 +61,8 @@ exports.index = function(req, res, next) {
         .success(function(posts) {
 
           // console.log(posts);
-          
-            switch (format) { 
+
+            switch (format) {
               case 'html':
               case 'htm':
                   res.render('posts/index', {
@@ -128,21 +132,21 @@ exports.show = function(req, res, next) {
             // Buscar Adjuntos
             req.post.getAttachments({order: 'updatedAt DESC'})
                .success(function(attachments) {
-            
+
                   // Buscar comentarios
                   models.Comment
                        .findAll({ offset: req.pagination.offset,
                                   limit:  req.pagination.limit,
                                   where: {postId: req.post.id},
                                   order: 'updatedAt DESC',
-                                  include: [ { model: models.User, as: 'Author' } ] 
+                                  include: [ { model: models.User, as: 'Author' } ]
                        })
                        .success(function(comments) {
 
                           var format = req.params.format || 'html';
                           format = format.toLowerCase();
 
-                          switch (format) { 
+                          switch (format) {
                             case 'html':
                             case 'htm':
                                 var new_comment = models.Comment.build({
@@ -219,7 +223,7 @@ exports.new = function(req, res, next) {
         { title:  'Introduzca el titulo',
           body: 'Introduzca el texto del articulo'
         });
-    
+
     res.render('posts/new', {post: post});
 };
 
@@ -231,7 +235,7 @@ exports.create = function(req, res, next) {
           body: req.body.post.body,
           authorId: req.session.user.id
         });
-    
+
     var validate_errors = post.validate();
     if (validate_errors) {
         console.log("Errores de validación:", validate_errors);
@@ -244,8 +248,8 @@ exports.create = function(req, res, next) {
         res.render('posts/new', {post: post,
                                  validate_errors: validate_errors});
         return;
-    } 
-    
+    }
+
     post.save()
         .success(function() {
             req.flash('success', 'Post creado con éxito.');
@@ -267,7 +271,7 @@ exports.update = function(req, res, next) {
 
     req.post.title = req.body.post.title;
     req.post.body = req.body.post.body;
-                
+
     var validate_errors = req.post.validate();
     if (validate_errors) {
         console.log("Errores de validación:", validate_errors);
@@ -280,7 +284,7 @@ exports.update = function(req, res, next) {
         res.render('posts/edit', {post: req.post,
                                   validate_errors: validate_errors});
         return;
-    } 
+    }
     req.post.save(['title', 'body'])
         .success(function() {
             req.flash('success', 'Post actualizado con éxito.');
@@ -330,7 +334,7 @@ exports.destroy = function(req, res, next) {
                           res.redirect('/posts');
                       })
                       .error(function(errors){
-                          next(errors[0]);   
+                          next(errors[0]);
                       })
               })
               .error(function(error) {

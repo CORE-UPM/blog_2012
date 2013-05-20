@@ -172,7 +172,9 @@ app.get('/orphancomments',
 
 app.get('/posts.:format?',
         function(req, res, next) {
+
           paginate(req, res, next, 'Post');
+            console.log("Here!, before access to database");
         },
         postController.index);
 
