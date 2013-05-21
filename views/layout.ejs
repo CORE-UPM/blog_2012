@@ -2,16 +2,39 @@
 <html lang="es">
 <head>
    <meta charset="utf-8">
+    <link href='http://fonts.googleapis.com/css?family=Roboto|Roboto+Condensed' rel='stylesheet' type='text/css'>
    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-   <title>CORE</title>
+   <link rel='stylesheet' 
+        media='only screen and (min-width: 992px)'
+        href='/stylesheets/wide.css' />
+
+    <link rel='stylesheet'
+        media='only screen and (max-width: 991px)'
+        href='/stylesheets/tableta.css' />
+
+     <link rel='stylesheet'
+        media='only screen and (max-width: 480px)'
+        href='/stylesheets/smartphone.css' />
+   <title>proyecto BLOG</title>
 </head>
 
 <body>
   <header>
-    <h1> COmputación en REd - CORE</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/Posts">Posts</a>
+    <div id='principal'>
+      <a href='/'>
+         <img id='imagen-cabecera' src='/images/cabecera.png'>
+      </a>
+    </div>
+    <nav class="nav-bar">
+      <a href="/"> Home </a>
+      <a href="/Posts"> Posts </a>
+      <div id="busqueda">
+      <form method='get' action='/posts/search'>
+        <label for="search">Búsqueda</label>
+        <input type="text" id="search" name="search" size='20'>
+        <input type="submit" value="Buscar">
+      </div>
+      </form>
     </nav>
   </header>
 
@@ -59,6 +82,7 @@
 
   <footer>
     <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
+    <p> Número de visitas: <%= visitas %></p>
   </footer>
 </body>
 </html>

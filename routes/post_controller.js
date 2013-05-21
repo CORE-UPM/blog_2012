@@ -1,6 +1,6 @@
 
 var models = require('../models/models.js');
-
+var count = require('../count');
 
 /*
 *  Auto-loading con app.param
@@ -37,7 +37,7 @@ exports.index = function(req, res, next) {
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
+                    posts: posts, visitas: count.getCount()
                   });
                   break;
               case 'json':
@@ -98,7 +98,7 @@ exports.show = function(req, res, next) {
     switch (format) { 
       case 'html':
       case 'htm':
-          res.render('posts/show', { post: req.post });
+          res.render('posts/show', { post: req.post, visitas: count.getCount() });
           break;
       case 'json':
           res.send(req.post);
@@ -153,7 +153,7 @@ exports.new = function(req, res, next) {
           body: 'Introduzca el texto del articulo'
         });
     
-    res.render('posts/new', {post: post});
+    res.render('posts/new', { post: post, visitas: count.getCount() });
 };
 
 // POST /posts
@@ -175,7 +175,8 @@ exports.create = function(req, res, next) {
         };
 
         res.render('posts/new', {post: post,
-                                 validate_errors: validate_errors});
+                                 validate_errors: validate_errors,
+                                 visitas: count.getCount() });
         return;
     } 
     
@@ -192,7 +193,7 @@ exports.create = function(req, res, next) {
 // GET /posts/33/edit
 exports.edit = function(req, res, next) {
 
-    res.render('posts/edit', {post: req.post});
+    res.render('posts/edit', {post: req.post, visitas: count.getCount() });
 };
 
 // PUT /posts/33
@@ -211,7 +212,8 @@ exports.update = function(req, res, next) {
         };
 
         res.render('posts/edit', {post: req.post,
-                                  validate_errors: validate_errors});
+                                  validate_errors: validate_errors, 
+                                  visitas: count.getCount() });
         return;
     } 
     req.post.save(['title', 'body'])
@@ -236,3 +238,30 @@ exports.destroy = function(req, res, next) {
             next(error);
         });
 };
+
+
+// SEARCH /posts/search
+exports.search = function(req, res, next) {
+
+  var _search = req.query.search || "";
+  search = _search.replace(/\s/g,"%");
+  search = "%" + search + "%";
+
+  console.log(search);
+  models.Post
+          .findAll({where: ["title like ? OR body like ?", search, search], order: "updatedAt DESC"})
+          .success(function(posts) {
+            if (posts) {
+                res.render('posts/search', { posts: posts, 
+                                             visitas: count.getCount(),
+                                             search: _search });
+                return;
+            } else {
+                req.flash('error', 'No se pudo realizar la búsqueda='+_search+'.');
+                next('Error al buscar: '+search+'.');
+            }
+        })
+        .error(function(error) {
+            next(error);
+        });
+}

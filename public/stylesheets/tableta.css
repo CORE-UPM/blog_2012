@@ -1,0 +1,22 @@
+
+header { font-size: large "Roboto";
+		 margin-bottom: 3%;
+		 padding-bottom: 1px; }
+body { font-size: large "Roboto Condensed"; }
+
+#page-wrap { height: 90%;
+	    	 width: 90%;
+	    	 margin: 5% auto;}
+
+#h1 { margin-left: 0%;
+	  padding-bottom: 1px;}
+
+#h2 { margin-left: 9%;}
+
+#mapa { height: 40%;
+		width: 100%; }
+
+#video { width: 100%; }
+
+.titulo { font-size: 24px;
+		  margin-bottom: 10px; }

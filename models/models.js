@@ -20,3 +20,4 @@ var sequelize = new Sequelize(process.env.DATABASE_NAME,
 
 exports.Post = sequelize.import(path.join(__dirname,'post'));
 
+sequelize.sync();

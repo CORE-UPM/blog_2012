@@ -9,13 +9,15 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , partials = require('express-partials')
-  , postController = require('./routes/post_controller.js');
+  , postController = require('./routes/post_controller.js')
+  , count = require('./count');
 
 var util = require('util');
 
 var app = express();
 
 app.use(partials());
+app.use(count.count_mw());
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -83,6 +85,7 @@ app.post('/posts', postController.create);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
 app.put('/posts/:postid([0-9]+)', postController.update);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.get('/posts/search', postController.search);
 
 //---------------------
 

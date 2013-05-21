@@ -1,0 +1,41 @@
+
+header { font-size: large "Roboto";
+		 margin-bottom: 3%;
+		 padding-bottom: 1px; }
+body { font-size: large "Roboto Condensed"; }
+
+#page-wrap { height: 90%;
+	    	 width: 90%;
+	    	 margin: 5% auto;}
+
+
+#h1 { margin-left: 0%;
+	  padding-bottom: 1px;}
+
+#h2 { margin-left: 9%;}
+
+#mapa { height: 30%;
+		width: 100%; }
+
+#map_canvas { height: 100%;
+        	  width: 100%; }
+
+#seccvideo { height: 14em;
+			 position: relative; 
+			 top: 9.5em; }
+
+#video { width: 100%; }
+
+#explicacion{ width: 100%;  
+		      margin: 5% 2% 0px 2%; 
+		  	  position: relative;
+		  	  top: 14em; }
+#dist, 
+#oldmylat { padding-left: 1px;
+	   		padding-right: 2px; }
+
+#oldmylong { padding-left: 2px;
+			 padding-right: 9px; }
+
+.titulo { font-size: 24px;
+		  margin-bottom: 10px; }
