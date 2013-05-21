@@ -43,7 +43,7 @@ app.locals.escapeText =  function(text) {
           .replace(/\n/g, '<br>');
 };
 
-// -- Routes
+// -- Routes y pollas
 
 app.get('/', routes.index);
 app.get('/users', user.list);
