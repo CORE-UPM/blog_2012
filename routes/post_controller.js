@@ -1,6 +1,8 @@
 
 var models = require('../models/models.js');
 
+<<<<<<< HEAD
+=======
 
 /*
 *  Auto-loading con app.param
@@ -41,6 +43,7 @@ exports.loggedUserIsAuthor = function(req, res, next) {
 
 //-----------------------------------------------------------
 
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 // GET /posts
 exports.index = function(req, res, next) {
 
@@ -48,6 +51,10 @@ exports.index = function(req, res, next) {
     format = format.toLowerCase();
 
     models.Post
+<<<<<<< HEAD
+        .findAll({order: 'updatedAt DESC'})
+        .success(function(posts) {
+=======
         .findAll({
             offset: req.pagination.offset,
             limit:  req.pagination.limit,
@@ -58,6 +65,7 @@ exports.index = function(req, res, next) {
 
           // console.log(posts);
           
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
             switch (format) { 
               case 'html':
               case 'htm':
@@ -82,7 +90,12 @@ exports.index = function(req, res, next) {
             }
         })
         .error(function(error) {
+<<<<<<< HEAD
+            console.log("Error: No puedo listar los posts.");
+            res.redirect('/');
+=======
             next(error);
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
 };
 
@@ -117,6 +130,43 @@ function posts_to_xml(posts) {
 // GET /posts/33
 exports.show = function(req, res, next) {
 
+<<<<<<< HEAD
+    var format = req.params.format || 'html';
+    format = format.toLowerCase();
+
+    var id =  req.params.postid;
+    
+    models.Post
+        .find({where: {id: Number(id)}})
+        .success(function(post) {
+            switch (format) { 
+              case 'html':
+              case 'htm':
+                  if (post) {
+                    res.render('posts/show', { post: post });
+                  } else {
+                    console.log('No existe ningun post con id='+id+'.');
+                    res.redirect('/posts');
+                  }
+                  break;
+              case 'json':
+                  res.send(post);
+                  break;
+              case 'xml':
+                     res.send(post_to_xml(post));
+                  break;
+              case 'txt':
+                  res.send(post.title+' ('+post.body+')');
+                  break;
+              default:
+                  console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+                  res.send(406);
+            }
+        })
+        .error(function(error) {
+            console.log(error);
+            res.redirect('/');
+=======
     // Buscar el autor
     models.User
         .find({where: {id: req.post.authorId}})
@@ -179,6 +229,7 @@ exports.show = function(req, res, next) {
         })
         .error(function(error) {
             next(error);
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
 };
 
@@ -229,11 +280,19 @@ exports.create = function(req, res, next) {
     var post = models.Post.build(
         { title: req.body.post.title,
           body: req.body.post.body,
+<<<<<<< HEAD
+          authorId: 0
+=======
           authorId: req.session.user.id
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
     
     var validate_errors = post.validate();
     if (validate_errors) {
+<<<<<<< HEAD
+        console.log("Errores de validacion:", validate_errors);
+        res.render('posts/new', {post: post});
+=======
         console.log("Errores de validación:", validate_errors);
 
         req.flash('error', 'Los datos del formulario son incorrectos.');
@@ -243,28 +302,89 @@ exports.create = function(req, res, next) {
 
         res.render('posts/new', {post: post,
                                  validate_errors: validate_errors});
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         return;
     } 
     
     post.save()
         .success(function() {
+<<<<<<< HEAD
+            res.redirect('/posts');
+        })
+        .error(function(error) {
+            console.log("Error: No puedo crear el post:", error);
+            res.render('posts/new', {post: post});
+=======
             req.flash('success', 'Post creado con éxito.');
             res.redirect('/posts');
         })
         .error(function(error) {
             next(error);
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
 };
 
 // GET /posts/33/edit
 exports.edit = function(req, res, next) {
 
+<<<<<<< HEAD
+    var id =  req.params.postid;
+    
+    models.Post
+        .find({where: {id: Number(id)}})
+        .success(function(post) {
+            if (post) {
+                res.render('posts/edit', {post: post});
+            } else {
+                console.log('No existe ningun post con id='+id+'.');
+                res.redirect('/posts');
+            }
+        })
+        .error(function(error) {
+            console.log(error);
+            res.redirect('/');
+        });
+=======
     res.render('posts/edit', {post: req.post});
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 };
 
 // PUT /posts/33
 exports.update = function(req, res, next) {
 
+<<<<<<< HEAD
+    var id =  req.params.postid;
+    
+    models.Post
+        .find({where: {id: Number(id)}})
+        .success(function(post) {
+            if (post) {
+                post.title = req.body.post.title;
+                post.body = req.body.post.body;
+                
+                var validate_errors = post.validate();
+                if (validate_errors) {
+                    console.log("Errores de validacion:", validate_errors);
+                    res.render('posts/edit', {post: post});
+                    return;
+                } 
+                post.save(['title', 'body'])
+                    .success(function() {
+                        res.redirect('/posts');
+                    })
+                    .error(function(error) {
+                        console.log("Error: No puedo editar el post:", error);
+                        res.render('posts/edit', {post: post});
+                    });
+            } else {
+                console.log('No existe ningun post con id='+id+'.');
+                res.redirect('/posts');
+            }
+        })
+        .error(function(error) {
+            console.log(error);
+            res.redirect('/');
+=======
     req.post.title = req.body.post.title;
     req.post.body = req.body.post.body;
                 
@@ -288,12 +408,83 @@ exports.update = function(req, res, next) {
         })
         .error(function(error) {
             next(error);
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
 };
 
 // DELETE /posts/33
 exports.destroy = function(req, res, next) {
 
+<<<<<<< HEAD
+    var id =  req.params.postid;
+    
+    models.Post
+        .find({where: {id: Number(id)}})
+        .success(function(post) {
+            if (post) {
+                
+                post.destroy()
+                    .success(function() {
+                        res.redirect('/posts');
+                    })
+                    .error(function(error) {
+                        console.log("Error: No puedo eliminar el post:", error);
+                        res.redirect('back');
+                    });
+            } else {
+                console.log('No existe ningun post con id='+id+'.');
+                res.redirect('/posts');
+            }
+        })
+        .error(function(error) {
+            console.log(error);
+            res.redirect('/');
+        });
+};
+
+// GET /posts/search
+
+exports.search = function(req,res,next){
+
+    var format = req.params.format || 'html';
+    format = format.toLowerCase();
+
+    var busqueda = req.query.busqueda.toString();
+    busqueda = busqueda.replace(/ /g,'%');
+    busqueda = '%'+busqueda+'%';
+    console.log('Busqueda: ' + busqueda);
+
+    models.Post
+      .findAll({where: ["title like ? OR body like ?",busqueda,busqueda], order: "updatedAt DESC"})
+      .success(function(posts){
+        switch (format) { 
+              case 'html':
+              case 'htm':
+                  res.render('posts/search', {
+                    posts: posts
+                  });
+                  break;
+              case 'json':
+                  res.send(posts);
+                  break;
+              case 'xml':
+                  res.send(posts_to_xml(posts));
+                  break;
+              case 'txt':
+                  res.send(posts.map(function(post) {
+                      return post.title+' ('+post.body+')';
+                  }).join('\n'));
+                  break;
+              default:
+                  console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+                  res.send(406);
+            }
+        })
+      .error(function(error){
+        console.log('Error: No puedo listar los posts.');
+        res.redirect('/');
+      });
+=======
     var Sequelize = require('sequelize');
     var chainer = new Sequelize.Utils.QueryChainer
 
@@ -340,4 +531,5 @@ exports.destroy = function(req, res, next) {
        .error(function(error) {
            next(error);
        });
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 };

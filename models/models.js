@@ -8,6 +8,20 @@ var Sequelize = require('sequelize');
 var sequelize = new Sequelize(process.env.DATABASE_NAME, 
                               process.env.DATABASE_USER, 
                               process.env.DATABASE_PASSWORD, 
+<<<<<<< HEAD
+			      { dialect: process.env.DATABASE_DIALECT, 
+              protocol: process.env.DATABASE_PROTOCOL, 
+              port: process.env.DATABASE_PORT,
+			        host: process.env.DATABASE_HOST,
+			        storage: process.env.DATABASE_STORAGE,
+              omitNull: true});
+
+// Importar la definicion de la clase Post desde post.js.
+// Y que este modulo exporta la clase Post:
+
+exports.Post = sequelize.import(path.join(__dirname,'post'));
+
+=======
             { dialect: process.env.DATABASE_DIALECT, 
               protocol: process.env.DATABASE_PROTOCOL, 
               port: process.env.DATABASE_PORT,
@@ -61,3 +75,4 @@ exports.Post = Post;
 exports.User = User;
 exports.Comment = Comment;
 exports.Attachment = Attachment;
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8

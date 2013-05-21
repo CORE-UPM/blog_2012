@@ -5,6 +5,28 @@
 
 var express = require('express')
   , routes = require('./routes')
+<<<<<<< HEAD
+  , user = require('./routes/user')
+  , http = require('http')
+  , path = require('path')
+  , partials = require('express-partials')
+  , count = require('./count')
+  , postController = require('./routes/post_controller.js');
+
+
+
+var app = express();
+app.use(partials());
+app.use(count.count_mw());
+app.use(function(req, res, next){
+	visitas = count.getCount();
+	next();
+});	
+
+
+
+// all environments
+=======
   , http = require('http')
   , path = require('path')
   , partials = require('express-partials')
@@ -21,10 +43,27 @@ var app = express();
 
 app.use(partials());
 
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
+<<<<<<< HEAD
+  app.use(express.favicon());
+  app.use(express.logger('dev'));
+  app.use(express.bodyParser());
+  app.use(express.methodOverride());
+  app.use(express.cookieParser('your secret here'));
+  app.use(express.session());
+  app.use(app.router);
+  app.use(express.static(path.join(__dirname, 'public')));
+});
+
+// development only
+app.configure('development', function(){
+  app.use(express.errorHandler());
+});
+=======
   app.use(express.favicon('public/images/favicon.ico'));
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
@@ -72,6 +111,7 @@ process.on('uncaughtException', function (err) {
   console.log('Caught exception: ' + err);
 });
 */
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 
 
 // Helper estatico:
@@ -87,6 +127,20 @@ app.locals.escapeText =  function(text) {
 // -- Routes
 
 app.get('/', routes.index);
+<<<<<<< HEAD
+app.get('/users', user.list);
+
+//---------------------
+
+app.get('/posts.:format?', postController.index);
+app.get('/posts/new', postController.new);
+app.get('/posts/:postid([0-9]+).:format?', postController.show);
+app.post('/posts', postController.create);
+app.get('/posts/:postid([0-9]+)/edit', postController.edit);
+app.put('/posts/:postid([0-9]+)', postController.update);
+app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.get('/posts/search', postController.search);
+=======
 
 //---------------------
 
@@ -223,9 +277,14 @@ app.put('/users/:userid([0-9]+)',
 // app.delete('/users/:userid([0-9]+)', 
 //        sessionController.requiresLogin,
 //           userController.destroy);
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 
 //---------------------
 
 http.createServer(app).listen(app.get('port'), function(){
+<<<<<<< HEAD
+  console.log('Express server listening on port ' + app.get('port'));
+=======
   console.log("Express server listening on port " + app.get('port'));
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 });

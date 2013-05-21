@@ -1,3 +1,36 @@
+<<<<<<< HEAD
+<header>
+  <h2> Posts </h2>
+</header>
+
+<% for (var i in posts) { %>
+  <article>
+     <header>
+        <h3>
+          <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
+        </h3>
+     </header>
+     
+     <p>
+        <%= posts[i].body.slice(0,300) %> ... 
+     </p>
+
+     <footer>
+        <form method='post' action='/posts/<%= posts[i].id %>'>
+          <input type='hidden' name='_method' value='delete'>
+          <a href="/posts/<%= posts[i].id %>/edit"> Editar </a> 
+          <a href="" onclick="submit();return false"> Borrar </a>  
+        </form>
+     </footer>
+  </article>
+
+<%  }; %>
+<footer>
+  <nav>
+    <a href="/posts/new"> Crear nuevo Post </a>
+  </nav>
+</footer>
+=======
 
 <% for (var i in posts) { %>
   <div class="post">
@@ -43,3 +76,4 @@
   </nav>
 </footer>
 
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8

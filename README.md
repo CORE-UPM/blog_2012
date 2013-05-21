@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+blog 2012
+=========
+
+Proyecto de la asignatura CORE 2012-2013
+=======
 # Proyecto CORE/SWCM
 
 Proyecto de la asignatura CORE 2012-2013
@@ -31,3 +37,4 @@ Proyecto de la asignatura CORE 2012-2013
 * Tema 12: Paginación.
 
  
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8

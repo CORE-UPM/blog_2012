@@ -1,3 +1,25 @@
+<<<<<<< HEAD
+<h2>Post</h2>
+
+<p>
+  <b><%= post.title %></b>
+  <br />
+  by 
+  <em>El autor</em>
+</p>
+
+<p>
+  <%= post.updatedAt.toLocaleDateString() %>
+</p>
+
+<p><%- escapeText(post.body) %></p>
+
+
+<a href="/posts/<%= post.id %>/edit"> Edit </a>
+
+
+<a href="/posts"> Back  </a>
+=======
 
 
  <div class="post">
@@ -31,3 +53,4 @@
 <% } %>
 
 <a href="/posts"> Volver al índice de Posts</a>
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8

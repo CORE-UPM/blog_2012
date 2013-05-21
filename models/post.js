@@ -1,5 +1,9 @@
 
+<<<<<<< HEAD
+// Definicion de la clase Post:
+=======
 // Definicion del modelo Post:
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Post',
@@ -22,4 +26,8 @@ module.exports = function(sequelize, DataTypes) {
                  }
               }
             });
+<<<<<<< HEAD
 }
+=======
+}
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8

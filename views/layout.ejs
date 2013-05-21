@@ -1,5 +1,38 @@
 <!DOCTYPE html>
 <html lang="es">
+<<<<<<< HEAD
+  <head>
+    <meta charset="utf-8">
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <title>SWCM</title>
+  </head>
+
+  <body>
+    <header>
+    <h1>Software de Comunicaciones</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/Posts">Posts</a>      
+      <form method='get' action='/posts/search' id='buscarPost'>
+        Buscar post: 
+        <input type='text' name='busqueda' placeholder='Introducir búsqueda' size='30'>
+        <input type='submit' value='Buscar'>
+      </form>        
+    </nav>
+  </header>
+
+  <section>
+   <hr />
+   <%- body %>
+   <hr />
+  </section>
+
+  <footer>
+    <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
+    <p>Eres nuestra visita número: <%- visitas%></p>
+  </footer>
+  </body>
+=======
 <head>
    <meta charset="utf-8">
    
@@ -187,4 +220,5 @@
     </div><!--/.fluid-container-->
 
 </body>
+>>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 </html>
