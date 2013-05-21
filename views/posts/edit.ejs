@@ -1,10 +1,10 @@
 <h1>Editar Post</h1>
 
-<form method='post' action='/posts/<%= post.id %>' class='form-horizontal'>
+<form method='post' action='/posts/<%= post.id %>'>
 
   <input type='hidden' name='_method' value='put'>
 
-  <%- include _form.ejs %>
+  <%- include _form.ejs %> <!-- En las transparencias aparece sin el "-" -->
 
 </form>
 
