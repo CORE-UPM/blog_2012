@@ -10,8 +10,8 @@ var express = require('express')
   , partials = require('express-partials')
   , path = require('path')
   , count = require('./public/javascripts/count')
-  , postController = require('./routes/post_controller.js');
-
+  , postController = require('./routes/post_controller.js')
+  , util = require('util');
 var app = express();
 
 // all environments
@@ -30,9 +30,35 @@ app.use(express.session());
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 
+//para usar los mensajes flash
+  app.use(require('connect-flash')());
+
+  // Helper dinamico:
+  app.use(function(req, res, next) {
+     // Hacer visible req.flash() en las vistas
+     res.locals.flash = function() { return req.flash() };
+     // Hacer visible req.session en las vistas
+     res.locals.session = req.session;
+     next();
+  });
+
+
+//middleware de error
+app.use(function(err, req, res, next) {
+  if (util.isError(err)) {
+     next(err);
+  } else {
+     console.log(err);
+     req.flash('error', err);
+     res.redirect('/');
+  } 
+});
+
 // development only
 if ('development' == app.get('env')) {
-  app.use(express.errorHandler());
+   app.use(express.errorHandler({ dumpExceptions: true, showStack: true }));
+} else {
+   app.use(express.errorHandler());
 }
 
 // Helper estatico:
@@ -52,7 +78,7 @@ app.get('/info', function(req, res) {
 });
 app.get('/users', user.list);
 //---------------------
-
+app.param('postid', postController.load);
 app.get('/posts.:format?', postController.index);
 app.get('/posts/new', postController.new);
 app.get('/posts/:postid([0-9]+).:format?', postController.show);
