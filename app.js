@@ -72,9 +72,9 @@ app.locals.escapeText =  function(text) {
 
 // -- Routes
 app.get('/', routes.index);
-app.get('/info', function(req, res) {
-    res.redirect('info.html');
-});
+//app.get('/info', function(req, res) {
+//    res.redirect('info.html');
+//});
 //---------------------
 app.get('/login',  sessionController.new);
 app.post('/login', sessionController.create);

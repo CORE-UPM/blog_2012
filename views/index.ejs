@@ -1,8 +1,27 @@
-<h2>
-	Bienvenido al <%= title %>
-</h2>
-<p>
-	Numero de visitas: <%= visitas%>
-</p>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="utf-8">
 
-<img src='images/layers.png' alt='layers'/>
+   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+
+   <title>Software de Comunicaciones</title>
+</head>
+
+    <h1> Información </h1>
+    <p>Web desarrollada por Julio Seijas y Jesús Muñoz para<br>
+    la asignatura Software de comunicaciones. En este proyecto<br>
+    aprenderemos a usar express, heroku, mensajes flash, gestión <br>
+    de sesiones, git (y github), middlewares, etc...</p>
+    <h2>Video explicativo</h2>
+    <video src="videos/Video.webm" 
+            width="320" 
+            height="240"  
+            controls 
+            id="video"
+            preload >
+   </video>
+   
+   <p>Numero de visitas: <%= visitas%></p>
+</body>
+</html>
