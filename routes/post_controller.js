@@ -270,36 +270,22 @@ exports.destroy = function(req, res, next) {
         });
 };
 
+// GET /search/item
 exports.search = function(req, res, next) {
 
-    var format = req.params.format || 'html';
-    format = format.toLowerCase();
-    var find =  '%'+req.params.busqueda+'%';
+    var busc = req.param('item');
+    var find =  '%'+busc+'%';
     find.replace(/\s/,'%');
+
     models.Post
-        .findAll({where: ["title like ? OR body like ?", find, find], order: "updatedAt DESC"})
+        .findAll({where: ["title LIKE ? OR body LIKE ?", find, find], order:"updatedAt DESC"})
         .success(function(posts) {
-            switch (format) { 
-              case 'html':
-              case 'htm':
-                  res.render('posts/search', {
-                    posts: posts
-                  });
-                  break;
-              case 'json':
-                  res.send(posts);
-                  break;
-              case 'xml':
-                  res.send(posts_to_xml(posts));
-                  break;
-              case 'txt':
-                  res.send(posts.map(function(post) {
-                      return post.title+' ('+post.body+')';
-                  }).join('\n'));
-                  break;
-              default:
-                  console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
-                  res.send(406);
+            if (posts) {
+    console.log(posts);
+                res.render('posts/search', {posts: posts , cont:res.cont, query: busc});
+            } else {
+                console.log('No se encuentran posts con esa búsqueda');
+                res.redirect('/posts');
             }
         })
         .error(function(error) {

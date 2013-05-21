@@ -92,7 +92,7 @@ app.get('/posts/:postid([0-9]+).:format?', postController.show);
 app.post('/posts', 
   sessionController.requiresLogin,
         postController.create);
-app.get('/posts/search/:busqueda', postController.search);
+app.get('/posts/search', postController.search);
 app.get('/posts/:postid([0-9]+)/edit', 
         sessionController.requiresLogin,
         postController.loggedUserIsAuthor,

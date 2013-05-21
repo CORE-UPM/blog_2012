@@ -8,24 +8,10 @@
 
 <body>
   <header>
-    <script type="text/javascript">
-$(function(){   
-  $('#searchBut').on('click',function(){
-        var busc = $('#search').val();
-    var loc = window.location;
-    //alert(loc);
-    if(loc=='http://localhost:5000/'){
-        //window.open('http://localhost:5000/posts/search/'+busc);
-        window.location.href="http://localhost:5000/posts/search/"+busc;
-    }else{
-        //window.open('http://floating-everglades-2068.herokuapp.com/posts/search/'+busc);
-        window.location.href = "http://floating-everglades-2068.herokuapp.com/posts/search/"+busc;
-      }
-      return false;
-    });
-
-});
-</script>
+    <form id="buscador" action="/posts/search" method="GET">
+        <input name="item" value="Buscar..."/>
+        <input type="submit" value="Enviar"/>
+    </form>
 
    <h1> Software de Comunicaciones</h1>
     <nav>
@@ -39,10 +25,6 @@ $(function(){
            <% } %>
       </div>
       <div id="buscador">
-      <form>
-        <input type="text" id="search">
-        <input id="searchBut" type="submit" value="Search" class="button">
-      </form>
     </div>
       <a href="/">Home</a>
       <a href="/info">Info</a>
