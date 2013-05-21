@@ -14,7 +14,7 @@ var express = require('express')
   , userController = require('./routes/user_controller.js')
   , commentController = require('./routes/comment_controller.js')
   , attachmentController = require('./routes/attachment_controller.js')
-  , counter = require('./node_modules/counter.js')
+  , counter = require('./routes/counter.js')
   , paginate = require('./routes/paginate.js').paginate;
 
 var util = require('util');
