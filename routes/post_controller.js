@@ -1,49 +1,6 @@
 
 var models = require('../models/models.js');
 
-<<<<<<< HEAD
-=======
-
-/*
-*  Auto-loading con app.param
-*/
-exports.load = function(req, res, next, id) {
-
-   models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            if (post) {
-                req.post = post;
-                next();
-            } else {
-                req.flash('error', 'No existe el post con id='+id+'.');
-                next('No existe el post con id='+id+'.');
-            }
-        })
-        .error(function(error) {
-            next(error);
-        });
-};
-
-
-
-/*
-* Comprueba que el usuario logeado es el author.
-*/
-exports.loggedUserIsAuthor = function(req, res, next) {
-    
-    if (req.session.user && req.session.user.id == req.post.authorId) {
-        next();
-    } else {
-        console.log('Operación prohibida: El usuario logeado no es el autor del post.');
-        res.send(403);
-    }
-};
-
-
-//-----------------------------------------------------------
-
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 // GET /posts
 exports.index = function(req, res, next) {
 
@@ -51,21 +8,8 @@ exports.index = function(req, res, next) {
     format = format.toLowerCase();
 
     models.Post
-<<<<<<< HEAD
         .findAll({order: 'updatedAt DESC'})
         .success(function(posts) {
-=======
-        .findAll({
-            offset: req.pagination.offset,
-            limit:  req.pagination.limit,
-            order: 'updatedAt DESC',
-            include: [ { model: models.User, as: 'Author' } ]
-        })
-        .success(function(posts) {
-
-          // console.log(posts);
-          
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
             switch (format) { 
               case 'html':
               case 'htm':
@@ -90,12 +34,8 @@ exports.index = function(req, res, next) {
             }
         })
         .error(function(error) {
-<<<<<<< HEAD
             console.log("Error: No puedo listar los posts.");
             res.redirect('/');
-=======
-            next(error);
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
 };
 
@@ -130,7 +70,6 @@ function posts_to_xml(posts) {
 // GET /posts/33
 exports.show = function(req, res, next) {
 
-<<<<<<< HEAD
     var format = req.params.format || 'html';
     format = format.toLowerCase();
 
@@ -166,70 +105,6 @@ exports.show = function(req, res, next) {
         .error(function(error) {
             console.log(error);
             res.redirect('/');
-=======
-    // Buscar el autor
-    models.User
-        .find({where: {id: req.post.authorId}})
-        .success(function(user) {
-
-            // Si encuentro al autor lo añado como el atributo author, sino añado {}.
-            req.post.author = user || {};
-
-            // Buscar Adjuntos
-            req.post.getAttachments({order: 'updatedAt DESC'})
-               .success(function(attachments) {
-            
-                  // Buscar comentarios
-                  models.Comment
-                       .findAll({ offset: req.pagination.offset,
-                                  limit:  req.pagination.limit,
-                                  where: {postId: req.post.id},
-                                  order: 'updatedAt DESC',
-                                  include: [ { model: models.User, as: 'Author' } ] 
-                       })
-                       .success(function(comments) {
-
-                          var format = req.params.format || 'html';
-                          format = format.toLowerCase();
-
-                          switch (format) { 
-                            case 'html':
-                            case 'htm':
-                                var new_comment = models.Comment.build({
-                                    body: 'Introduzca el texto del comentario'
-                                });
-                                res.render('posts/show', {
-                                    post: req.post,
-                                    comments: comments,
-                                    comment: new_comment,
-                                    attachments: attachments
-                                });
-                                break;
-                            case 'json':
-                                res.send(req.post);
-                                break;
-                            case 'xml':
-                                res.send(post_to_xml(req.post));
-                                break;
-                            case 'txt':
-                                res.send(req.post.title+' ('+req.post.body+')');
-                                break;
-                            default:
-                                console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
-                                res.send(406);
-                          }
-                       })
-                       .error(function(error) {
-                           next(error);
-                       })
-                })
-               .error(function(error) {
-                   next(error);
-                });
-        })
-        .error(function(error) {
-            next(error);
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
 };
 
@@ -280,54 +155,29 @@ exports.create = function(req, res, next) {
     var post = models.Post.build(
         { title: req.body.post.title,
           body: req.body.post.body,
-<<<<<<< HEAD
           authorId: 0
-=======
-          authorId: req.session.user.id
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
     
     var validate_errors = post.validate();
     if (validate_errors) {
-<<<<<<< HEAD
         console.log("Errores de validacion:", validate_errors);
         res.render('posts/new', {post: post});
-=======
-        console.log("Errores de validación:", validate_errors);
-
-        req.flash('error', 'Los datos del formulario son incorrectos.');
-        for (var err in validate_errors) {
-           req.flash('error', validate_errors[err]);
-        };
-
-        res.render('posts/new', {post: post,
-                                 validate_errors: validate_errors});
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         return;
     } 
     
     post.save()
         .success(function() {
-<<<<<<< HEAD
             res.redirect('/posts');
         })
         .error(function(error) {
             console.log("Error: No puedo crear el post:", error);
             res.render('posts/new', {post: post});
-=======
-            req.flash('success', 'Post creado con éxito.');
-            res.redirect('/posts');
-        })
-        .error(function(error) {
-            next(error);
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
 };
 
 // GET /posts/33/edit
 exports.edit = function(req, res, next) {
 
-<<<<<<< HEAD
     var id =  req.params.postid;
     
     models.Post
@@ -344,15 +194,11 @@ exports.edit = function(req, res, next) {
             console.log(error);
             res.redirect('/');
         });
-=======
-    res.render('posts/edit', {post: req.post});
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 };
 
 // PUT /posts/33
 exports.update = function(req, res, next) {
 
-<<<<<<< HEAD
     var id =  req.params.postid;
     
     models.Post
@@ -384,38 +230,12 @@ exports.update = function(req, res, next) {
         .error(function(error) {
             console.log(error);
             res.redirect('/');
-=======
-    req.post.title = req.body.post.title;
-    req.post.body = req.body.post.body;
-                
-    var validate_errors = req.post.validate();
-    if (validate_errors) {
-        console.log("Errores de validación:", validate_errors);
-
-        req.flash('error', 'Los datos del formulario son incorrectos.');
-        for (var err in validate_errors) {
-            req.flash('error', validate_errors[err]);
-        };
-
-        res.render('posts/edit', {post: req.post,
-                                  validate_errors: validate_errors});
-        return;
-    } 
-    req.post.save(['title', 'body'])
-        .success(function() {
-            req.flash('success', 'Post actualizado con éxito.');
-            res.redirect('/posts');
-        })
-        .error(function(error) {
-            next(error);
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
         });
 };
 
 // DELETE /posts/33
 exports.destroy = function(req, res, next) {
 
-<<<<<<< HEAD
     var id =  req.params.postid;
     
     models.Post
@@ -484,52 +304,4 @@ exports.search = function(req,res,next){
         console.log('Error: No puedo listar los posts.');
         res.redirect('/');
       });
-=======
-    var Sequelize = require('sequelize');
-    var chainer = new Sequelize.Utils.QueryChainer
-
-    var cloudinary = require('cloudinary');
-
-    // Obtener los comentarios
-    req.post.getComments()
-       .success(function(comments) {
-           for (var i in comments) {
-                // Eliminar un comentario
-                chainer.add(comments[i].destroy());
-           }
-
-           // Obtener los adjuntos
-           req.post.getAttachments()
-              .success(function(attachments) {
-                  for (var i in attachments) {
-                      // Eliminar un adjunto
-                      chainer.add(attachments[i].destroy());
-
-                      // Borrar el fichero en Cloudinary.
-                      cloudinary.api.delete_resources(attachments[i].public_id,
-                                    function(result) {},
-                                    {resource_type: 'raw'});
-                  }
-
-                  // Eliminar el post
-                  chainer.add(req.post.destroy());
-
-                  // Ejecutar el chainer
-                  chainer.run()
-                      .success(function(){
-                          req.flash('success', 'Post (y sus comentarios y adjuntos) eliminado con éxito.');
-                          res.redirect('/posts');
-                      })
-                      .error(function(errors){
-                          next(errors[0]);   
-                      })
-              })
-              .error(function(error) {
-                  next(error);
-              });
-       })
-       .error(function(error) {
-           next(error);
-       });
->>>>>>> 499058b2bc58b318034727a823a52e888f6690b8
 };
