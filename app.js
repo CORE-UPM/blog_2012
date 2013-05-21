@@ -10,7 +10,9 @@ var express = require('express')
   , partials = require('express-partials')
   , path = require('path')
   , count = require('./public/javascripts/count')
+  , sessionController = require('./routes/session_controller.js')
   , postController = require('./routes/post_controller.js')
+  , userController = require('./routes/user_controller.js')
   , util = require('util');
 var app = express();
 
@@ -27,21 +29,18 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
-app.use(app.router);
-app.use(express.static(path.join(__dirname, 'public')));
-
 //para usar los mensajes flash
-  app.use(require('connect-flash')());
-
-  // Helper dinamico:
-  app.use(function(req, res, next) {
+app.use(require('connect-flash')());
+app.use(function(req, res, next) {
      // Hacer visible req.flash() en las vistas
      res.locals.flash = function() { return req.flash() };
      // Hacer visible req.session en las vistas
      res.locals.session = req.session;
      next();
-  });
+});
 
+app.use(app.router);
+app.use(express.static(path.join(__dirname, 'public')));
 
 //middleware de error
 app.use(function(err, req, res, next) {
@@ -76,17 +75,56 @@ app.get('/', routes.index);
 app.get('/info', function(req, res) {
     res.redirect('info.html');
 });
-app.get('/users', user.list);
 //---------------------
+app.get('/login',  sessionController.new);
+app.post('/login', sessionController.create);
+app.get('/logout', sessionController.destroy);
+
+//---------------------
+
 app.param('postid', postController.load);
 app.get('/posts.:format?', postController.index);
-app.get('/posts/new', postController.new);
+
+app.get('/posts/new', 
+        sessionController.requiresLogin,
+        postController.new);
 app.get('/posts/:postid([0-9]+).:format?', postController.show);
-app.post('/posts', postController.create);
+app.post('/posts', 
+  sessionController.requiresLogin,
+        postController.create);
 app.get('/posts/search/:busqueda', postController.search);
-app.get('/posts/:postid([0-9]+)/edit', postController.edit);
+app.get('/posts/:postid([0-9]+)/edit', 
+        sessionController.requiresLogin,
+        postController.loggedUserIsAuthor,
+        postController.edit);
 app.put('/posts/:postid([0-9]+)', postController.update);
-app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.delete('/posts/:postid([0-9]+)', 
+           sessionController.requiresLogin,
+           postController.loggedUserIsAuthor,
+           postController.destroy);
+
+//---------------------
+
+app.param('userid', userController.load);
+
+app.get('/users', userController.index);
+app.get('/users/new', userController.new);
+app.get('/users/:userid([0-9]+)', userController.show);
+app.post('/users', userController.create);
+
+app.get('/users/:userid([0-9]+)/edit', 
+        sessionController.requiresLogin,
+  userController.loggedUserIsUser,
+        userController.edit);
+
+app.put('/users/:userid([0-9]+)', 
+        sessionController.requiresLogin,
+  userController.loggedUserIsUser,
+        userController.update);
+
+// app.delete('/users/:userid([0-9]+)', 
+//        sessionController.requiresLogin,
+//           userController.destroy);
 
 //---------------------
 

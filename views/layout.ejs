@@ -10,13 +10,11 @@
   <header>
     <script type="text/javascript">
 $(function(){   
-//evento 1
   $('#searchBut').on('click',function(){
         var busc = $('#search').val();
     var loc = window.location;
-    //alert(loc);
+    alert(loc);
     if(loc=='http://localhost:5000/'){
-
         //window.open('http://localhost:5000/posts/search/'+busc);
         window.location.href="http://localhost:5000/posts/search/"+busc;
     }else{
@@ -31,12 +29,6 @@ $(function(){
 
    <h1> Software de Comunicaciones</h1>
     <nav>
-      <div id="buscador">
-      <form>
-        <input type="text" id="search">
-        <input id="searchBut" type="submit" value="Search" class="button">
-      </form>
-    </div>
       <div id='logininfo'>
            <% if (session.user) { %>
                <%= session.user.name %>
@@ -46,7 +38,12 @@ $(function(){
               <a href='/users/new'> Register </a> 
            <% } %>
       </div>
-
+      <div id="buscador">
+      <form>
+        <input type="text" id="search">
+        <input id="searchBut" type="submit" value="Search" class="button">
+      </form>
+    </div>
       <a href="/">Home</a>
       <a href="/info">Info</a>
       <a href="/posts">Posts</a>
