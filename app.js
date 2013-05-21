@@ -8,6 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
+  , partials = require('express-partials')
   , postController = require('./routes/post_controller.js');
 
 var app = express();

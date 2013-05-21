@@ -9,7 +9,6 @@
     "express": "3.1.0",
     "ejs": "0.8.2",
     "sqlite3": ">=2.0.0",
-    "sequelize": "git://github.com/sequelize/sequelize.git",
     "xmlbuilder": "0.4.2"
   }
 }
