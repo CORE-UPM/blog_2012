@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-   <meta charset="utf-8">
-   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-   <title>CORE</title>
+ <meta charset="utf-8">
+ <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+ <title>CORE</title>
 </head>
 
 <body>
@@ -12,17 +12,24 @@
     <nav>
       <a href="/">Home</a>
       <a href="/Posts">Posts</a>
+      <a href="/About">About</a>
     </nav>
+    <div class="lighter">
+      <form id="searchForm" method='get' action='/Posts/search'>
+        <input id="search" type="text" class="search rounded" name="search" placeholder="Search here...">
+      </form>
+    </div>
   </header>
-       
+
   <section>
    <hr />
    <%- body %>
    <hr />
-  </section>
+ </section>
 
-  <footer>
-    <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
+ <footer>
+  <p> Universidad Politécnica de Madrid. Curso 2012-2013. </br>
+    Visitas: <%= contador %> </p>
   </footer>
 </body>
 </html>

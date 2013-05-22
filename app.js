@@ -9,11 +9,13 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , partials = require('express-partials')
-  , postController = require('./routes/post_controller.js');
+  , postController = require('./routes/post_controller.js')
+  , count = require('./count.js');
 
 var app = express();
 
 app.use(partials());
+app.use(count());
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -47,9 +49,12 @@ app.locals.escapeText =  function(text) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/about', function (req, res)
+{
+    res.render('about.ejs');
+});
 
 //---------------------
-
 app.get('/posts.:format?', postController.index);
 app.get('/posts/new', postController.new);
 app.get('/posts/:postid([0-9]+).:format?', postController.show);
@@ -57,6 +62,7 @@ app.post('/posts', postController.create);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
 app.put('/posts/:postid([0-9]+)', postController.update);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.get('/posts/search', postController.search);
 
 //---------------------
 

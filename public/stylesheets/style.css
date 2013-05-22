@@ -14,3 +14,28 @@ article {
   margin: 20px;
   background-color: #e5f5ff;
 }
+
+#searchForm{
+	position: absolute;
+    top: 50px;
+    right: 50px;
+	margin:0 auto;
+}
+#search:focus {
+	outline:none;
+	box-shadow: 0px 0px 3pt 2pt rgba(0, 128, 255, 1);
+}
+.search {
+	padding:6px 15px 6px 30px;
+	margin:3px;
+	background: url('/images/search.png') no-repeat 6px 4px;
+}
+.rounded {
+	border-radius:15px;
+	-moz-border-radius:15px;
+	-webkit-border-radius:15px;
+}
+.lighter input[type=text]{
+	background-color:#fcfcfc;
+}
+  

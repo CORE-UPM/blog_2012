@@ -2,3 +2,12 @@
 *~
 node_modules
 
+*.sqlite
+
+*.log
+
+.env
+
+config/config.json
+
+*.m4v
