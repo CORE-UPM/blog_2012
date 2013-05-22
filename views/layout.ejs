@@ -1,28 +1,56 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-   <meta charset="utf-8">
-   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-   <title>CORE</title>
+	<meta charset="utf-8">
+	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+	<meta name="generator" content="El-Blog" />
+	<meta name="author" content="Álvaro Lamas Fuentey Agustín Márquez Gómez" />
+	<meta name="keywords" content="XHTML, web" />
+	<meta name="description" content="Blog dedicado al humor absurdo" />
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<title><%=title%></title>
 </head>
-
 <body>
-  <header>
-    <h1> COmputación en REd - CORE</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/Posts">Posts</a>
-    </nav>
-  </header>
-       
-  <section>
-   <hr />
-   <%- body %>
-   <hr />
-  </section>
+	<div id="header">
+		<div id="titulo">
+			<!--<h1> EL BLOG</h1>-->
+			<img id="imagen" src='/images/tiza.png' alt='tiza'/>
+		</div>
+		
+	</div>	
 
-  <footer>
-    <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
-  </footer>
+	
+
+
+	<div id="navigation">
+		<a href="/">Home</a>
+		<a href="/posts">Posts</a>
+		<a href="/about">About</a>
+	</div>
+
+	<div id="contador">
+		<p>Visitas: <%=cont%></p>
+	</div>
+
+	<div id="search">
+		<form action="/posts/search" method="GET">
+			<input type="text" name="sch" placeholder="Busqueda"/>
+			<input type="submit" value="Buscar"/>
+		</form>
+	</div>
+	
+
+	<div id="body">
+		<hr />
+		<%- body %> <!--Se sustituye por la vista .ejs que se renderice-->
+		<hr />
+	</div>
+
+	<div id="footer">
+		<p>
+		Curso 2012-2013
+		</p>	
+	</div>
+	
 </body>
 </html>

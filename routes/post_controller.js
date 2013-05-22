@@ -1,4 +1,4 @@
-
+var c = require ('../public/javascripts/count');
 var models = require('../models/models.js');
 
 // GET /posts
@@ -14,7 +14,7 @@ exports.index = function(req, res, next) {
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
+                    posts: posts, title: 'Tiza: posts', cont: c.getContador() 
                   });
                   break;
               case 'json':
@@ -82,7 +82,7 @@ exports.show = function(req, res, next) {
               case 'html':
               case 'htm':
                   if (post) {
-                    res.render('posts/show', { post: post });
+                    res.render('posts/show', { post: post, title: 'Tiza: posts', cont: c.getContador()  });
                   } else {
                     console.log('No existe ningun post con id='+id+'.');
                     res.redirect('/posts');
@@ -146,7 +146,7 @@ exports.new = function(req, res, next) {
           body: 'Introduzca el texto del articulo'
         });
     
-    res.render('posts/new', {post: post});
+    res.render('posts/new', {post: post, title: 'Tiza: posts', cont: c.getContador() });
 };
 
 // POST /posts
@@ -161,7 +161,7 @@ exports.create = function(req, res, next) {
     var validate_errors = post.validate();
     if (validate_errors) {
         console.log("Errores de validacion:", validate_errors);
-        res.render('posts/new', {post: post});
+        res.render('posts/new', {post: post, title: 'Tiza: posts', cont: c.getContador() });
         return;
     } 
     
@@ -171,7 +171,7 @@ exports.create = function(req, res, next) {
         })
         .error(function(error) {
             console.log("Error: No puedo crear el post:", error);
-            res.render('posts/new', {post: post});
+            res.render('posts/new', {post: post, title: 'Tiza: posts', cont: c.getContador() });
         });
 };
 
@@ -184,7 +184,7 @@ exports.edit = function(req, res, next) {
         .find({where: {id: Number(id)}})
         .success(function(post) {
             if (post) {
-                res.render('posts/edit', {post: post});
+                res.render('posts/edit', {post: post, title: 'Tiza: posts', cont: c.getContador() });
             } else {
                 console.log('No existe ningun post con id='+id+'.');
                 res.redirect('/posts');
@@ -211,7 +211,7 @@ exports.update = function(req, res, next) {
                 var validate_errors = post.validate();
                 if (validate_errors) {
                     console.log("Errores de validacion:", validate_errors);
-                    res.render('posts/edit', {post: post});
+                    res.render('posts/edit', {post: post, title: 'Tiza: posts', cont: c.getContador() });
                     return;
                 } 
                 post.save(['title', 'body'])
@@ -220,7 +220,7 @@ exports.update = function(req, res, next) {
                     })
                     .error(function(error) {
                         console.log("Error: No puedo editar el post:", error);
-                        res.render('posts/edit', {post: post});
+                        res.render('posts/edit', {post: post, title: 'Tiza: posts', cont: c.getContador() });
                     });
             } else {
                 console.log('No existe ningun post con id='+id+'.');
@@ -232,6 +232,32 @@ exports.update = function(req, res, next) {
             res.redirect('/');
         });
 };
+
+// Search
+
+exports.srch = function(req, res, next) {
+	//var sch = req.query.sch || " ";
+	var query =  req.param("sch");
+	var item = '%' +query+ '%'; // '%' + query.replace(" ","%") + '%';
+
+	models.Post
+	      .findAll({where: ["title LIKE ? OR body LIKE ?", item, item], order:"updatedAt DESC"})
+        .success(function(posts) {
+            if (posts) {
+    console.log(posts);
+                res.render('posts/search', {posts: posts , cont: c.getContador(), title: 'Tiza: posts', query:query});
+            } else {
+                console.log('No se encuentran posts con esa búsqueda');
+                res.redirect('/posts');
+            }
+        })
+        .error(function(error) {
+            console.log(error);
+            res.redirect('/');
+        });
+};
+
+
 
 // DELETE /posts/33
 exports.destroy = function(req, res, next) {

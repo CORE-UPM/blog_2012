@@ -8,6 +8,7 @@ var express = require('express')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
+  , count = require('./public/javascripts/count')
   , partials = require('express-partials')
   , postController = require('./routes/post_controller.js');
 
@@ -45,10 +46,14 @@ app.locals.escapeText =  function(text) {
 
 // -- Routes
 
-app.get('/', routes.index);
+app.get('/', count.getCount, routes.index);
+app.get('/about',function(req,res){
+	res.redirect('about.html'); //public/about.html
+	});
+
 app.get('/users', user.list);
 
-//---------------------
+//----- postController's routes
 
 app.get('/posts.:format?', postController.index);
 app.get('/posts/new', postController.new);
@@ -57,6 +62,7 @@ app.post('/posts', postController.create);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
 app.put('/posts/:postid([0-9]+)', postController.update);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.get('/posts/search', postController.srch);
 
 //---------------------
 

@@ -1,0 +1,35 @@
+body{
+	/*margin:0 auto 0 auto;*/
+	text-align: center;
+}
+
+#cabecera{
+	background-color:#778899;
+	height:30%;
+	/*padding:20px;*/
+}
+
+#navmenu{
+	background-color:#B0C4DE;
+	height:500px;
+	/*padding:20px;	*/
+}
+
+#content{
+	background-color:#FFE4B5;
+	height:500px;
+	/*padding:20px;*/
+}
+
+#footer>div{
+	background-color:red;
+}
+/*
+#footer{
+	
+}*/
+
+.borde{
+	border: 2px solid black;
+	border-radius:30px;
+}
