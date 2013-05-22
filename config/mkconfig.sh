@@ -9,7 +9,7 @@ cat > config.json <<EOF
     "dialect":  "$DATABASE_DIALECT",
     "port":     "$DATABASE_PORT",
     "protocol": "$DATABASE_PROTOCOL",
-    "storage":  "$DATABASE_STORAGE",
+    "storage": "$DATABASE_STORAGE",
     "omitNull": true
 }
 EOF
