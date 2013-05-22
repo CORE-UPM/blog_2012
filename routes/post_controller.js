@@ -1,4 +1,4 @@
-
+var visitas = require('./count');
 var models = require('../models/models.js');
 
 // GET /posts
@@ -14,7 +14,7 @@ exports.index = function(req, res, next) {
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
+                    posts: posts, visitas:visitas.getCount()
                   });
                   break;
               case 'json':
@@ -38,6 +38,8 @@ exports.index = function(req, res, next) {
             res.redirect('/');
         });
 };
+
+
 
 function posts_to_xml(posts) {
 
@@ -67,6 +69,43 @@ function posts_to_xml(posts) {
 }
 
 
+exports.search = function(req, res, next) {
+
+    var format = req.params.format || 'html';
+    format = format.toLowerCase();
+    
+    var search = ('%'+req.query.search+'%').replace(" ", "%");
+    
+    console.log("Buscando: " + search);
+    
+    models.Post.findAll({where: ["title like ? OR body like ?", search, search], order: "updatedAt DESC"})
+    .success(function(posts){
+        switch (format) { 
+              case 'html':
+              case 'htm':
+                  res.render('posts/found', {
+                    posts: posts, visitas:visitas.getCount(),
+                    busqueda: req.query.search
+                  });
+                  break;
+              case 'json':
+                  res.send(posts);
+                  break;
+              case 'xml':
+                  res.send(posts_to_xml(posts));
+                  break;
+              case 'txt':
+                  res.send(posts.map(function(post) {
+                      return post.title+' ('+post.body+')';
+                  }).join('\n'));
+                  break;
+              default:
+                  console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+                  res.send(406);
+            }
+    });
+    
+}
 // GET /posts/33
 exports.show = function(req, res, next) {
 
@@ -82,7 +121,7 @@ exports.show = function(req, res, next) {
               case 'html':
               case 'htm':
                   if (post) {
-                    res.render('posts/show', { post: post });
+                    res.render('posts/show', { post: post , visitas:visitas.getCount()});
                   } else {
                     console.log('No existe ningun post con id='+id+'.');
                     res.redirect('/posts');
@@ -146,7 +185,7 @@ exports.new = function(req, res, next) {
           body: 'Introduzca el texto del articulo'
         });
     
-    res.render('posts/new', {post: post});
+    res.render('posts/new', {post: post, visitas:visitas.getCount()});
 };
 
 // POST /posts
@@ -161,7 +200,7 @@ exports.create = function(req, res, next) {
     var validate_errors = post.validate();
     if (validate_errors) {
         console.log("Errores de validacion:", validate_errors);
-        res.render('posts/new', {post: post});
+        res.render('posts/new', {post: post, visitas:visitas.getCount()});
         return;
     } 
     
@@ -171,7 +210,7 @@ exports.create = function(req, res, next) {
         })
         .error(function(error) {
             console.log("Error: No puedo crear el post:", error);
-            res.render('posts/new', {post: post});
+            res.render('posts/new', {post: post, visitas:visitas.getCount()});
         });
 };
 
@@ -184,7 +223,7 @@ exports.edit = function(req, res, next) {
         .find({where: {id: Number(id)}})
         .success(function(post) {
             if (post) {
-                res.render('posts/edit', {post: post});
+                res.render('posts/edit', {post: post, visitas:visitas.getCount()});
             } else {
                 console.log('No existe ningun post con id='+id+'.');
                 res.redirect('/posts');
@@ -211,7 +250,7 @@ exports.update = function(req, res, next) {
                 var validate_errors = post.validate();
                 if (validate_errors) {
                     console.log("Errores de validacion:", validate_errors);
-                    res.render('posts/edit', {post: post});
+                    res.render('posts/edit', {post: post, visitas:visitas.getCount()});
                     return;
                 } 
                 post.save(['title', 'body'])
@@ -220,7 +259,7 @@ exports.update = function(req, res, next) {
                     })
                     .error(function(error) {
                         console.log("Error: No puedo editar el post:", error);
-                        res.render('posts/edit', {post: post});
+                        res.render('posts/edit', {post: post, visitas:visitas.getCount()});
                     });
             } else {
                 console.log('No existe ningun post con id='+id+'.');

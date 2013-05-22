@@ -1,16 +1,29 @@
+/*	Manuel Flores Llorente - 70248881G
+	Víctor Julio Sánchez Pollo - 04228045R */
+
 body {
-  padding: 20px;
-  background-image: url("/images/bg.jpg");
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+	background-image: url("/images/bg.jpg");
+	padding: 20px;
+	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
 }
 
 a {
-  color: #00B7FF;
+  color: #00B7FF; margin-left: 10px;
 }
 
-article {
-  border: 2px solid #ffffff;
-  padding: 7px;
-  margin: 20px;
-  background-color: #e5f5ff;
-}
+hr { clear: both }
+
+video {width:100%}
+
+#video { overflow: auto; border: 1px solid #999; background: #D6DCFA; border-radius: 10px; 
+	text-align: center; padding: 0.2%; width: 400px; height: auto; max-width: 400px; 
+	min-width: 300px; padding-bottom: 2%; margin-left: 150px; margin-bottom: 15px}
+	
+#autor { float: left; width: 250px; margin-left: 65px; border: 1px solid #999; min-width: 250px; 
+	background: #D6DCFA; text-align: center ; border-radius: 10px; padding: 0.5%; 
+	margin-top: 10px;}
+	
+#visitas { color: #230248; background: #FEF1C5; border: 1px solid #999; border-radius: 5px;
+	font-weight:bold; padding: 2px; margin-left: 25px;}
+
+#info { text-align: justify;}
