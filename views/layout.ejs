@@ -3,17 +3,60 @@
 <head>
    <meta charset="utf-8">
    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-   <title>CORE</title>
+   <title>SWCM</title>
+    <form action="/posts/search" method="get">
+      <input type="text" name="busqueda"  />
+      <input type="submit" value="Buscar" />
+  </form>
 </head>
 
 <body>
   <header>
-    <h1> COmputación en REd - CORE</h1>
+    <h1> SoftWare de CoMunicaciones - SWCM</h1>
+    <h2> Visitas: <%= visitas %> </h2>
     <nav>
       <a href="/">Home</a>
-      <a href="/Posts">Posts</a>
+      <a href="/posts">Posts</a>
+      <a href="/users">Usuarios</a>
+      <a href="/about">Info</a>
     </nav>
   </header>
+
+  <section>
+        <% var flash = flash() %>
+        <% if (flash.info) { %>
+           <article id='flashinfo'>
+             <h3>Información de interés:</h3>
+             <ul>
+                <% for (var i in flash.info) { %>
+                  <li> <%= flash.info[i] %> </li>
+                <% } %>
+             </ul>
+           </article>
+        <% } %>
+
+        <% if (flash.success) { %>
+           <article id='flashsuccess'>
+             <h3>Tareas completadas con éxito:</h3>
+             <ul>
+                <% for (var i in flash.success) { %>
+                   <li> <%= flash.success[i] %> </li>
+                <% } %>
+             </ul>
+           </article>
+        <% } %>
+
+        <% if (flash.error) { %>
+           <article id='flasherror'>
+             <h3>Errores encontrados:</h3>
+             <ul>
+                <% for (var i in flash.error) { %>
+                  <li> <%= flash.error[i] %> </li>
+                <% } %>
+             </ul>
+           </article>
+        <% } %>
+  </section>
        
   <section>
    <hr />

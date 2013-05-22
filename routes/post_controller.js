@@ -1,5 +1,28 @@
 
 var models = require('../models/models.js');
+var count = require('../modules/count');
+
+/*
+*  Auto-loading con app.param
+*/
+exports.load = function(req, res, next, id) {
+
+   models.Post
+        .find({where: {id: Number(id)}})
+        .success(function(post) {
+            if (post) {
+                req.post = post;
+		            next();
+            } else {
+		            req.flash('error', 'No existe el post con id='+id+'.');
+                next('No existe el post con id='+id+'.');
+            }
+        })
+        .error(function(error) {
+            next(error);
+        });
+};
+
 
 // GET /posts
 exports.index = function(req, res, next) {
@@ -14,7 +37,47 @@ exports.index = function(req, res, next) {
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
+                    posts: posts,
+                    visitas: count.getCount() + 1
+                  });
+                  break;
+              case 'json':
+                  res.send(posts);
+                  break;
+              case 'xml':
+                  res.send(posts_to_xml(posts));
+                  break;
+              case 'txt':
+                  res.send(posts.map(function(post) {
+                      return post.title+' ('+post.body+')';
+                  }).join('\n'));
+                  break;
+              default:
+                  console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+                  res.send(406);
+            }
+        })
+        .error(function(error) {
+            next(error);
+        });
+};
+exports.search=function(req,res,next){
+   var format = req.params.format || 'html';
+    format = format.toLowerCase();
+    var string = req.query.busqueda;
+    console.log(string);
+    string= '%'+string+'%';
+    string= string.replace(' ', '%');
+
+    models.Post
+        .findAll({where: ["title like ? OR body like ?", string, string], order: "updatedAt DESC"})
+        .success(function(posts) {
+            switch (format) { 
+              case 'html':
+              case 'htm':
+                  res.render('posts/search', {
+                    posts: posts,
+                    visitas: count.getCount() + 1
                   });
                   break;
               case 'json':
@@ -37,8 +100,8 @@ exports.index = function(req, res, next) {
             console.log("Error: No puedo listar los posts.");
             res.redirect('/');
         });
-};
 
+}
 function posts_to_xml(posts) {
 
     var builder = require('xmlbuilder');
@@ -73,39 +136,24 @@ exports.show = function(req, res, next) {
     var format = req.params.format || 'html';
     format = format.toLowerCase();
 
-    var id =  req.params.postid;
-    
-    models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            switch (format) { 
-              case 'html':
-              case 'htm':
-                  if (post) {
-                    res.render('posts/show', { post: post });
-                  } else {
-                    console.log('No existe ningun post con id='+id+'.');
-                    res.redirect('/posts');
-                  }
-                  break;
-              case 'json':
-                  res.send(post);
-                  break;
-              case 'xml':
-                     res.send(post_to_xml(post));
-                  break;
-              case 'txt':
-                  res.send(post.title+' ('+post.body+')');
-                  break;
-              default:
-                  console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
-                  res.send(406);
-            }
-        })
-        .error(function(error) {
-            console.log(error);
-            res.redirect('/');
-        });
+    switch (format) { 
+      case 'html':
+      case 'htm':
+          res.render('posts/show', { post: req.post});
+          break;
+      case 'json':
+          res.send(req.post);
+          break;
+      case 'xml':
+             res.send(post_to_xml(req.post));
+          break;
+      case 'txt':
+          res.send(req.post.title+' ('+req.post.body+')');
+          break;
+      default:
+          console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+          res.send(406);
+    }
 };
 
 function post_to_xml(post) {
@@ -160,104 +208,72 @@ exports.create = function(req, res, next) {
     
     var validate_errors = post.validate();
     if (validate_errors) {
-        console.log("Errores de validacion:", validate_errors);
-        res.render('posts/new', {post: post});
+        console.log("Errores de validación:", validate_errors);
+
+        req.flash('error', 'Los datos del formulario son incorrectos.');
+        for (var err in validate_errors) {
+           req.flash('error', validate_errors[err]);
+        };
+
+        res.render('posts/new', {post: post,
+                                 validate_errors: validate_errors});
         return;
     } 
     
     post.save()
         .success(function() {
+            req.flash('success', 'Post creado con éxito.');
             res.redirect('/posts');
         })
         .error(function(error) {
-            console.log("Error: No puedo crear el post:", error);
-            res.render('posts/new', {post: post});
+            next(error);
         });
 };
 
 // GET /posts/33/edit
 exports.edit = function(req, res, next) {
 
-    var id =  req.params.postid;
-    
-    models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            if (post) {
-                res.render('posts/edit', {post: post});
-            } else {
-                console.log('No existe ningun post con id='+id+'.');
-                res.redirect('/posts');
-            }
-        })
-        .error(function(error) {
-            console.log(error);
-            res.redirect('/');
-        });
+    res.render('posts/edit', {post: req.post});
 };
 
 // PUT /posts/33
 exports.update = function(req, res, next) {
 
-    var id =  req.params.postid;
-    
-    models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            if (post) {
-                post.title = req.body.post.title;
-                post.body = req.body.post.body;
+    req.post.title = req.body.post.title;
+    req.post.body = req.body.post.body;
                 
-                var validate_errors = post.validate();
-                if (validate_errors) {
-                    console.log("Errores de validacion:", validate_errors);
-                    res.render('posts/edit', {post: post});
-                    return;
-                } 
-                post.save(['title', 'body'])
-                    .success(function() {
-                        res.redirect('/posts');
-                    })
-                    .error(function(error) {
-                        console.log("Error: No puedo editar el post:", error);
-                        res.render('posts/edit', {post: post});
-                    });
-            } else {
-                console.log('No existe ningun post con id='+id+'.');
-                res.redirect('/posts');
-            }
+    var validate_errors = req.post.validate();
+    if (validate_errors) {
+        console.log("Errores de validación:", validate_errors);
+
+        req.flash('error', 'Los datos del formulario son incorrectos.');
+        for (var err in validate_errors) {
+            req.flash('error', validate_errors[err]);
+        };
+
+        res.render('posts/edit', {post: req.post,
+                                  validate_errors: validate_errors});
+        return;
+    } 
+    req.post.save(['title', 'body'])
+        .success(function() {
+            req.flash('success', 'Post actualizado con éxito.');
+            res.redirect('/posts');
         })
         .error(function(error) {
-            console.log(error);
-            res.redirect('/');
+            next(error);
         });
 };
 
 // DELETE /posts/33
 exports.destroy = function(req, res, next) {
 
-    var id =  req.params.postid;
-    
-    models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            if (post) {
-                
-                post.destroy()
-                    .success(function() {
-                        res.redirect('/posts');
-                    })
-                    .error(function(error) {
-                        console.log("Error: No puedo eliminar el post:", error);
-                        res.redirect('back');
-                    });
-            } else {
-                console.log('No existe ningun post con id='+id+'.');
-                res.redirect('/posts');
-            }
+    req.post.destroy()
+        .success(function() {
+            req.flash('success', 'Post eliminado con éxito.');
+            res.redirect('/posts');
         })
         .error(function(error) {
-            console.log(error);
-            res.redirect('/');
+            next(error);
         });
 };
