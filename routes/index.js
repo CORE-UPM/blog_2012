@@ -3,6 +3,8 @@
  * GET home page.
  */
 
-exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+var count = require('../count')
+
+exports.index = function(req, res){  
+  res.render('index', { title: 'Nuestro blog', cuenta: count.getCount() });
 };

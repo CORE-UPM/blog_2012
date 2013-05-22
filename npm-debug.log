@@ -1,0 +1,117 @@
+0 info it worked if it ends with ok
+1 verbose cli [ 'C:\\Program Files\\nodejs\\\\node.exe',
+1 verbose cli   'C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js',
+1 verbose cli   'install' ]
+2 info using npm@1.2.11
+3 info using node@v0.8.20
+4 verbose node symlink C:\Program Files\nodejs\\node.exe
+5 verbose read json D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\package.json
+6 warn package.json Entrega-3.1@0.0.1 No README.md file found!
+7 verbose readDependencies using package.json deps
+8 verbose install where, deps [ 'D:\\06 - Descargas\\My Dropbox\\Telemática\\SWCM\\Entregas\\Entrega3.1\\blog',
+8 verbose install   [ 'express',
+8 verbose install     'ejs',
+8 verbose install     'express-partials',
+8 verbose install     'sequelize',
+8 verbose install     'sqlite3',
+8 verbose install     'xmlbuilder' ] ]
+9 verbose from cache D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\package.json
+10 info preinstall Entrega-3.1@0.0.1
+11 verbose read json D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\ejs\package.json
+12 verbose read json D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\express\package.json
+13 verbose read json D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\express-partials\package.json
+14 verbose read json D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\sequelize\package.json
+15 verbose read json D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\sqlite3\package.json
+16 verbose from cache D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\package.json
+17 verbose readDependencies using package.json deps
+18 verbose from cache D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\ejs\package.json
+19 verbose from cache D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\express\package.json
+20 verbose from cache D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\express-partials\package.json
+21 verbose from cache D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\sequelize\package.json
+22 verbose from cache D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog\node_modules\sqlite3\package.json
+23 verbose already installed skipping express@3.2.4 D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog
+24 verbose already installed skipping ejs@* D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog
+25 verbose cache add [ 'express-partials@git://github.com/publicclass/express-partials.git#66f4dc09f0',
+25 verbose cache add   null ]
+26 verbose cache add name=undefined spec="express-partials@git://github.com/publicclass/express-partials.git#66f4dc09f0" args=["express-partials@git://github.com/publicclass/express-partials.git#66f4dc09f0",null]
+27 verbose parsed url { hash: '#66f4dc09f0',
+27 verbose parsed url   pathname: 'express-partials@git://github.com/publicclass/express-partials.git',
+27 verbose parsed url   path: 'express-partials@git://github.com/publicclass/express-partials.git',
+27 verbose parsed url   href: 'express-partials@git://github.com/publicclass/express-partials.git#66f4dc09f0' }
+28 verbose cache add name="express-partials" spec="git://github.com/publicclass/express-partials.git#66f4dc09f0" args=["express-partials","git://github.com/publicclass/express-partials.git#66f4dc09f0"]
+29 verbose parsed url { protocol: 'git:',
+29 verbose parsed url   slashes: true,
+29 verbose parsed url   host: 'github.com',
+29 verbose parsed url   hostname: 'github.com',
+29 verbose parsed url   href: 'git://github.com/publicclass/express-partials.git#66f4dc09f0',
+29 verbose parsed url   hash: '#66f4dc09f0',
+29 verbose parsed url   pathname: '/publicclass/express-partials.git',
+29 verbose parsed url   path: '/publicclass/express-partials.git' }
+30 verbose cache add [ 'sequelize@git://github.com/sequelize/sequelize.git', null ]
+31 verbose cache add name=undefined spec="sequelize@git://github.com/sequelize/sequelize.git" args=["sequelize@git://github.com/sequelize/sequelize.git",null]
+32 verbose parsed url { pathname: 'sequelize@git://github.com/sequelize/sequelize.git',
+32 verbose parsed url   path: 'sequelize@git://github.com/sequelize/sequelize.git',
+32 verbose parsed url   href: 'sequelize@git://github.com/sequelize/sequelize.git' }
+33 verbose cache add name="sequelize" spec="git://github.com/sequelize/sequelize.git" args=["sequelize","git://github.com/sequelize/sequelize.git"]
+34 verbose parsed url { protocol: 'git:',
+34 verbose parsed url   slashes: true,
+34 verbose parsed url   host: 'github.com',
+34 verbose parsed url   hostname: 'github.com',
+34 verbose parsed url   href: 'git://github.com/sequelize/sequelize.git',
+34 verbose parsed url   pathname: '/sequelize/sequelize.git',
+34 verbose parsed url   path: '/sequelize/sequelize.git' }
+35 verbose already installed skipping sqlite3@>=2.0.0 D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog
+36 verbose cache add [ 'xmlbuilder@0.4.2', null ]
+37 verbose cache add name=undefined spec="xmlbuilder@0.4.2" args=["xmlbuilder@0.4.2",null]
+38 verbose parsed url { pathname: 'xmlbuilder@0.4.2',
+38 verbose parsed url   path: 'xmlbuilder@0.4.2',
+38 verbose parsed url   href: 'xmlbuilder@0.4.2' }
+39 verbose cache add name="xmlbuilder" spec="0.4.2" args=["xmlbuilder","0.4.2"]
+40 verbose parsed url { pathname: '0.4.2', path: '0.4.2', href: '0.4.2' }
+41 verbose addNamed [ 'xmlbuilder', '0.4.2' ]
+42 verbose addNamed [ '0.4.2', '0.4.2' ]
+43 silly lockFile 25165e42--express-partials-git-66f4dc09f0 git://github.com/publicclass/express-partials.git#66f4dc09f0
+44 verbose lock git://github.com/publicclass/express-partials.git#66f4dc09f0 C:\Users\asus\AppData\Roaming\npm-cache\25165e42--express-partials-git-66f4dc09f0.lock
+45 silly lockFile 36026e3d-thub-com-sequelize-sequelize-git git://github.com/sequelize/sequelize.git
+46 verbose lock git://github.com/sequelize/sequelize.git C:\Users\asus\AppData\Roaming\npm-cache\36026e3d-thub-com-sequelize-sequelize-git.lock
+47 silly lockFile b92b370d-xmlbuilder-0-4-2 xmlbuilder@0.4.2
+48 verbose lock xmlbuilder@0.4.2 C:\Users\asus\AppData\Roaming\npm-cache\b92b370d-xmlbuilder-0-4-2.lock
+49 verbose addRemoteGit [ 'git://github.com/sequelize/sequelize.git', 'master' ]
+50 verbose url raw xmlbuilder/0.4.2
+51 verbose url resolving [ 'https://registry.npmjs.org/', './xmlbuilder/0.4.2' ]
+52 verbose url resolved https://registry.npmjs.org/xmlbuilder/0.4.2
+53 info trying registry request attempt 1 at 16:49:15
+54 http GET https://registry.npmjs.org/xmlbuilder/0.4.2
+55 silly exec git "config" "--get" "remote.origin.url"
+56 silly git,config,--get,remote.origin.url,C:\Users\asus\AppData\Roaming\npm-cache\_git-remotes\git-github-com-sequelize-sequelize-git-36026e3d spawning
+57 verbose addRemoteGit [ 'git://github.com/publicclass/express-partials.git',
+57 verbose addRemoteGit   '66f4dc09f0' ]
+58 silly exec git "config" "--get" "remote.origin.url"
+59 silly git,config,--get,remote.origin.url,C:\Users\asus\AppData\Roaming\npm-cache\_git-remotes\git-github-com-publicclass-express-partials-git-4988eaf2 spawning
+60 warn `git config --get remote.origin.url` returned wrong result (git://github.com/sequelize/sequelize.git) CreateProcessW: El sistema no puede encontrar el archivo especificado.
+61 silly exec git "clone" "--mirror" "git://github.com/sequelize/sequelize.git" "C:\\Users\\asus\\AppData\\Roaming\\npm-cache\\_git-remotes\\git-github-com-sequelize-sequelize-git-36026e3d"
+62 silly git,clone,--mirror,git://github.com/sequelize/sequelize.git,C:\Users\asus\AppData\Roaming\npm-cache\_git-remotes\git-github-com-sequelize-sequelize-git-36026e3d, spawning
+63 warn `git config --get remote.origin.url` returned wrong result (git://github.com/publicclass/express-partials.git) CreateProcessW: El sistema no puede encontrar el archivo especificado.
+64 error git clone git://github.com/sequelize/sequelize.git CreateProcessW: El sistema no puede encontrar el archivo especificado.
+65 silly lockFile 36026e3d-thub-com-sequelize-sequelize-git git://github.com/sequelize/sequelize.git
+66 silly lockFile 36026e3d-thub-com-sequelize-sequelize-git git://github.com/sequelize/sequelize.git
+67 silly exec git "clone" "--mirror" "git://github.com/publicclass/express-partials.git" "C:\\Users\\asus\\AppData\\Roaming\\npm-cache\\_git-remotes\\git-github-com-publicclass-express-partials-git-4988eaf2"
+68 silly git,clone,--mirror,git://github.com/publicclass/express-partials.git,C:\Users\asus\AppData\Roaming\npm-cache\_git-remotes\git-github-com-publicclass-express-partials-git-4988eaf2, spawning
+69 error Error: `git "clone" "--mirror" "git://github.com/sequelize/sequelize.git" "C:\\Users\\asus\\AppData\\Roaming\\npm-cache\\_git-remotes\\git-github-com-sequelize-sequelize-git-36026e3d"` failed with 127
+69 error     at ChildProcess.<anonymous> (C:\Program Files\nodejs\node_modules\npm\lib\utils\exec.js:56:20)
+69 error     at ChildProcess.EventEmitter.emit (events.js:99:17)
+69 error     at maybeClose (child_process.js:638:16)
+69 error     at Socket.ChildProcess.spawn.stdin (child_process.js:815:11)
+69 error     at Socket.EventEmitter.emit (events.js:96:17)
+69 error     at Socket._destroy.destroyed (net.js:358:10)
+69 error     at process.startup.processNextTick.process._tickCallback (node.js:244:9)
+70 error If you need help, you may report this log at:
+70 error     <http://github.com/isaacs/npm/issues>
+70 error or email it to:
+70 error     <npm-@googlegroups.com>
+71 error System Windows_NT 6.1.7601
+72 error command "C:\\Program Files\\nodejs\\\\node.exe" "C:\\Program Files\\nodejs\\node_modules\\npm\\bin\\npm-cli.js" "install"
+73 error cwd D:\06 - Descargas\My Dropbox\Telemática\SWCM\Entregas\Entrega3.1\blog
+74 error node -v v0.8.20
+75 error npm -v 1.2.11
+76 verbose exit [ 1, true ]

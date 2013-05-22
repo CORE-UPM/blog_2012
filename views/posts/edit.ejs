@@ -1,12 +1,8 @@
+﻿<!-- Muestra un formulario para editar el post que el controlador le pasa en la variable post -->
+
 <h1>Editar Post</h1>
-
-<form method='post' action='/posts/<%= post.id %>' class='form-horizontal'>
-
-  <input type='hidden' name='_method' value='put'>
-
-  <%- include _form.ejs %>
-
+<form method='post' action='/posts/<%= post.id %>'>
+	<input type='hidden' name='_method' value='put'>
+	<% include _form.ejs %>
 </form>
-
-
 <a href="/posts"> Volver </a>

@@ -1,0 +1,39 @@
+﻿<!DOCTYPE html>
+<html lang="es">
+
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+<title>CORE</title>
+</head>
+
+<body>
+	<header>
+		<h1> COmputación en REd - CORE</h1>
+		<nav>
+			<div align="right">
+				<form   method='GET'
+						action='/posts/search'>
+					<input 	type="text"
+							name="searchPostText"
+							value=""
+							size="20">
+					<input 	type='submit'
+							value='Buscar Post'>
+				</form>
+			</div>
+				<a href="/">Home</a>
+				<a href="/Posts">Posts</a>
+				<a href="/Autores">Autores</a>
+		</nav>
+	</header>
+	<section>
+		<hr />
+		<%- body %>
+		<hr />
+	</section>
+	<footer>
+		<p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
+	</footer>
+</body>
+</html>
