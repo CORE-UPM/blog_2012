@@ -1,10 +1,7 @@
+﻿<!-- Muestra un formulario para crear un nuevo post. Se pasa un objeto post nuevo -->
+
 <h1>Nuevo Post</h1>
-
-<form method='post' action='/posts' class='form-horizontal'>
-
-  <%- include _form.ejs %>
-
+<form method='post' action='/posts'>
+	<% include _form.ejs %>
 </form>
-
-
-<a href="/posts"> Volver  </a>
+<a href="/posts"> Volver </a>
