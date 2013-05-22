@@ -2,13 +2,13 @@
 	<label for="post_title">Titulo</label>
 	<br />
 	<input type="text" id="post_title" name="post[title]"
-		size="80" placeholder="<%= post.title %>" />
+		size="80" value="<%= post.title %>" />
 </div>
 <div class="field">
 	<label for="post_title">Mensaje</label>
 	<br />
-	<textarea id="post_body" name="post[body]" cols="30"
-	size="80" placeholder="<%= post.body %>"></textarea>
+	<textarea id="post_body" name="post[body]" cols="30" 
+	size="80"><%= post.body %></textarea>
 </div>
 <div class="actions">
 	<input name="commit" type="submit" value="Guardar" />

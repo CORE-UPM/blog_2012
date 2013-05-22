@@ -1,0 +1,18 @@
+body {
+
+	background-image: url("/images/fondo.jpg");
+	padding: 20px;
+ 	font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+	color: #FF0000;
+	padding: 4px;
+}
+
+article {
+	border: 2px solid #FFFFFF;
+	padding: 7px;
+	margin: 20px;
+	background-color: #E5F5FF;
+}

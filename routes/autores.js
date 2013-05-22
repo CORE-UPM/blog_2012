@@ -4,6 +4,6 @@
 var count = require('../public/javascripts/count.js');
 
 //Renderiza sustituyendo en layout la parte de body por el index.ejs
-exports.index = function(req, res){
-	res.render('index', { visitas: count.getCount(), style: "index" });
+exports.autores = function(req, res){
+	res.render('autores', { visitas: count.getCount(), style: "autores" });
 };
