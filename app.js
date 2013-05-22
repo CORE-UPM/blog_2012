@@ -5,6 +5,8 @@
 
 var express = require('express')
   , routes = require('./routes')
+  , authors = require('./routes/authors')
+  , count = require('./routes/count')
   , user = require('./routes/user')
   , http = require('http')
   , path = require('path')
@@ -16,6 +18,7 @@ var app = express();
 app.use(partials());
 
 app.configure(function(){
+  app.use(count.count_mw());
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
@@ -47,11 +50,13 @@ app.locals.escapeText =  function(text) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/authors', authors.authors);
 
 //---------------------
 
 app.get('/posts.:format?', postController.index);
 app.get('/posts/new', postController.new);
+app.get('/posts/search', postController.search);
 app.get('/posts/:postid([0-9]+).:format?', postController.show);
 app.post('/posts', postController.create);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
