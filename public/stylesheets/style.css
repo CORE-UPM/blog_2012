@@ -1,5 +1,19 @@
 
 body {
+  padding: 20px;
+  background-image: url("/images/bg.jpg");
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+a {
+  color: #00B7FF;
+}
+.imagen{
+	margin-left:35px;
+}
+
+
+body {
   padding-top: 60px;
   padding-bottom: 40px;
 }
@@ -75,3 +89,4 @@ Comment
   line-height: 27px;
   color: inherit;
 }
+

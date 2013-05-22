@@ -2,189 +2,32 @@
 <html lang="es">
 <head>
    <meta charset="utf-8">
-   
-   <title>CORE</title>
-
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <meta name="description" content="Proyecto Blog de CORE">
-   <meta name="author" content="Santiago Pavón">
-
    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-   <link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
-
-   <script src="http://code.jquery.com/jquery.min.js"></script>
-   <script src="/js/bootstrap.min.js"></script>
-
-   <script src="/js/misc.js"></script>
+   <title>Blog de Cocina</title>
 </head>
 
 <body>
+  <header>
+    <h1> COmputación en REd - CORE</h1>
+    <nav>
+      <a href="/">Home</a>
+      <a href="/Posts">Posts</a>
+      <a href="/info">Info</a>
+    </nav>
+    <form method='get' action='posts/search'>
+      <input type='text' name='busqueda'>
+      <input type='submit' value='Buscar'>
+    </form>
+  </header>
+       
+  <section>
+   <hr />
+   <%- body %>
+   <hr />
+  </section>
 
-    <div class="navbar navbar-inverse navbar-fixed-top">
-      <div class="navbar-inner">
-        <div class="container-fluid">
-
-          <a class="btn btn-navbar" data-toggle="collapse" data-target=".nav-collapse">
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </a>
-
-          <a class="brand" href="#">El Blog de CORE</a>
-
-          <div class="btn-group pull-right">
-            <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
-              <i class="icon-user"></i> 
-                <% if (session.user) { %>
-                  <%= session.user.name %>       
-                <% } else { %>
-                  Entrar o Registrarse
-                <% } %>
-              <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <% if (session.user) { %>
-                  <li><a href="/users/<%= session.user.id%>">Mi Perfil</a></li>
-                  <li class="divider"></li>
-                  <li><a href="/logout">Salir</a></li>
-              <% } else { %>
-                  <li><a href="/login?redir=/posts">Entrar</a></li>
-                  <li class="divider"></li>
-                  <li><a href="/users/new">Registarse</a></li>
-              <% } %>
-            </ul>
-          </div>
-
-          <div class="nav-collapse">
-            <ul class="nav">
-              <li><a href="/"><i class='icon-home icon-white'></i> Home</a></li>
-              <li><a href="/posts"><i class='icon-tasks icon-white'></i> Posts</a></li>
-              <li><a href="/users"><i class='icon-user icon-white'></i> Usuarios</a></li>
-            </ul>
-          </div><!--/.nav-collapse -->
-
-        </div>
-      </div>
-    </div>
-
-
-    <div class="container-fluid">
-      <div class="row-fluid">
-
-        <div class="span10">
-
-          <% var flash = flash() %>
-
-          <% if (flash.info) { %>
-            <div class="row">
-              <div class="span12">
-                <div class='alert alert-info'>
-                  <a class="close" data-dismiss="alert" href="#">×</a>
-                  <h3 class='alert-heading'>Información de interés:</h3>
-                  <ul>
-                    <% for (var i in flash.info) { %>
-                      <li> <%= flash.info[i] %> </li>
-                    <% } %>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          <% } %>
-
-
-          <% if (flash.success) { %>
-            <div class="row">
-              <div class="span12">
-                <div class='alert alert-success'>
-                  <a class="close" data-dismiss="alert" href="#">×</a>
-                  <h3 class='alert-heading'>Tareas completadas con éxito:</h3>
-                  <ul>
-                    <% for (var i in flash.success) { %>
-                      <li> <%= flash.success[i] %> </li>
-                    <% } %>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          <% } %>
-
-
-          <% if (flash.error) { %>
-            <div class="row">
-              <div class="span12">
-                <div class='alert alert-error'>
-                  <a class="close" data-dismiss="alert" href="#">×</a>
-                  <h3 class='alert-heading'>Errores encontrados:</h3>
-                  <ul>
-                    <% for (var i in flash.error) { %>
-                      <li> <%= flash.error[i] %> </li>
-                    <% } %>
-                  </ul>
-                </div>
-              </div>
-            </div>
-          <% } %>
-
-          <div class="row-fluid">
-            <div class="span12">
-              <%- body %>
-            </div>
-          </div>
-  
-          <div class="pull-right">
-            <%  if (locals.paginate_view) { %>
-              <%- paginate_view %>
-            <% } %>
-          </div>
-
-        </div><!--/span10-->
-
-        <div class="span2">
-          <div class="well sidebar-nav">
-            <ul class="nav nav-list">
-              <li class="nav-header">Asignatura</li>
-              <li><a target="_blank" href="http://moodle.dit.upm.es">Moodle</a></li>
-
-              <li class="nav-header">Documentación</li>
-              <li><a target="_blank" href="http://twitter.github.com/bootstrap">Bootstrap</a></li>
-              <li><a target="_blank" href="http://cloudinary.com/invites/lpov9zyyucivvxsnalc5/ddykgjrywsdpvvrb7ahc">Cloudinary</a></li>
-              <li><a target="_blank" href="http://expressjs.com">Express</a></li>
-              <li><a target="_blank" href="http://nodejs.org">Nodejs</a></li>
-              <li><a target="_blank" href="http://www.heroku.com">Heroku</a></li>
-              <li><a target="_blank" href="http://sequelizejs.com">Sequelize</a></li>
-
-              <li class="nav-header">Profesores</li>
-              <li><a target="_blank" href="http://www.dit.upm.es/jmdela">José María del Álamo</a></li>
-              <li><a target="_blank" href="http://www.dit.upm.es/costilla">Carmen Costilla</a></li>
-              <li><a target="_blank" href="http://www.dit.upm.es/santiago">Santiago Pavón</a></li>
-              <li><a target="_blank" href="http://www.dit.upm.es/quemada">Juan Quemada</a></li>
-              <li><a target="_blank" href="http://www.dit.upm.es/jsr">Joaquín Salvachúa</a></li>
-              <li><a target="_blank" href="http://www.dit.upm.es/yelmogar">Juan Carlos Yelmo</a></li>
-
-              <li class="nav-header">General</li>
-              <li><a target="_blank" href="http://www.dit.upm.es">DIT</a></li>
-              <li><a target="_blank" href="http://www.etsit.upm.es">ETSIT</a></li>
-              <li><a target="_blank" href="http://www.upm.es">UPM</a></li>
-            </ul>
-          </div><!--/.well -->
-          <img class='hidden-phone' src='/images/apple_core.png'>
-        </div><!--/span -->
-
-      </div><!--/row-->
-
-
-      <div class="row-fluid">
-        <div class="span12">
-          <hr>
-
-          <footer>
-            <p class="text-info"> <small>&copy; Santiago Pavón. Universidad Politécnica de Madrid. Curso 2012-2013.</small></p>
-          </footer>
-        </div>
-      </div>
-
-
-    </div><!--/.fluid-container-->
-
+  <footer>
+    <p> Universidad Politécnica de Madrid. Curso 2012-2013. <%- visitas %> visitas. Por Carlos Moreno y Jesús Rodríguez.</p>
+  </footer>
 </body>
 </html>
