@@ -1,6 +1,6 @@
 
 var models = require('../models/models.js');
-
+var count = require('../public/javascripts/count');
 // GET /posts
 exports.index = function(req, res, next) {
 
@@ -14,7 +14,8 @@ exports.index = function(req, res, next) {
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
+                    posts: posts,
+                    counter: count.contador()
                   });
                   break;
               case 'json':
@@ -82,7 +83,7 @@ exports.show = function(req, res, next) {
               case 'html':
               case 'htm':
                   if (post) {
-                    res.render('posts/show', { post: post });
+                    res.render('posts/show', { post: post , counter: count.contador()});
                   } else {
                     console.log('No existe ningun post con id='+id+'.');
                     res.redirect('/posts');
@@ -146,7 +147,7 @@ exports.new = function(req, res, next) {
           body: 'Introduzca el texto del articulo'
         });
     
-    res.render('posts/new', {post: post});
+    res.render('posts/new', {post: post, counter: count.contador()});
 };
 
 // POST /posts
@@ -161,7 +162,7 @@ exports.create = function(req, res, next) {
     var validate_errors = post.validate();
     if (validate_errors) {
         console.log("Errores de validacion:", validate_errors);
-        res.render('posts/new', {post: post});
+        res.render('posts/new', {post: post, counter: count.contador()});
         return;
     } 
     
@@ -171,7 +172,7 @@ exports.create = function(req, res, next) {
         })
         .error(function(error) {
             console.log("Error: No puedo crear el post:", error);
-            res.render('posts/new', {post: post});
+            res.render('posts/new', {post: post, counter: count.contador()});
         });
 };
 
@@ -184,7 +185,7 @@ exports.edit = function(req, res, next) {
         .find({where: {id: Number(id)}})
         .success(function(post) {
             if (post) {
-                res.render('posts/edit', {post: post});
+                res.render('posts/edit', {post: post, counter: count.contador()});
             } else {
                 console.log('No existe ningun post con id='+id+'.');
                 res.redirect('/posts');
@@ -211,7 +212,7 @@ exports.update = function(req, res, next) {
                 var validate_errors = post.validate();
                 if (validate_errors) {
                     console.log("Errores de validacion:", validate_errors);
-                    res.render('posts/edit', {post: post});
+                    res.render('posts/edit', {post: post, counter: count.contador()});
                     return;
                 } 
                 post.save(['title', 'body'])
@@ -220,7 +221,7 @@ exports.update = function(req, res, next) {
                     })
                     .error(function(error) {
                         console.log("Error: No puedo editar el post:", error);
-                        res.render('posts/edit', {post: post});
+                        res.render('posts/edit', {post: post, counter: count.contador()});
                     });
             } else {
                 console.log('No existe ningun post con id='+id+'.');
@@ -261,3 +262,34 @@ exports.destroy = function(req, res, next) {
             res.redirect('/');
         });
 };
+
+// GET /posts/search?buscar=hola+me+llamo+maria
+
+exports.search = function(req, res, next) {
+
+    var query = req.param("buscar");
+    var item = '%' +query+ '%';
+
+    models.Post
+        .findAll({where: ["title LIKE ? OR body LIKE ?", item, item], order:"updatedAt DESC"})
+        .success(function(posts) {
+            if (posts) {
+            console.log(posts);
+                res.render('posts/search', {posts: posts , cont:res.cont, query: query, counter: count.contador()});
+            } else {
+                console.log('No se encuentran posts con esa búsqueda');
+                res.redirect('/posts');
+            }
+        })
+        .error(function(error) {
+            console.log(error);
+            res.redirect('/');
+        });
+};
+
+
+
+
+
+
+

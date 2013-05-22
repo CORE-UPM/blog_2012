@@ -6,9 +6,11 @@
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , about = require('./routes/about')
   , http = require('http')
   , path = require('path')
   , partials = require('express-partials')
+  , count = require('./public/javascripts/count') //Contador de visitas
   , postController = require('./routes/post_controller.js');
 
 var app = express();
@@ -32,6 +34,7 @@ app.configure(function(){
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
+app.use(count.contador());
 
 // Helper estatico:
 app.locals.escapeText =  function(text) {
@@ -43,10 +46,14 @@ app.locals.escapeText =  function(text) {
           .replace(/\n/g, '<br>');
 };
 
-// -- Routes y pollas
+// -- Routes
 
-app.get('/', routes.index);
+app.get('/',count.getCount, routes.index);
 app.get('/users', user.list);
+
+app.get('/about',function(req, res){
+  res.redirect('about.html');
+});
 
 //---------------------
 
@@ -57,8 +64,12 @@ app.post('/posts', postController.create);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
 app.put('/posts/:postid([0-9]+)', postController.update);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.get('/posts/search', postController.search);
 
 //---------------------
+
+
+
 
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));

@@ -2,7 +2,8 @@
 /*
  * GET home page.
  */
+var count = require('../public/javascripts/count');
 
 exports.index = function(req, res){
-  res.render('index', { title: 'Express' });
+  res.render('index', {counter: count.contador()});
 };
