@@ -1,77 +1,87 @@
-
 body {
-  padding-top: 60px;
-  padding-bottom: 40px;
+        background: #EEEEEE;
 }
 
-.sidebar-nav {
-  padding: 9px 0;
+.mainHeader {
+        position: fixed;
+        top: 0px;
+        left: 0px;
+        width: 100%;
+        background: #333333;
+        padding: 10px;
 }
 
+a.header_link {
+        vertical-align: middle;
+        margin-left: 5px;
+        margin-right: 5px;
+        font-size: 40px;
+        text-decoration: none;
+}
+
+a.header_link:link {
+        color: #FFFFFF;
+}
+a.header_link:visited {
+        color:#FFFFFF;
+}
+a.header_link:hover {
+        color:#FFFFFF;
+}
+a.header_link:active {
+        color:#FFFFFF;
+}
+
+.search_div {
+        position: relative;
+        float: right;
+        margin-right: 20px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        padding: 5px;
+        box-shadow: 0px 0px 5px #000000;
+        background: #222222;
+}
+
+#search_input {
+        border: 0px;
+        background: #303030;
+        height: 40px;
+ 	vertical-align: middle;
+        color: #FFFFFF;
+        font-size: 20px;
+        text-align: right;
+}
+
+
+#search_button {
+        background: transparent;
+        background-image: url(../images/search.png);
+        background-repeat: no-repeat;
+        vertical-align: middle;
+        width: 40px;
+        height: 40px;
+        border: 0px;
+}
+
+.content {
+        margin-top: 80px;
+        margin-bottom: 80px;
+        overflow: auto;
+}
+
+.mainFooter {
+        position: fixed;
+        width: 100%;
+        bottom: 0px;
+	background: #EEEEEE;
+}
 
 article {
-  border: 2px solid #ffffff;
-  padding: 7px;
-  margin: 20px;
-  background-color: #e5f5ff;
-}
-
-
-#logininfo {
-  float: right;
-  clear: both;
-}
-
-/*----------------------- 
-Post
-------------------------*/
-.post {
-  padding: 10px 20px 20px 20px;
-  margin-bottom: 30px;
-  background-color: #f8f8f8;
-  -webkit-border-radius: 16px;
-     -moz-border-radius: 16px;
-          border-radius: 16px;
-}
-
-.post h1 {
-  margin-bottom: 0;
-  font-size: 40px;
-  line-height: 1;
-  letter-spacing: -1px;
-  color: inherit;
-}
-
-.post p {
-  font-size: 18px;
-  font-weight: 200;
-  line-height: 27px;
-  color: inherit;
-}
-
-/*----------------------- 
-Comment
-------------------------*/
-.comment {
-  padding: 10px 20px 20px 20px;
-  margin-bottom: 30px;
-  background-color: #f8f8f8;
-  -webkit-border-radius: 6px;
-     -moz-border-radius: 6px;
-          border-radius: 6px;
-}
-
-.comment h1 {
-  margin-bottom: 0;
-  font-size: 60px;
-  line-height: 1;
-  letter-spacing: -1px;
-  color: inherit;
-}
-
-.comment p {
-  font-size: 18px;
-  font-weight: 200;
-  line-height: 27px;
-  color: inherit;
+	margin: 20px;
+        -moz-border-radius: 10px;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0px 0px 10px #000000;
+        background: #DDDDDD;
 }

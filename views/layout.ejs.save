@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html lang="es">
+  <head>
+    <meta charset="utf-8">
+    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+    <title>MuNET</title>
+  </head>
+  <body>
+	<header class="mainHeader">
+		<a href="/">Home</a>
+		<a href="/posts">Posts</a>
+		<a href="/users">Usuarios</a>
+		<div class="search_div">
+			<input id="search_input" />
+			< id="search_button" />
+		</div>
+	</header>
+	<div class="content">
+		<%- body %>
+	</div>
+    	<footer class="mainFooter">
+		<hr />
+		<p>
+		Javier Andi&oacute;n & Jorge Bell&oacute;n <br>
+    	 	 SWCM Curso 2012 - 2013
+    		</p>
+	</footer>
+  </body>
+</html>
