@@ -4,6 +4,7 @@
 
 <% for (var i in posts) { %>
   <article>
+    <hr/>
      <header>
         <h3>
           <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
@@ -17,15 +18,16 @@
      <footer>
         <form method='post' action='/posts/<%= posts[i].id %>'>
           <input type='hidden' name='_method' value='delete'>
-          <a href="/posts/<%= posts[i].id %>/edit"> Editar </a> 
-          <a href="" onclick="submit();return false"> Borrar </a>  
+          <a class="boton" href="/posts/<%= posts[i].id %>/edit"> Editar </a> 
+          <a class="boton" href="" onclick="submit();return false"> Borrar </a>  
         </form>
      </footer>
   </article>
 
 <%  }; %>
+<hr/>
 <footer>
   <nav>
-    <a href="/posts/new"> Crear nuevo Post </a>
+    <a class="boton" href="/posts/new"> Crear nuevo Post </a>
   </nav>
 </footer>

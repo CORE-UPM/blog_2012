@@ -3,11 +3,12 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
-	<meta name="generator" content="El-Blog" />
+	<meta name="generator" content="Tiza" />
 	<meta name="author" content="Álvaro Lamas Fuentey Agustín Márquez Gómez" />
 	<meta name="keywords" content="XHTML, web" />
 	<meta name="description" content="Blog dedicado al humor absurdo" />
 	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/postbuttons.css">
 	<title><%=title%></title>
 </head>
 <body>
@@ -17,26 +18,21 @@
 			<img id="imagen" src='/images/tiza.png' alt='tiza'/>
 		</div>
 		
-	</div>	
-
-	
+	</div>		
 
 
 	<div id="navigation">
 		<a href="/">Home</a>
 		<a href="/posts">Posts</a>
 		<a href="/about">About</a>
+			<form id="buscador" action="/posts/search" method="GET">
+				Búsqueda de posts: <input type="text" name="sch" placeholder="Palabras clave"/>
+				<input type="submit" value="Buscar"/>
+			</form>
 	</div>
 
 	<div id="contador">
 		<p>Visitas: <%=cont%></p>
-	</div>
-
-	<div id="search">
-		<form action="/posts/search" method="GET">
-			<input type="text" name="sch" placeholder="Busqueda"/>
-			<input type="submit" value="Buscar"/>
-		</form>
 	</div>
 	
 

@@ -1,5 +1,5 @@
 <h2>Post</h2>
-
+<hr/>
 <p>
   <b><%= post.title %></b>
   <br />
@@ -14,7 +14,9 @@
 <p><%- escapeText(post.body) %></p>
 
 
-<a href="/posts/<%= post.id %>/edit"> Edit </a>
+<a class="boton" href="/posts/<%= post.id %>/edit"> Editar </a>
 
 
-<a href="/posts"> Back  </a>
+<a class="boton" href="/posts"> Volver  </a>
+
+<hr/>
