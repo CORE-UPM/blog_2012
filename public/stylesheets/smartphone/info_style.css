@@ -1,0 +1,73 @@
+#pagina{
+	margin: 0% 5% 0% 5%;
+	box-shadow: 0.1em 0.3em 0.7em 0.3em #333;
+
+	background-image: linear-gradient(bottom, rgb(82,146,180) 50%, rgb(159,206,231) 90%);
+	background-image: -o-linear-gradient(bottom, rgb(82,146,180) 50%, rgb(159,206,231) 90%);
+	background-image: -moz-linear-gradient(bottom, rgb(82,146,180) 50%, rgb(159,206,231) 90%);
+	background-image: -webkit-linear-gradient(bottom, rgb(82,146,180) 50%, rgb(159,206,231) 90%);
+	background-image: -ms-linear-gradient(bottom, rgb(82,146,180) 50%, rgb(159,206,231) 90%);
+	background-image: -webkit-gradient(
+		linear,
+		left bottom,
+		left top,
+		color-stop(0.5, rgb(82,146,180)),
+		color-stop(0.9, rgb(159,206,231))
+	);
+}
+
+header{
+	
+	text-align: left;
+	padding-left: 2%;
+	font-family: 'Handlee', cursive;
+	text-shadow:0.1em 0.1em #333;
+	color:white;
+	background-color: #9FCEE7;
+	
+
+}
+#cuerpo{
+	padding: 0% 5% 0% 5%;
+}
+
+#bloqueVideo{
+	width: 100%;
+	float: left;
+	
+}
+
+#video{
+	width: 95%;
+	padding-right: 2.5%;
+	padding-left: 2.5%;
+}
+
+#bloqueExplicacion{
+	width: 100%;
+	float: left;
+}
+
+#explicacion{
+	font-family:'Gabriela', serif;
+	padding-top: 17%;
+	padding-right: 5%;
+}
+
+
+#bloqueAutores{
+	clear: both;
+	width: 100%;
+	text-align: left;
+	padding-bottom: 5%;
+	padding-top: 5%;
+}
+
+h3{
+	text-shadow:0.1em 0.1em #333;
+	color:white;
+}
+
+h1{
+	padding-top: 1.2%;
+}

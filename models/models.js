@@ -13,4 +13,4 @@ var sequelize = new Sequelize(null, null, null,
 // Y que este modulo exporta la clase Post:
 
 exports.Post = sequelize.import(path.join(__dirname,'post'));
-
+sequelize.sync();

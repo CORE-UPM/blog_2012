@@ -1,10 +1,21 @@
-<h2>
-Bienvenido a CORE
-</h2>
+<section id="posts">
 
+<div id ="contador">
+    <% for (var i in imagenes){ %>
+      <img style="height: 3em" style="max-width: 2%" src=<%= imagenes[i]%>>
+    <% };%>
+</div>
+<div id="visitas">Visitas:</div>
 
-<p>
-Esta asignatura te llegará al corazón.
-</p>
+<img id="foto_principal" src="/images/tecnologia.png"/>
 
-<img src='images/layers.png' alt='layers'/>
+<article>
+  <header class="titulo_articulo">Explicacion del blog</header>
+  <p>Blog en construccion, los post incluidos son noticias del periódico</p>
+  <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam mattis turpis id tellus blandit adipiscing. Nam fringilla odio sit amet mauris feugiat viverra. Suspendisse risus nisi, adipiscing condimentum bibendum at, posuere sit amet magna. Pellentesque metus sem, blandit eu varius at, feugiat ut nisi. Vivamus blandit quam in risus iaculis dignissim. In lorem lacus, mattis sit amet semper ut, dictum suscipit sapien. Proin neque odio, suscipit id varius ut, blandit in tortor. Praesent a facilisis tellus. Nulla eu consectetur enim.
+  </p>
+  <footer class="pie_articulo">Editar borrar</footer>
+</article>
+<hr>  
+
+</section>

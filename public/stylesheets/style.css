@@ -1,16 +1,180 @@
-body {
-  padding: 20px;
-  background-image: url("/images/bg.jpg");
-  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+html{
+	background-image: url(/images/fondo4.jpg);
+}	
+
+#pagina{
+	margin: 0% 5% 0% 5%;
+	box-shadow: 0.1em 0.3em 0.7em 0.3em #333;
+
+	
+	background-color: rgba(255,255,255,0.7);
 }
 
-a {
-  color: #00B7FF;
+#titulo_general{
+	
+	text-align: left;
+	padding-left: 2%;
+	font-family: 'Handlee', cursive;
+	text-shadow:0.1em 0.1em #333;
+	color:white;
 }
 
-article {
-  border: 2px solid #ffffff;
-  padding: 7px;
-  margin: 20px;
-  background-color: #e5f5ff;
+#barra_navegacion{
+	padding-right: 2%;
+	height: 3.9em;
 }
+#enlaces_navegacion{
+	width: 60%;
+	height: 3em;
+	text-align: left;
+	padding-left: 2%;
+	float: left;
+	padding-top: 1.5%;
+}
+#cuadro_buscar{
+	width: 40%;
+	
+}
+
+#searchbox
+{
+	background: #eaf8fc;
+	background-image: -moz-linear-gradient(#fff, #d4e8ec);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, #d4e8ec),color-stop(1, #fff));
+	
+	-moz-border-radius: 2.2em;
+	border-radius: 2.2em;
+	
+	border-width: 0.08em;
+	border-style: solid;
+	border-color: #c4d9df #a4c3ca #83afb7;            
+	width: 23em;
+	height: 2em;
+	padding: 0.5em;
+	margin: 5% auto;
+	overflow: hidden; /* Clear floats */
+}
+
+#search, #submit
+{
+	float: left;
+}
+
+#search
+{
+	padding: 0.3em 1.2em;
+	height: 1.8em;
+	width: 20em;
+	border: 0.1em solid #a4c3ca;
+	font: normal 0.8em 'trebuchet MS', arial, helvetica;
+	background: #f1f1f1;
+	
+	-moz-border-radius: 3em 0.24em 0.24em 3em;
+	 border-radius: 3em 0.24em 0.24em 3em;
+	 -moz-box-shadow: 0 0.08em 0.24em rgba(0, 0, 0, 0.25) inset, 0 0.08em 0 rgba(255, 255, 255, 1);
+	 -webkit-box-shadow: 0 0.08em 0.24em rgba(0, 0, 0, 0.25) inset, 0 0.08em 0 rgba(255, 255, 255, 1);
+	 box-shadow: 0 0.08em 0.24em rgba(0, 0, 0, 0.25) inset, 0 0.08em 0 rgba(255, 255, 255, 1);            
+}
+
+/* ----------------------- */
+
+#submit
+{		
+	background: #6cbb6b;
+	background-image: -moz-linear-gradient(#95d788, #6cbb6b);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, #6cbb6b),color-stop(1, #95d788));
+	
+	-moz-border-radius: 0.24em 3em 3em 0.24em;
+	border-radius: 0.24em 3em 3em 0.24em;
+	
+	border-width: 0.08em;
+	border-style: solid;
+	border-color: #7eba7c #578e57 #447d43;
+	
+	 -moz-box-shadow: 0 0 0.08em rgba(0, 0, 0, 0.3), 0 0.08em 0 rgba(255, 255, 255, 0.3) inset;
+	 -webkit-box-shadow: 0 0 0.08em rgba(0, 0, 0, 0.3), 0 0.08em 0 rgba(255, 255, 255, 0.3) inset;
+	 box-shadow: 0 0 0.08em rgba(0, 0, 0, 0.3), 0 0.08em 0 rgba(255, 255, 255, 0.3) inset;   		
+
+	height: 2.2em;
+	margin: 0 0 0 0.625em;
+    padding: 0;
+	width: 5em;
+	cursor: pointer;
+	font: bold 0.88em Arial, Helvetica;
+	color: #23441e;
+	
+	text-shadow: 0 0.08em 0 rgba(255,255,255,0.5);
+}
+
+#submit:hover
+{		
+	background: #95d788;
+	background-image: -moz-linear-gradient(#6cbb6b, #95d788);
+	background-image: -webkit-gradient(linear,left bottom,left top,color-stop(0, #95d788),color-stop(1, #6cbb6b));
+}	
+
+#submit:active
+{		
+	background: #95d788;
+	outline: none;
+   
+	 -moz-box-shadow: 0 0.08em 0.32em rgba(0, 0, 0, 0.5) inset;
+	 -webkit-box-shadow: 0 0.08em 0.32em rgba(0, 0, 0, 0.5) inset;
+	 box-shadow: 0 0.08em 0.32em rgba(0, 0, 0, 0.5) inset;		
+}
+
+#submit::-moz-focus-inner
+{
+       border: 0;  /* Small centering fix for Firefox */
+}
+
+#acerca_de{
+	text-align: center;
+	vertical-align: center;
+	width: 20%;
+}
+#contador{
+	float: right;
+	vertical-align: center;
+	text-align: right;
+
+}
+#visitas{
+	text-align: right;
+	padding-right: 8%;
+	height: 2em;
+	padding-top: 1%
+}
+
+
+#posts{
+	padding-left: 10%;
+	padding-right: 10%;
+}
+
+.titulo_articulo{
+	color:white;
+	text-shadow:0.1em 0.1em #333;
+	text-align: left;
+}
+a{
+	text-decoration: none;
+	color:#c0bcbc;
+	text-shadow:0.1em 0.1em #333;
+}
+.pie_articulo{
+	text-align: right;
+	color: white;
+	padding-bottom: 1%;
+}
+
+#pie_pagina{
+	text-align: center;
+	padding-bottom: 1%;
+}
+
+#foto_principal{
+	display: block;
+	margin: 0 auto 0 auto;
+}
+

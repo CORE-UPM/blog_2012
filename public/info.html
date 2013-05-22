@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+   <meta charset="utf-8">
+   <title>Blog SWCM</title>
+   <link rel='stylesheet' href='/stylesheets/info_style.css' />
+</head>
+
+<body>
+  <div id="pagina">
+
+    <header id="titulo">
+        <h1><a id="titulo_general" href="/">Noticias tecnología</a></h1>
+        <nav id="barra_navegacion">
+
+            <div id="enlaces_navegacion">
+              <a href="/">Home</a>
+              <a href="/Posts">Posts</a>
+            </div>
+
+            <form id="searchbox" method="GET" action="/posts/search">
+              <input id="search" name="busqueda" type="text" placeholder="Buscar ..."/>
+              <input id="submit" type="submit" value="Buscar"/>
+            </form>
+            
+        </nav>
+        
+    </header>
+         
+    <section>
+      		<hr>
+		    <div id="cuerpo">
+				<div id="bloqueVideo" height="480">
+				 	<video  id='video'width="640" height="480"  controls preload>
+		    			<source src="/videos/videoExplicacion.mp4"> 
+		                <source src="/videos/videoExplicacion.ogg">
+		           		<source src="/videos/videoExplicacion.webm"> 
+		            </video>
+				</div>
+
+				<div id="bloqueExplicacion">
+					<div id="explicacion"><b>Proyecto SWCM Curso 2012 - 2013.</b>
+						<br>El proyecto consiste en la creación de un blog.
+						En esta primera entrega se incluye la implementación de un contador de 
+						visitas, visible en la página principal del blog (aún en construcción).
+						Por otro lado también se incluye esta página estática con información sobre el proyecto y un vídeo explicativo del mismo.
+						<br>
+						Para maximizar la compatibilidad con los distintos navegadores de internet, se incluyen los videos en los tres formatos principales: <i>.mp4</i>, <i>.ogg</i>, y <i>.webm</i>.
+					</div>
+				</div>
+
+				<div id="bloqueAutores">
+					<h3>Autores del proyecto</h3>
+					Manuel Cerrillo Bermejo<br>
+					Daniel Buldón Blanco
+			</div>
+
+			</div>
+    </section>
+
+    <footer id="pie_pagina">
+          <hr>
+          <a href="/info.html">Acerca de</a>
+          <br>
+          Proyecto Software de Comunicaciones 2012 - 2013
+    </footer>
+    
+    </div>
+</body>
+</html>

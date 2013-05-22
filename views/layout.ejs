@@ -2,27 +2,43 @@
 <html lang="es">
 <head>
    <meta charset="utf-8">
-   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-   <title>CORE</title>
+   <title>Blog SWCM</title>
+   <link rel='stylesheet' href='/stylesheets/style.css' />
 </head>
 
 <body>
-  <header>
-    <h1> COmputación en REd - CORE</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/Posts">Posts</a>
-    </nav>
-  </header>
-       
-  <section>
-   <hr />
-   <%- body %>
-   <hr />
-  </section>
+  <div id="pagina">
 
-  <footer>
-    <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
-  </footer>
+    <header id="titulo">
+        <h1><a id="titulo_general" href="/">Noticias tecnología</a></h1>
+        <nav id="barra_navegacion">
+
+            <div id="enlaces_navegacion">
+              <a href="/">Home</a>
+              <a href="/Posts">Posts</a>
+            </div>
+
+            <form id="searchbox" method="GET" action="/posts/search">
+              <input id="search" name="busqueda" type="text" placeholder="Buscar ..."/>
+              <input id="submit" type="submit" value="Buscar"/>
+            </form>
+            
+        </nav>
+        
+    </header>
+         
+    <section>
+      <hr>
+     <%- body %>
+    </section>
+
+    <footer id="pie_pagina">
+          <hr>
+          <a href="/info.html">Acerca de</a>
+          <br>
+          Proyecto Software de Comunicaciones 2012 - 2013
+    </footer>
+    
+    </div>
 </body>
 </html>
