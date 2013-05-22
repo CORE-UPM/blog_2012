@@ -16,7 +16,11 @@
   </header>
        
   <section>
-   <hr />
+    <hr />
+    <form method="GET" action="/posts/search">
+      <input type="text" name="search" value="Buscar...">
+      <input type="submit" value="Buscar">
+    </form>
    <%- body %>
    <hr />
   </section>

@@ -261,3 +261,25 @@ exports.destroy = function(req, res, next) {
             res.redirect('/');
         });
 };
+
+// SEARCH /posts/33
+exports.search = function(req, res, next) {
+
+    var format = req.params.format || 'html';
+    format = format.toLowerCase();
+
+    var search =  req.query.search || "";
+    var string = '%' + String(search).replace(/ /g,'%') + '%';
+
+    models.Post
+        .findAll({where: ["title like ? OR body like ?", string, string], order: "updatedAt DESC"})
+        .success(function(posts) {
+          res.render('posts/search', {
+              posts: posts
+          });
+        })
+        .error(function(error) {
+            console.log("Error: No puedo listar los posts.");
+            res.redirect('/');
+        });
+};
