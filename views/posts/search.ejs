@@ -1,0 +1,27 @@
+<header>
+  <h2> Resultado de la búsqueda </h2>
+</header>
+		<div id="content">
+<% for (var i in posts) { %>
+			<div class="post">
+				<h2 class="title"><a href='/posts/<%= posts[i].id %>'><%= posts[i].title %></a></h2>
+				<p class="meta"><span class="date"><%= posts[i].updatedAt.toLocaleDateString() %></span><span class="posted">Creado por <a href="#">Unai</a></span></p>
+				<div style="clear: both;">&nbsp;</div>
+				<div class="entry">					
+					<p><%= posts[i].body.slice(0,300) %></p>
+					<p class="links">
+						<form method='post' action='/posts/<%= posts[i].id %>'>
+	          					<input type='hidden' name='_method' value='delete'>
+							<a href="/posts/<%= posts[i].id %>/edit" class="more">Editar</a>
+							<a href="" onclick="submit();return false" class="comments">Borrar</a>
+						</form>
+					</p>
+				</div>
+			</div>
+			<div style="clear: both;">&nbsp;</div>
+
+<%  }; %>
+
+<a href="/posts/new"> Crear nuevo Post </a>
+		</div>
+<!-- end #content -->
