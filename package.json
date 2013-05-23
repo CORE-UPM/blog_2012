@@ -9,23 +9,8 @@
     "express": "3.1.0",
     "ejs": "0.8.2",
     "express-partials": "git://github.com/publicclass/express-partials.git#c9b8adde89387dea",
-    "pg": "0.6.x",
-    "sequelize": "git://github.com/sequelize/sequelize.git",
-    "connect-flash": "*",
-    "cloudinary": "",
-    "xmlbuilder": "0.4.2",
-    "nodejs-yapaginate": ""
-  },
-  "devDependencies": {
     "sqlite3": ">=2.0.0",
-    "mocha": "*",
-    "zombie": "*"
-  },
-  "scripts": {
-    "test": "NODE_ENV=testing mocha -R spec"
-    },
-  "engines": {
-    "node": "0.8.x",
-    "npm": "1.1.x"
+    "sequelize": "git://github.com/sequelize/sequelize.git",
+    "xmlbuilder": "0.4.2"
   }
 }
