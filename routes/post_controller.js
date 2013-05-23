@@ -1,6 +1,24 @@
 var models = require('../models/models.js');
 var count = require('../public/javascripts/count.js');
 
+// Autoload
+exports.load = function(req, res, next, id) {
+    models.Post
+        .find({where: {id: Number(id)}})
+        .success(function(post) {
+            if (post) {
+                req.post = post;
+                next();
+            }
+            else {
+                next('No existe el post con id=' + id + '.'); // Error
+            }
+        })
+        .error(function(error) {
+            next(error);
+        });
+}
+
 // GET /posts
 exports.index = function(req, res, next) {
     var format = req.params.format || 'html';
@@ -29,49 +47,35 @@ exports.index = function(req, res, next) {
             }
         })
         .error(function(error) {
-            console.log("Error: No pudieron listarse los posts.");
-            res.redirect('/');
+            next(error);
         });
 }
+
 // GET /posts/#id
 exports.show = function(req, res, next) {
     var format = req.params.format || 'html';
     format = format.toLowerCase();
-    var id = req.params.postid;
-    models.Post
-        .find({where: {id:Number(id)}})
-        .success(function(post) {
-            switch (format) {
-                case 'html':
-                case 'htm':
-                    if (post) {
-                        res.render('posts/show', {
-                            post:post, 
-                            visitas: count.getCount(), 
-                            style: "post_show" 
-                        });
-                    }
-                    else {
-                        console.log('No existe ningun post con id=' + id + '.');
-                        res.redirect('/posts');
-                    }
-                    break;
-                case 'json':
-                    res.send(posts);
-                    break;
-                case 'xml':
-                    res.send(post_to_xml(posts));
-                    break;
-                default:
-                    console.log("Formato \"" + format + "\" no soportado");
-                    res.send(406);
-            }
-        })
-        .error(function(error) {
-            console.log(error);
-            res.redirect('/');
-        });
+    switch (format) {
+        case 'html':
+        case 'htm':
+            res.render('posts/show', {
+                post: req.post, 
+                visitas: count.getCount(), 
+                style: "post_show" 
+            });
+            break;
+        case 'json':
+            res.send(req.post);
+            break;
+        case 'xml':
+            res.send(post_to_xml(req.post));
+            break;
+        default:
+            console.log("Formato \"" + format + "\" no soportado");
+            res.send(406);
+    }
 }
+
 // GET /posts/new
 exports.new = function(req, res, next) {
     var post = models.Post.build({
@@ -80,6 +84,7 @@ exports.new = function(req, res, next) {
     });
     res.render('posts/new', {post: post, visitas: count.getCount(), style: "post_new" });
 }
+
 // POST /posts
 exports.create = function(req, res, next) {
     var post = models.Post.build({
@@ -98,92 +103,50 @@ exports.create = function(req, res, next) {
             res.redirect('/posts');
         })
         .error(function(error) {
-            console.log("Error: No se pudo crear el post: ", error);
-            res.render('/posts/new', {post: post, visitas: count.getCount(), style: "post_new" });
+            next(error);
         });
 }
+
 // GET /posts/#id/edit
 exports.edit = function(req, res, next) {
-    var id = req.params.postid;
-    models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            if (post) {
-                res.render('posts/edit', {post: post, visitas: count.getCount(), style: "post_edit" });
-            }
-            else {
-                console.log("No existe ningún post con id=" + id + ".");
-                res.redirect('/posts');
-            }
-        })
-        .error(function(error) {
-            console.log(error);
-            res.redirect('/');
-        });
+    res.render('posts/edit', {
+        post: req.post, 
+        visitas: count.getCount(), 
+        style: "post_edit" 
+    });
 }
+
 // PUT /posts/#id
 exports.update = function(req, res, next) {
-    var id = req.params.postid;
-    models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            if (post) {
-                post.title = req.body.post.title;
-                post.body = req.body.post.body;
-                var validate_errors = post.validate();
-                if (validate_errors) {
-                    console.log("Errores de validación: ", validate_errors);
-                    res.render('posts/edit', {post: post, visitas: count.getCount(), style: "post_edit" });
-                    return;
-                }
-                post.save(['title', 'body'])
-                    .success(function() {
-                        res.redirect('/posts');
-                    })
-                    .error(function(error) {
-                        console.log("Error: No se pudo editar el post: ", error);
-                        res.render('posts/edit', {
-				post: post, 
-				visitas: count.getCount(), 
-				style: "post_edit"
-			});
-                    });
-            }
-            else {
-                console.log('No existe ningún post con id=' + id + '.');
-                res.redirect('/posts');
-            }
+    req.post.title = req.body.post.title;
+    req.post.body = req.body.post.body;
+    var validate_errors = post.validate();
+    if (validate_errors) {
+        console.log("Errores de validación: ", validate_errors);
+        res.render('posts/edit', {
+            post: req.post, 
+            visitas: count.getCount(), 
+            style: "post_edit" 
+        });
+        return;
+    }
+    req.post.save(['title', 'body'])
+        .success(function() {
+            res.redirect('/posts');
         })
         .error(function(error) {
-            console.log(error);
-            res.redirect('/');
+            next(error);
         });
 }
+
 // DELETE /posts/#id
 exports.destroy = function(req, res, next) {
-    var id = req.params.postid;
-    console.log(id);
-    models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            if (post) {
-                post.destroy()
-                    .success(function() {
-                        res.redirect('/posts');
-                    })
-                    .error(function(error) {
-                        console.log("Error: no se pudo eliminar el post ", error);
-                        res.redirect('back');
-                    });
-            }
-            else {
-                console.log("No existe un post con id=" + id + ".");
-                res.redirect('/posts');
-            }
+    req.post.destroy()
+        .success(function() {
+            res.redirect('/posts');
         })
         .error(function(error) {
-            console.log(error);
-            res.redirect('/');
+            next(error);
         });
 }
 
@@ -254,27 +217,27 @@ function post_to_xml(post) {
     if (post) {
         var xml = builder.create('post')
             .ele('id')
-                .txt(posts[i].id)
+                .txt(post.id)
                 .up()
             .ele('title')
-                .txt(posts[i].title)
+                .txt(post.title)
                 .up()
             .ele('body')
-                .txt(posts[i].body)
+                .txt(post.body)
                 .up()
             .ele('authorId')
-                .txt(posts[i].authorId)
+                .txt(post.authorId)
                 .up()
             .ele('createdAt')
-                .txt(posts[i].createdAt)
+                .txt(post.createdAt)
                 .up()
             .ele('updatedAt')
-                .txt(posts[i].updatedAt);
+                .txt(post.updatedAt);
         return xml.end({pretty: true});
     }
     else {
         var xml = builder.create('error')
-            .txt('post ' + id + ' no existe');
+            .txt('El post no existe');
         return xml.end({pretty: true});
     }
 }
