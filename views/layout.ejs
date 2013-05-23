@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/<%= style %>.css">
+	<title>Blog del Curioso</title>
+</head>
+<body>
+	<h1>El Blog del curioso</h1>
+	<a href="/">Inicio</a>
+	<a href="/autores">Autores</a>
+	<a href="/posts">Posts</a>
+	<span>
+		<form method="post" action="/posts/search">
+			<input type="text" name="find" id="search"/>
+			<input name="commit" type="submit" value="Buscar" />
+		</form>
+	</span>
+	<hr /> 
+	<%- body %>
+	<hr />
+	<p>Número de visitas: <%= visitas %></p> 
+	<p>Desde el 15 de Mayo de 2013</p>
+
+</body>
+</html> 
