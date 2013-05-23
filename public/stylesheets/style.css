@@ -14,3 +14,22 @@ article {
   margin: 20px;
   background-color: #e5f5ff;
 }
+
+#buscador {
+	width: 50%;
+	float: right;
+}
+
+#botones {
+	width: 50%;
+	float: left;
+}
+
+#parent{
+	height: 30px;
+}
+
+#form{
+	float: right;
+	margin-right: 20px;
+}

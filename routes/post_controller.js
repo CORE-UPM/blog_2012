@@ -261,3 +261,23 @@ exports.destroy = function(req, res, next) {
             res.redirect('/');
         });
 };
+
+exports.search = function(req, res, next){
+  
+  var key = req.query.key;
+  
+
+
+  models.Post
+    .findAll({where: ["title like ? OR body like ?", '%'+key.replace(/\s/g, '%')+'%', '%'+key.replace(/\s/g, '%')+'%'], order: "updatedAt DESC"})
+    .success(function(posts){
+                  res.render('posts/search', {
+                    posts: posts,
+                    palabras: key
+                  });
+    }).error(function(error) {
+          console.log("Error: No puedo listar los posts.");
+          res.redirect('/');
+        });
+};
+
