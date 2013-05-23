@@ -1,0 +1,35 @@
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<script type="text/javascript" src="../js/modernizr-1.5.min.js"></script>
+
+
+
+
+
+
+<% for (var i in posts) { %>
+ 
+   <div class="post">
+    <div class="page-header">
+      <h1>
+        <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
+        <br/>
+        <small> por <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em></small>
+      </h1>
+     <em> <%= posts[i].updatedAt.toLocaleDateString() %></em>
+   </div>
+<div align="justify">
+ <%= posts[i].body.slice(0,300) %> 
+</div>
+
+<div>
+<form method='post' action='/posts/<%= posts[i].id %>'>
+<input type='hidden' name='_method' value='delete'>
+<div class="post_actions">
+<a href="/posts/<%= posts[i].id %>/edit"> Editar</a>
+<a href="" onclick="submit();return false"> Borrar </a>
+</div>
+</form>
+</div>
+<br/><br/>
+</div>
+<% }; %>

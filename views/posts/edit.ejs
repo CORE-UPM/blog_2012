@@ -1,12 +1,15 @@
-<h1>Editar Post</h1>
+<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+<script type="text/javascript" src="../../js/modernizr-1.5.min.js"></script>
+
+<h2>Editar Post</h2>
 
 <form method='post' action='/posts/<%= post.id %>' class='form-horizontal'>
+
+<div class="form_settings">
 
   <input type='hidden' name='_method' value='put'>
 
   <%- include _form.ejs %>
 
+</div>
 </form>
-
-
-<a href="/posts"> Volver </a>

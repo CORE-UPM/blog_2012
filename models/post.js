@@ -1,4 +1,3 @@
-
 // Definicion del modelo Post:
 
 module.exports = function(sequelize, DataTypes) {

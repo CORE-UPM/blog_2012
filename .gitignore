@@ -1,6 +1,2 @@
-.DS_Store
-*~
-node_modules
-config.json
-.env
-blog.sqlite
+/.env
+/config/config.json
