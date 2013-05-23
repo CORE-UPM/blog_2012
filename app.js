@@ -5,12 +5,12 @@
 
 var express = require('express')
   , routes = require('./routes')
-  , user = require('./routes/user')
   , http = require('http')
   , path = require('path');
 
 var partials = require('express-partials');
 var postController = require('./routes/post_controller.js');
+var userController = require('./routes/user_controller.js');
 var count = require('./count');
 
 var app = express();
@@ -78,9 +78,21 @@ app.configure(function(){
 
 
 // Routes
+
+//Rutas de los usuarios.
+
+app.param('userid', userController.load);
+app.get('/users', userController.index);
+app.get('/users/new', userController.new);
+app.get('/users/:userid([0-9]+)', userController.show);
+app.post('/users', userController.create);
+app.get('/users/:userid([0-9]+)/edit', userController.edit);
+app.put('/users/:userid([0-9]+)', userController.update);
+app.delete('/users/:userid([0-9]+)', userController.destroy);
+
+
 app.get('/', routes.index);
 app.get('/index.html', routes.index);
-app.get('/users', user.list);
 
 app.param('postid',postController.load);
 

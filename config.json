@@ -1,0 +1,11 @@
+{
+    "username": "",
+    "password": "",
+    "database": "",
+    "host":     "",
+    "dialect":  "sqlite",
+    "port":     "",
+    "protocol": "",
+    "storage":  "blog.sqlite",
+    "omitNull": true
+}

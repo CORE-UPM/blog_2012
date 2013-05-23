@@ -1,0 +1,23 @@
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<script type="text/javascript" src="../js/modernizr-1.5.min.js"></script>
+
+<h2>Usuario</h2>
+
+<p>
+  <b>Login:</b>
+  <%= user.login %>
+</p>
+
+<p>
+  <b>Name:</b>
+  <%= user.name %>
+</p>
+
+<p>
+  <b>Email:</b>
+  <%= user.email %>
+</p>
+
+
+<a href="/users/<%= user.id %>/edit"> Edit </a>
+<a href="/users"> Back  </a>

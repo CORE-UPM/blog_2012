@@ -728,3 +728,34 @@ border-radius: 8px;
   color: #FFF;
   text-shadow: #000 1px 1px;
 }
+
+#wrapper_table{
+  width: 100%;
+}
+
+#wrapper_table table{
+  margin-top: 1rem;
+  margin-right: auto;
+  margin-left: auto;
+ 
+}
+#wrapper_table table tr th, #wrapper_table table tr td{
+  border-radius: 2px;
+  padding: 0.8rem;
+}
+
+#wrapper_table table tr th{
+  text-align: center;
+}
+
+#wrapper_table table tr th a, #wrapper_table table tr td a{
+  color: #F67F00;
+}
+
+
+
+
+
+#usuarios_title{
+  margin-bottom: 1rem;
+}

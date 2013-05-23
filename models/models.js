@@ -17,6 +17,7 @@ var sequelize = new Sequelize(process.env.DATABASE_NAME,
 // Y que este modulo exporta la clase Post:
 
 exports.Post = sequelize.import(path.join(__dirname,'post'));
+exports.User = sequelize.import(path.join(__dirname, 'user'));
 sequelize.sync(); // No hace falta si la migracion se hace a mano
 
 

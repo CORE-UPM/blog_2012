@@ -1,0 +1,41 @@
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<script type="text/javascript" src="../js/modernizr-1.5.min.js"></script>
+
+<section>
+
+  <h2 id="usuarios_title"> Usuarios </h2>
+
+<div class="recuadro">
+<a href="/users/new"> Crear nuevo Usuario </a> 
+</div>
+
+
+<article id="wrapper_table">
+<table>
+  <tr>
+    <th>Login</th>
+    <th>Name</th>
+    <th>Email</th>
+    <th>Opciones</th>
+  </tr>
+
+<% for (var i in users) { %>
+  <tr>
+     <td> <%= users[i].login %>  </td>
+     <td> <%= users[i].name %>  </td>
+     <td> <%= users[i].email %> </td>
+     <td>
+       <form method='post' action='/users/<%= users[i].id %>'>
+          <input type='hidden' name='_method' value='delete'>
+          <a href="/users/<%= users[i].id %>"> Ver </a>
+          <a href="/users/<%= users[i].id %>/edit"> Editar </a>
+          <a href="" onclick="submit();return false"> Borrar </a>  
+       </form>
+     </td>
+  </tr>
+<%  }; %>
+</table>
+</article>
+
+
+<section>
