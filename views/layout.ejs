@@ -16,6 +16,12 @@
    <script src="/js/bootstrap.min.js"></script>
 
    <script src="/js/misc.js"></script>
+   <style type="text/css">
+   #browser{
+    float: right;
+    min-width: 150px;
+   }
+   </style>
 </head>
 
 <body>
@@ -68,6 +74,13 @@
       </div>
     </div>
 
+
+        <div class="span10">
+          <form method="POST" action="/posts/search">
+
+            <input id="browser" type='text' name="search" value="Search a post" />
+          </form>
+        </div>
 
     <div class="container-fluid">
       <div class="row-fluid">
@@ -140,6 +153,7 @@
 
         </div><!--/span10-->
 
+
         <div class="span2">
           <div class="well sidebar-nav">
             <ul class="nav nav-list">
@@ -179,7 +193,7 @@
           <hr>
 
           <footer>
-            <p class="text-info"> <small>&copy; Santiago Pavón. Universidad Politécnica de Madrid. Curso 2012-2013.</small></p>
+            <p class="text-info"> <small>&copy; Lola Priego y Paula Montojo. Universidad Politécnica de Madrid. Curso 2012-2013.</small></p>
           </footer>
         </div>
       </div>
@@ -189,3 +203,4 @@
 
 </body>
 </html>
+

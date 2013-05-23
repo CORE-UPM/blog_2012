@@ -291,19 +291,25 @@ exports.update = function(req, res, next) {
 };
 
 exports.browser = function(req, res, next) {
-     models.Post
-        .find({where: {id: Number(id)}})
-        .success(function(post) {
-            if (post) {
-                req.post = post;
-                next();
+    var search = req.body.search;
+     models.Post.findAll({
+        where: ["title like ? OR body like ?", search, search],
+        order: "updatedAt DESC"
+      })
+        .success(function(posts) {
+            if (posts) {
+              res.render('posts/search_result', {
+                posts: posts
+              });
             } else {
-                req.flash('error', 'No existe el post con id='+id+'.');
+                req.flash('error', 'No existe el post con id=' + id + '.');
                 next('No existe el post con id='+id+'.');
             }
         })
         .error(function(error) {
-            next(error);
+          console.log("here");
+          req.flash('error', 'No existe el post con id='+id+'.');
+          next('No existe el post con id='+id+'.' + error);
         });
 }
 

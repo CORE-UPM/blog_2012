@@ -206,9 +206,6 @@ app.delete('/posts/:postid([0-9]+)',
            postController.destroy);
 
 app.post('/posts/search',
-          function(req, res, next) {
-          paginate(req, res, next, 'Post Search');
-        },
         postController.browser);
 
 
