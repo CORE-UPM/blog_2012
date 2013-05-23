@@ -9,8 +9,8 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , partials = require('express-partials')
-  , postController = require('./routes/post_controller.js');
-
+  , postController = require('./routes/post_controller.js')
+  , count = require('./middleware/count');
 var app = express();
 
 app.use(partials());
@@ -25,13 +25,19 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(express.session());
+  app.use(count.getCount);
   app.use(app.router);
+  app.use(count.removeCount);
   app.use(express.static(path.join(__dirname, 'public')));
 });
 
 app.configure('development', function(){
   app.use(express.errorHandler());
 });
+
+app.locals.countValue = function() {
+  return count.countValue();
+};
 
 // Helper estatico:
 app.locals.escapeText =  function(text) {
@@ -57,6 +63,7 @@ app.post('/posts', postController.create);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
 app.put('/posts/:postid([0-9]+)', postController.update);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.get('/posts/search', postController.search);
 
 //---------------------
 

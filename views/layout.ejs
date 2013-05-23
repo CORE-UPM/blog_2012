@@ -9,11 +9,22 @@
 <body>
   <header>
     <h1> COmputación en REd - CORE</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/Posts">Posts</a>
-    </nav>
-  </header>
+    <div id = 'parent'>
+      <div id='botones'>
+        <nav>
+          <a href="/">Home</a>
+          <a href="/Posts">Posts</a>
+          <a href="/about.html">About</a>
+        </nav>
+      </div>
+      <div id='buscador'>
+        <form id='form' name="search" action="/posts/search" method="get">
+          <input type="submit" value="Buscar">
+          <input type="text" name="key">
+        </form> 
+      </div>
+  </div>
+</header>
        
   <section>
    <hr />
@@ -22,7 +33,9 @@
   </section>
 
   <footer>
-    <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
+      <p>
+      Curso 2012-2013  Visitas: <%- countValue() %>
+     </p>
   </footer>
 </body>
 </html>
