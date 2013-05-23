@@ -1,5 +1,6 @@
 
 // Definicion de la clase Post:
+//Esta clase representa la tabla de la base de datos de un POST.
 
 module.exports = function(sequelize, DataTypes) {
   return sequelize.define('Post',
