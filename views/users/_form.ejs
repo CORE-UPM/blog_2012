@@ -3,7 +3,7 @@
                   ? "invalid_field" : "field" %>'>
 
      <% if ( ! user.id) { %>
-        <label for="user_login">Login:</label><br />
+        <h3 >Login</h3><br />
         <input type="text" id="user_login" name="user[login]" size="30" value='<%= user.login%>' />
      <% } else { %>
         Login: <%= user.login %>
@@ -14,7 +14,7 @@
   <div class='<%- locals.validate_errors && validate_errors.name 
                   ? "invalid_field" : "field" %>'>
 
-    <label for="user_name">Nombre</label><br />
+    <h3 for="user_name">Nombre</h3><br />
     <input type="text" id="user_name" name="user[name]" size="30" value='<%= user.name%>' />
   </div>
 
@@ -22,11 +22,8 @@
   <div class='<%- locals.validate_errors && validate_errors.email 
                   ? "invalid_field" : "field" %>'>
 
-    <label for="user_email">Email</label><br />
+    <h3 >Email</h3><br />
     <input type="text" id="user_email" name="user[email]" size="30" value='<%= user.email %>' />
   </div>
 
-
-  <div class="actions">
-    <input name="commit" type="submit" value="Salvar" />
-  </div>
+    <p><input name="commit" class="submit" type="submit" value="Salvar" /></p>
