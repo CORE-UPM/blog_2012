@@ -1,3 +1,24 @@
+<script>
+   function confirmPassword() {
+      var pw1 = document.all['user_password'].value;    
+      var pw2 = document.all['user_confirm_password'].value;  
+
+     <% if ( ! user.id) { %>
+        if (!pw1 || !pw2) {
+           alert('Debe rellenar los campos de Password y Confirmación.');
+           return false;         
+        } 
+     <% } %>
+
+      if (pw1 == pw2) {
+         return true;
+      } else {
+         alert('Los passwords introducidos no coinciden.');
+         return false;         
+      } 
+   }
+</script>
+
 
   <div class='<%- locals.validate_errors && validate_errors.login 
                   ? "invalid_field" : "field" %>'>
@@ -26,4 +47,19 @@
     <input type="text" id="user_email" name="user[email]" size="30" value='<%= user.email %>' />
   </div>
 
-    <p><input name="commit" class="submit" type="submit" value="Salvar" /></p>
+
+
+  <div class="field">
+    <h3>Contraseña</h3>
+    <input type="password" id="user_password" name="user[password]" size='30' value=''/>
+  </div>
+
+
+  <div class="field">
+    <h3>Confirma contraseña</h3>
+    <input type="password" id="user_confirm_password"  size='30' value=''/>
+  </div>
+
+
+
+    <p><input name="commit" onclick='return confirmPassword()' class="submit" type="submit" value="Salvar" /></p>

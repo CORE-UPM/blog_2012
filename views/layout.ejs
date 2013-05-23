@@ -23,10 +23,20 @@
       </div>
       <nav>
         <div id="menu_container">
+
           <ul class="sf-menu" id="nav">
             <li><a href="/">Inicio</a></li>
             <li><a href="/posts">Posts</a></li>
              <li><a href="/users">Usuarios</a></li>
+   <% if(!session.user) { %>
+       <li><a href='/login?redir=/posts'> Login </a></li>
+       <li><a href='/users/new'> Register </a></li>
+<% } %> 
+
+
+
+
+
 
           </ul>
         </div>
@@ -34,7 +44,19 @@
     </header>
     <div id="site_content">
       <div id="sidebar_container">
+
+
+        <% if (session.user) { %>
+       <div class="sidebar" id="login_box">
+          <label>Bienvenido </label><p> <b><%= session.user.name %></b></p>
+          <p><a href='/logout'> Logout </a></p>
+        </div>
+
+        <% } %>
+
         <div class="sidebar">
+
+
           <h3> Búsqueda</h3>
             <form method="get" action="/posts/search">
 

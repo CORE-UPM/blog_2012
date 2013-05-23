@@ -1,5 +1,7 @@
 var models = require('../models/models.js');
 
+var crypto = require('crypto');
+
 
 /*
 *  Auto-loading con app.param
@@ -67,9 +69,7 @@ exports.create = function(req, res, next) {
     var user = models.User.build(
         { login: req.body.user.login,
           name:  req.body.user.name,
-          email: req.body.user.email,
-          hashed_password: '',
-          salt: ''
+          email: req.body.user.email
         });
     
     // El login debe ser unico:
@@ -98,6 +98,16 @@ exports.create = function(req, res, next) {
                                              validate_errors: validate_errors});
                     return;
                 } 
+
+                  // El password no puede estar vacio
+                if ( ! req.body.user.password) {
+                    req.flash('error', 'El campo Password es obligatorio.');
+                    res.render('users/new', {user: user});
+                    return;
+                }
+
+                user.salt = createNewSalt();
+                user.hashed_password = encriptarPassword(req.body.user.password, user.salt);
                 
                 user.save()
                     .success(function() {
@@ -139,6 +149,16 @@ exports.update = function(req, res, next) {
                                   validate_errors: validate_errors});
         return;
     } 
+
+    // ¿Cambio el password?
+    if (req.body.user.password) {
+        console.log('Hay que actualizar el password');
+        req.user.salt = createNewSalt();
+        req.user.hashed_password = encriptarPassword(req.body.user.password, 
+                                                             req.user.salt);
+        fields_to_update.push('salt');
+        fields_to_update.push('hashed_password');
+    }
     
     req.user.save(['name','email'])
         .success(function() {
@@ -162,3 +182,63 @@ exports.destroy = function(req, res, next) {
             next(error);
         });
 };
+
+
+
+
+// ----------------------------------
+// Autenticacion
+// ----------------------------------
+
+/*
+ * Crea un string aleatorio para usar como salt.
+ */
+function createNewSalt() {
+    return Math.round((new Date().valueOf() * Math.random())) + '';
+};
+
+/*
+ * Encripta un password en claro.
+ * Mezcla un password en claro con el salt proporcionado, ejecuta un SHA1 digest, 
+ * y devuelve 40 caracteres hexadecimales.
+ */
+function encriptarPassword(password, salt) {
+    return crypto.createHmac('sha1', salt).update(password).digest('hex');
+};
+
+/*
+ * Autenticar un usuario.
+ *
+ * Busca el usuario con el login dado en la base de datos y comprueba su password.
+ * Si todo es correcto ejecuta callback(null,user).
+ * Si la autenticación falla o hay errores se ejecuta callback(error).
+ */
+exports.autenticar = function(login, password, callback) {
+    
+    models.User.find({where: {login: login}})
+        .success(function(user) {
+            if (user) {
+                console.log('Encontrado el usuario.');
+
+                if (user.hashed_password == "" && password == "") {
+                    callback(null,user);
+                    return;
+                }
+                
+                var hash = encriptarPassword(password, user.salt);
+                
+                if (hash == user.hashed_password) {
+                    callback(null,user);
+                } else {
+                    callback('Password erróneo.');
+                };
+            } else {
+                callback('No existe ningún usuario registrado con ese login.');
+            }
+        })
+        .error(function(err) {
+            callback(err);
+        });
+}; 
+
+//  ----------------------------------

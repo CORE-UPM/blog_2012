@@ -766,3 +766,21 @@ border-radius: 8px;
 #usuarios_title{
   margin-bottom: 1rem;
 }
+
+#login_box{
+  padding: 1rem;
+  font-size: 1rem;
+}
+
+#login_box p{
+  font-size: 1.4rem;
+  text-align: center;
+  width: 100%;
+  padding: 0;
+}
+
+#login_box a{
+  font-size: 1rem;
+  text-align: right;
+  
+}
