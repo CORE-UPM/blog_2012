@@ -14,3 +14,21 @@ article {
   margin: 20px;
   background-color: #e5f5ff;
 }
+
+#counter {
+  border: 2px solid black;
+  padding: 3px;
+  background-color: #DCDCDC;
+  font-weight: bolder;
+}
+
+#busqueda{
+	float: right;
+	font-size: 14px;
+}
+
+#search{
+  font-style: italic;
+  font-size: 15px;
+  font-weight: normal;
+}

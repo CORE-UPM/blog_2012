@@ -8,7 +8,18 @@
 
 <body>
   <header>
-    <h1> COmputación en REd - CORE</h1>
+    <div>
+    <h1 id="tituloLayout"> 
+      COmputación en REd - CORE 
+      <form id="busqueda" method='get' action='/posts/search'>
+        <div>
+          <input type="text" name="search" size='22' value='' />
+          <input type="submit" value="Buscar" />
+        </div>
+      </form>
+    </h1>
+    </div>
+
     <nav>
       <a href="/">Home</a>
       <a href="/Posts">Posts</a>
@@ -23,6 +34,9 @@
 
   <footer>
     <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
+    <span id="counter">
+      Visitas: <%= counter %>
+    </span>
   </footer>
 </body>
 </html>

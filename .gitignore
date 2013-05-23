@@ -4,3 +4,7 @@ node_modules
 config.json
 .env
 blog.sqlite
+public/video
+public/about.html
+npm-debug.log
+posgreDatos.txt
