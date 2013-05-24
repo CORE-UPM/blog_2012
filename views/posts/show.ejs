@@ -4,15 +4,22 @@
 <p>
 <h2><b><%- post.title %></b></h2>
 by
-<em>El autor</em>
+<em><%= post.author && post.author.name || 'Sin autor' %> </em>
 </p>
 <p>
 <%- post.updatedAt.toLocaleDateString() %>
 </p>
 
 <p align="justify"><%- escapeText(post.body) %></p>
+
+<div>
+
 <div class="post_actions">
+<% if (session.user && session.user.id ==post.authorId) {%>
 <a href="/posts/<%= post.id %>/edit"> Edit </a>
+
+<% } %>
 <a href="/posts"> Back </a>
 
 </div>
+

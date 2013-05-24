@@ -91,9 +91,9 @@ app.get('/users', userController.index);
 app.get('/users/new', userController.new);
 app.get('/users/:userid([0-9]+)', userController.show);
 app.post('/users', userController.create);
-app.get('/users/:userid([0-9]+)/edit', sessionController.requiresLogin, userController.edit);
-app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.update);
-app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.destroy);
+app.get('/users/:userid([0-9]+)/edit', sessionController.requiresLogin, userController.loggedUserIsUser,userController.edit);
+app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.loggedUserIsUser, userController.update);
+//app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.destroy);
 
 
 app.get('/', routes.index);
@@ -102,13 +102,13 @@ app.get('/index.html', routes.index);
 app.param('postid',postController.load);
 
 app.get('/posts.:format?', postController.index);
-app.get('/posts/new', sessionController.requiresLogin, postController.new);
+app.get('/posts/new', sessionController.requiresLogin,postController.new);
 app.get('/posts/:postid([0-9]+).:format?',postController.show);
 app.get('/posts/search',postController.search);
 app.post('/posts',sessionController.requiresLogin, postController.create);
-app.get('/posts/:postid([0-9]+)/edit',sessionController.requiresLogin, postController.edit);
-app.put('/posts/:postid([0-9]+)',sessionController.requiresLogin, postController.update);
-app.delete('/posts/:postid([0-9]+)',sessionController.requiresLogin, postController.destroy);
+app.get('/posts/:postid([0-9]+)/edit',sessionController.requiresLogin, postController.loggedUserIsAuthor,postController.edit);
+app.put('/posts/:postid([0-9]+)',sessionController.requiresLogin, postController.loggedUserIsAuthor,postController.update);
+app.delete('/posts/:postid([0-9]+)',sessionController.requiresLogin, postController.loggedUserIsAuthor, postController.destroy);
 
 
 http.createServer(app).listen(app.get('port'), function(){

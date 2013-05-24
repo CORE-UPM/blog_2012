@@ -48,8 +48,10 @@
 
         <% if (session.user) { %>
        <div class="sidebar" id="login_box">
-          <label>Bienvenido </label><p> <b><%= session.user.name %></b></p>
-          <p><a href='/logout'> Logout </a></p>
+          <h4>Bienvenido </h4><p> <b><%= session.user.name %></b></p>
+
+          
+          <p><a class="submit" href='/logout'> Logout </a></p>
         </div>
 
         <% } %>

@@ -26,7 +26,7 @@ exports.index = function(req, res, next) {
 	format = format.toLowerCase();
 
 	models.Post
-	.findAll({order: 'updatedAt DESC'})
+	.findAll({order: 'updatedAt DESC', include: [{model:models.User, as:'Author' }]})
 	.success(function(posts) {
 		switch (format) { 
 			case 'html': 
@@ -105,7 +105,17 @@ exports.show = function(req, res, next) {
 	switch(format){
 		case 'html':
 		case 'htm':
-			res.render('posts/show',{post:req.post});
+			models.User
+				.find({where: {ide:req.post.authorId}})
+				.success(function(user){
+
+					req.post.author = user || {};
+					res.render('posts/show',{post:req.post});
+				})
+				.error(function(error){
+					next(error);
+				});
+			
 			break;
 		case 'xml':
 			res.send(post_to_xml(req.post));
@@ -128,7 +138,7 @@ exports.new = function(req, res, next) {
 
 // POST /posts
 exports.create = function(req, res, next) {
-	var post = models.Post.build({ title: req.body.post.title, body: req.body.post.body,authorId: 0});
+	var post = models.Post.build({ title: req.body.post.title, body: req.body.post.body,authorId: req.session.user.id});
 	var validate_errors = post.validate(); 
 
 	if (validate_errors) {
@@ -251,6 +261,14 @@ exports.destroy = function(req, res, next) {
 	}
 };
 
+exports.loggedUserIsAuthor = function(req, res, next){
+	if(req.session.user && req.session.user.id == req.post.authorId){
+		next();
+	}else{
+		console.log('Prohibida: usuario logeado no es el autor.');
+		res.send(403);
+	}
+};
 
 function posts_to_xml(posts) {
 	var builder = require('xmlbuilder');
