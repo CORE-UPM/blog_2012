@@ -23,7 +23,7 @@
 <div align="justify">
  <%= posts[i].body.slice(0,300) %> 
 </div>
-
+</div>
 <div>
 <form class="post_actions" method='post' action='/posts/<%= posts[i].id %>'>
 <input type='hidden' name='_method' value='delete'>
