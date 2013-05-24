@@ -16,3 +16,11 @@ article {
 	margin: 20px;
 	background-color: #E5F5FF;
 }
+.invalid_field {
+	padding: 2px;
+	background-color: red;
+	display: table;
+}
+.field {
+	width: 100%;
+}

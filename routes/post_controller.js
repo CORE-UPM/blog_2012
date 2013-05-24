@@ -95,7 +95,16 @@ exports.create = function(req, res, next) {
     var validate_errors = post.validate();
     if (validate_errors) {
         console.log("Errores de validación: " , validate_errors);
-        res.render('posts/new', {post: post, visitas: count.getCount(), style: "post_new" });
+        req.flash('error', 'Los datos del formulario son incorrectos.');
+        for (var err in validate_errors) {
+            req.flash('error', validate_errors[err]);
+        };
+        res.render('posts/new', {
+            post: post, 
+            visitas: count.getCount(), 
+            style: "post_new",
+            validate_errors: validate_errors
+        });
         return;
     }
     post.save()
@@ -120,13 +129,18 @@ exports.edit = function(req, res, next) {
 exports.update = function(req, res, next) {
     req.post.title = req.body.post.title;
     req.post.body = req.body.post.body;
-    var validate_errors = post.validate();
+    var validate_errors = req.post.validate();
     if (validate_errors) {
         console.log("Errores de validación: ", validate_errors);
+        req.flash('error', 'Los datos del formulario son incorrectos.');
+        for (var err in validate_errors) {
+            req.flash('error', validate_errors[err]);
+        };
         res.render('posts/edit', {
             post: req.post, 
             visitas: count.getCount(), 
-            style: "post_edit" 
+            style: "post_edit",
+            validate_errors: validate_errors
         });
         return;
     }

@@ -10,6 +10,7 @@ var express = require('express'),
     postController = require('./routes/post_controller'),
     count = require('./public/javascripts/count'),
     http = require('http'),
+    util = require('util'),
     path = require('path');
 
 var visitas = count.getCount();
@@ -18,7 +19,8 @@ var app = express();
 app.use(partials());
 app.use(count.count_mw());
 
-// Crea servidor http
+app.configure(function() {
+	// Crea servidor http
 	app.set('port', process.env.PORT || 3000); // puerto que tiene definido nuestro entorno por defecto
 	app.set('views', __dirname + '/views');
 	// Usa ejs como motor de las vistas
@@ -29,23 +31,34 @@ app.use(count.count_mw());
 	app.use(express.bodyParser());
 	// Middleware para soportar cambiar el método HTTP al especificado por _method
 	app.use(express.methodOverride());
-	app.use(express.cookieParser('your secret here'));
+	app.use(express.cookieParser('--Blog del Curioso--'));
 	app.use(express.session());
+	// Mensajes Flash
+	app.use(require('connect-flash')());
+	// Hacer visible req.flash() en las vistas
+	app.use(function(req, res, next) {
+		res.locals.flash = function() {
+			return req.flash()
+		};
+		next();
+	});
 	// Middleware para permitir crear rutas
 	app.use(app.router);
 	// Middleware para atender páginas estáticas
 	app.use(express.static(path.join(__dirname, 'public')));
+});
 	
-	// Error handler
-	app.use(function(err, req, res, next) {
-		if (util.isError(err)) {
-			next(err);
-		}
-		else {
-			console.log(err);
-			res.redirect('/');
-		}
-	});
+// Error handler
+app.use(function(err, req, res, next) {
+	if (util.isError(err)) {
+		next(err);
+	}
+	else {
+		console.log(err);
+		req.flash('error', err);
+		res.redirect('/');
+	}
+});
 
 // Development only. Middleware de atención de errores.
 if ('development' == app.get('env')) {
