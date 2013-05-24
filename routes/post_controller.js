@@ -146,6 +146,7 @@ exports.update = function(req, res, next) {
     }
     req.post.save(['title', 'body'])
         .success(function() {
+            req.flash('success', 'Post actualizado correctamente');
             res.redirect('/posts');
         })
         .error(function(error) {
@@ -157,6 +158,7 @@ exports.update = function(req, res, next) {
 exports.destroy = function(req, res, next) {
     req.post.destroy()
         .success(function() {
+            req.flash('success', 'Post borrado');
             res.redirect('/posts');
         })
         .error(function(error) {

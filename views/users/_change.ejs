@@ -1,0 +1,25 @@
+<div class='<%- locals.validate_errors && validate_errors.title 
+		? "invalid_field" : "field" %>'>
+	Login: <%= user.login %>
+	<br />
+</div>
+
+<div class='<%- locals.validate_errors && validate_errors.title 
+		? "invalid_field" : "field" %>'>
+	<label for="user_name">Nombre:</label>
+	<br />
+	<input type="text" id="user_name" name="user[name]"
+		size="30" value="<%= user.name %>" />
+</div>
+
+<div class='<%- locals.validate_errors && validate_errors.title 
+		? "invalid_field" : "field" %>'>
+	<label for="user_email">E-mail:</label>
+	<br />
+	<input type="text" id="user_email" name="user[email]"
+		size="30" value="<%= user.email %>" />
+</div>
+
+<div class="actions">
+	<input name="commit" type="submit" value="Guardar" />
+</div>

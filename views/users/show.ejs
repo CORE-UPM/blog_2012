@@ -1,0 +1,19 @@
+<h2> Usuario </h2>
+
+<p>
+	<b>Login:</b>
+	<%= user.login %>
+</p>
+
+<p>
+	<b>Nombre:</b>
+	<%= user.name %>
+</p>
+
+<p>
+	<b>E-mail:</b>
+	<%= user.email %>
+</p>
+
+<a href="/users/<%= user.id %>/edit">Editar</a>
+<a href="/users">Volver</a>

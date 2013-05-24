@@ -8,6 +8,7 @@ var express = require('express'),
     routes = require('./routes'), // Solo para index
     autores = require('./routes/autores'),
     postController = require('./routes/post_controller'),
+    userController = require('./routes/user_controller'),
     count = require('./public/javascripts/count'),
     http = require('http'),
     util = require('util'),
@@ -79,9 +80,11 @@ app.locals.escapeText = function(text) {
 
 // Definición de rutas
 app.param('postid', postController.load);
+app.param('userid', userController.load);
 
 app.get('/', routes.index);
 app.get('/autores', autores.autores);
+
 app.get('/posts.:format?', postController.index);
 app.get('/posts/new', postController.new);
 app.get('/posts/:postid([0-9]+).:format?', postController.show);
@@ -90,6 +93,14 @@ app.post('/posts', postController.create);
 app.post('/posts/search', postController.search);
 app.put('/posts/:postid([0-9]+)', postController.update);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
+
+app.get('/users', userController.index);
+app.get('/users/new', userController.new);
+app.get('/users/:userid([0-9]+)', userController.show);
+app.get('/users/:userid([0-9]+)/edit', userController.edit);
+app.post('/users', userController.create);
+app.put('/users/:userid([0-9]+)', userController.update);
+app.delete('/users/:userid([0-9]+)', userController.destroy);
 
 // Atender peticiones en puerto 3000 o donde diga port
 http.createServer(app).listen(app.get('port'), function(){
