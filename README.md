@@ -1,1 +1,3 @@
-Blog de Carlos Alonso y Jorge Aguirre
+Blog del Curioso
+Creado por: Carlos Alonso y Jorge Aguirre
+
