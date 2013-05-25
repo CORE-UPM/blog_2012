@@ -112,8 +112,7 @@ function posts_to_xml(posts) {
 
 // GET /posts/33
 exports.show = function(req, res, next) {
-  //tenemos el post ya cargado con precarga
-  
+
     // Buscar el autor
     models.User
         .find({where: {id: req.post.authorId}})
@@ -122,27 +121,46 @@ exports.show = function(req, res, next) {
             // Si encuentro al autor lo añado como el atributo author, sino añado {}.
             req.post.author = user || {};
 
-            var format = req.params.format || 'html';
-            format = format.toLowerCase();
+            // Buscar comentarios
+            models.Comment
+                 .findAll({where: {postId: req.post.id},
+                           order: 'updatedAt DESC',
+                           include: [ { model: models.User, as: 'Author' } ] 
+                 })
+                 .success(function(comments) {
 
-            switch (format) { 
-              case 'html':
-              case 'htm':
-                  res.render('posts/show', { post: req.post });
-                  break;
-              case 'json':
-                  res.send(req.post);
-                  break;
-              case 'xml':
-                     res.send(post_to_xml(req.post));
-                  break;
-              case 'txt':
-                  res.send(req.post.title+' ('+req.post.body+')');
-                  break;
-              default:
-                  console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
-                  res.send(406);
-            }
+                    var format = req.params.format || 'html';
+                    format = format.toLowerCase();
+
+                    switch (format) { 
+                      case 'html':
+                      case 'htm':
+                          var new_comment = models.Comment.build({
+                              body: 'Introduzca el texto del comentario'
+                          });
+                          res.render('posts/show', {
+                              post: req.post,
+                              comments: comments,
+                              comment: new_comment
+                          });
+                          break;
+                      case 'json':
+                          res.send(req.post);
+                          break;
+                      case 'xml':
+                          res.send(post_to_xml(req.post));
+                          break;
+                      case 'txt':
+                          res.send(req.post.title+' ('+req.post.body+')');
+                          break;
+                      default:
+                          console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+                          res.send(406);
+                    }
+                 })
+                 .error(function(error) {
+                     next(error);
+                  });
         })
         .error(function(error) {
             next(error);
@@ -261,14 +279,34 @@ exports.update = function(req, res, next) {
 // DELETE /posts/33
 exports.destroy = function(req, res, next) {
 
-    req.post.destroy()
-        .success(function() {
-            req.flash('success', 'Post eliminado con éxito.');
-            res.redirect('/posts');
-        })
-        .error(function(error) {
-            next(error);
-        });
+    var Sequelize = require('sequelize');
+    //para realizar las acciones de forma ordenada
+    var chainer = new Sequelize.Utils.QueryChainer
+
+    // Obtener los comentarios
+    req.post.getComments() //en la succes function nos da los comments
+       .success(function(comments) {
+           for (var i in comments) {
+                // Eliminar un comentario
+                chainer.add(comments[i].destroy());
+           }
+
+           // Eliminar el post
+           chainer.add(req.post.destroy());
+
+           // Ejecutar el chainer
+           chainer.run()
+            .success(function(){
+                 req.flash('success', 'Post (y sus comentarios) eliminado con éxito.');
+                 res.redirect('/posts');
+            })
+            .error(function(errors){
+                next(errors[0]);   
+            })
+       })
+       .error(function(error) {
+           next(error);
+       });
 };
 
 // GET /search/item

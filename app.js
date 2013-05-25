@@ -13,6 +13,7 @@ var express = require('express')
   , sessionController = require('./routes/session_controller.js')
   , postController = require('./routes/post_controller.js')
   , userController = require('./routes/user_controller.js')
+  , commentController = require('./routes/comment_controller.js')
   , util = require('util');
 var app = express();
 
@@ -70,6 +71,12 @@ app.locals.escapeText =  function(text) {
           .replace(/\n/g, '<br>');
 };
 
+
+//Autoload
+app.param('postid', postController.load);
+app.param('commentid', commentController.load);
+app.param('userid', userController.load);
+
 // -- Routes
 app.get('/', routes.index);
 //app.get('/info', function(req, res) {
@@ -79,10 +86,42 @@ app.get('/', routes.index);
 app.get('/login',  sessionController.new);
 app.post('/login', sessionController.create);
 app.get('/logout', sessionController.destroy);
-
 //---------------------
 
-app.param('postid', postController.load);
+app.get('/posts/:postid([0-9]+)/comments', 
+  commentController.index);
+
+app.get('/posts/:postid([0-9]+)/comments/new', 
+  sessionController.requiresLogin,
+  commentController.new);
+
+app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)',
+  commentController.show);
+
+app.post('/posts/:postid([0-9]+)/comments', 
+   sessionController.requiresLogin,
+   commentController.create);
+
+app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)/edit', 
+  sessionController.requiresLogin,
+  commentController.loggedUserIsAuthor,
+  commentController.edit);
+
+app.put('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', 
+  sessionController.requiresLogin,
+  commentController.loggedUserIsAuthor,
+  commentController.update);
+
+app.delete('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', 
+     sessionController.requiresLogin,
+     commentController.loggedUserIsAuthor,
+     commentController.destroy);
+
+// Comentarios Huerfanos
+app.get('/orphancomments', 
+  commentController.orphans);
+
+//---------------------
 app.get('/posts.:format?', postController.index);
 
 app.get('/posts/new', 
@@ -107,8 +146,6 @@ app.delete('/posts/:postid([0-9]+)',
            postController.destroy);
 
 //---------------------
-
-app.param('userid', userController.load);
 
 app.get('/users', userController.index);
 app.get('/users/new', userController.new);

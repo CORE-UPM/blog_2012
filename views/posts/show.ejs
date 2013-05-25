@@ -1,9 +1,9 @@
-<h2>Post</h2>
+
+<article>
 
 <p>
   <b><%= post.title %></b>
   <br />
-  by 
   <em><%= post.author && post.author.name || 'Sin autor' %></em>
 </p>
 
@@ -13,10 +13,21 @@
 
 <p><%- escapeText(post.body) %></p>
 
-
 <% if (session.user && session.user.id == post.authorId) {%>
   <a href="/posts/<%= post.id %>/edit"> Editar </a>
 <% } %>
 
+</article>
 
-<a href="/posts"> Back  </a>
+<hr />
+<%- include ../comments/index.ejs %>
+<hr />
+
+<% if (session.user) { %>
+   <blockquote>
+      <%- include ../comments/new.ejs %> 
+   </blockquote>
+   <hr />
+<% } %>
+
+<a href="/posts"> Volver al índice de Posts</a>
