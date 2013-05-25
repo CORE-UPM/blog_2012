@@ -2,6 +2,22 @@ var models = require('../models/models.js');
 
 var crypto = require('crypto');
 
+// load
+exports.load = function(req, res, next, id){
+    models.User
+        .find({where:{id: Number(id)}})
+        .success(function(user){
+            if(user){
+                req.user = user;
+                next();
+            }else{
+                next('No existe el post con id='+id+'.');
+            }
+        })
+        .error(function(error){
+            next(error);
+        });
+};
 
 /*
 *  Auto-loading con app.param

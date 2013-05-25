@@ -11,6 +11,7 @@ var express = require('express')
 var partials = require('express-partials');
 var postController = require('./routes/post_controller.js');
 var userController = require('./routes/user_controller.js');
+var commentController = require('./routes/comment_controller.js');
 var sessionController = require('./routes/session_controller.js');
 var count = require('./count');
 
@@ -96,10 +97,25 @@ app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, userControlle
 //app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.destroy);
 
 
+// Comentarios
+
+app.get('/posts/:postid([0-9]+)/comments', commentController.index);
+app.get('/posts/:postid([0-9]+)/comments/new', sessionController.requiresLogin,commentController.new);
+app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)',commentController.show);
+app.post('/posts/:postid([0-9]+)/comments', sessionController.requiresLogin,commentController.create);
+app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)/edit', sessionController.requiresLogin, commentController.loggedUserIsAuthor, commentController.edit);
+app.put('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.requiresLogin, commentController.loggedUserIsAuthor, commentController.update);
+app.delete('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.requiresLogin, commentController.loggedUserIsAuthor, commentController.destroy);
+
+
+//
+
 app.get('/', routes.index);
 app.get('/index.html', routes.index);
 
 app.param('postid',postController.load);
+app.param('userid',userController.load);
+app.param('commentid', commentController.load);
 
 app.get('/posts.:format?', postController.index);
 app.get('/posts/new', sessionController.requiresLogin,postController.new);

@@ -1,0 +1,9 @@
+
+  <div class='<%- locals.validate_errors && 
+                  validate_errors.body ? "invalid_field" : "field" %>'>
+    <textarea id="comment_body" name="comment[body]" rows="5" cols="80"><%= comment.body %></textarea>
+  </div>
+
+  <div class="actions">
+    <input name="commit" class="submit" type="submit" value="Salvar" />
+  </div>
