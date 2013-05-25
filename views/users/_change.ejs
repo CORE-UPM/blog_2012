@@ -20,6 +20,32 @@
 		size="30" value="<%= user.email %>" />
 </div>
 
+<!-- Contraseña -->
+<div class="field">
+	<label for="user_password">Cambiar Contraseña:</label>
+	<br />
+	<input type="password" id="user_password" name="user[password]" size="30" value="" />
+<div>
+<div class="field">
+	<label for="user_confirm_password">Confirmar contraseña:</label>
+	<br />
+	<input type="password" id="user_confirm_password" size="30" value="" />
+<div>
+
 <div class="actions">
-	<input name="commit" type="submit" value="Guardar" />
+	<input name="commit" type="submit" value="Guardar" onclick="return confirmPassword()" />
 </div>
+
+<script type="text/javascript">
+	function confirmPassword() {
+		var pass1 = document.all['user_password'].value;
+		var pass2 = document.all['user_confirm_password'].value;
+		if (pass1 == pass2) {
+			return true;
+		}
+		else {
+			alert('La contraseña no coincide.');
+			return false;
+		}
+	}
+</script>

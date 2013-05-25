@@ -1,5 +1,6 @@
 var models = require('../models/models.js');
 var count = require('../public/javascripts/count.js');
+var crypto = require('crypto');
 
 // Autoload
 exports.load = function(req, res, next, id) {
@@ -101,9 +102,7 @@ exports.create = function(req, res, next) {
     var user = models.User.build({
         login: req.body.user.login,
         name: req.body.user.name,
-        email: req.body.user.email,
-        hashed_password: '',
-        salt: '' 
+        email: req.body.user.email
     });
     //El login debe ser único
     models.User.find({where: {login: req.body.user.login}}) // NO se usa "built" se busca en la BD
@@ -125,14 +124,35 @@ exports.create = function(req, res, next) {
                     for (var err in validate_errors) {
                         req.flash('error', validate_errors[err]);
                     };
-                    res.render('/users/new', {
+                    res.render('users/new', {
                         user: user, 
                         visitas: count.getCount(), 
                         style: "user_new",
-                        validate_errors:  {login: "El usuario \"" + req.body.user.login + "\" ya existe."}
+                        validate_errors:  validate_errors
                     });
                     return;
                 }
+                // El password no puede estar vacío
+                if (!req.body.user.password) {
+                    req.flash('error', 'Es obligatorio escribir una contraseña');
+                    res.render('users/new', {
+                        user: user, 
+                        visitas: count.getCount(), 
+                        style: "user_new"
+                    });
+                    return;
+                }
+                else if (req.body.user.password != req.body.user.confirm_password) {
+                    req.flash('error', 'Las contraseñas tienen que coincidir');
+                    res.render('users/new', {
+                        user: user, 
+                        visitas: count.getCount(), 
+                        style: "user_new"
+                    });
+                    return;
+                }
+                user.salt = crearSalt();
+                user.hashed_password = encriptarPassword(req.body.user.password, user.salt);
                 user.save() 
                     .success(function() {
                         req.flash('success', 'Usuario creado con éxito.');
@@ -146,7 +166,7 @@ exports.create = function(req, res, next) {
         .error(function(error) {
             next(error);
         });
-};
+}
 
 // PUT users/#id
 exports.update = function(req, res, next) {
@@ -166,9 +186,17 @@ exports.update = function(req, res, next) {
             style: "user_edit",
             validate_errors:  validate_errors
         });
-                return;
+        return;
     }
-    req.user.save(['name', 'email']) //Se guardan solo los cambios especificados
+    var fields_to_update = ['name', 'email'];
+    if (req.body.user.password) {
+      console.log('Actualizando password');
+      req.user.salt = crearSalt();
+      req.user.hashed_password = encriptarPassword(req.body.user.password, req.user.salt);
+      fields_to_update.push('salt');
+      fields_to_update.push('hashed_password');
+    }
+    req.user.save(fields_to_update) //Se guardan solo los cambios especificados
         .success(function() {
             req.flash('success', 'Usuario actualizado con éxito.');
             res.redirect('/users');
@@ -176,7 +204,7 @@ exports.update = function(req, res, next) {
         .error(function(error) {
             next(error);
         });
-};
+}
 
 // DELETE /users/#id
 exports.destroy = function(req, res, next) {
@@ -188,6 +216,37 @@ exports.destroy = function(req, res, next) {
         .error(function(error) {
             next(error);
         });
-};
+}
+// Generador de contraseña
+exports.autenticar = function(login, password, callback) {
+    models.User.find({where: {login: login}})
+        .success(function(user) {
+            if (user) {
+                if (user.hashed_password == "" && password == "") {
+                    callback(null, user);
+                    return;
+                }
+                var hash = encriptarPassword(password, user.salt);
+                if (hash == user.hashed_password) {
+                    callback(null, user);
+                }
+                else {
+                    callback('Contraseña errónea');
+                }
+            }
+            else {
+                callback('Nombre de usuario incorrecto');
+            }
+        })
+        .error(function(err) {
+            callback(err);
+        });
+}
 
+function encriptarPassword(password, salt) {
+	return crypto.createHmac('sha1', salt).update(password).digest('hex');
+}
 
+function crearSalt() {
+	return Math.round((new Date().valueOf() * Math.random())) + '';
+}
