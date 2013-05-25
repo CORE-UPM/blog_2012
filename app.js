@@ -37,11 +37,14 @@ app.configure(function() {
 	app.use(express.session());
 	// Mensajes Flash
 	app.use(require('connect-flash')());
-	// Hacer visible req.flash() en las vistas
+	// Helper dinámico
 	app.use(function(req, res, next) {
+		// Cargar flash
 		res.locals.flash = function() {
 			return req.flash()
 		};
+		// Habilitar session
+		res.locals.session = req.session;
 		next();
 	});
 	// Middleware para permitir crear rutas

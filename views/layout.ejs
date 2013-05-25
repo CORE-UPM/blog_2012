@@ -3,22 +3,35 @@
 <head>
 	<meta charset="utf-8">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/flash.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
 	<link rel="stylesheet" type="text/css" href="/stylesheets/<%= style %>.css">
 	<title>Blog del Curioso</title>
 </head>
 <body>
 	<header>
-		<h1>El Blog del curioso</h1>
-		<a href="/">Inicio</a>
-		<a href="/autores">Autores</a>
-		<a href="/posts">Posts</a>
-		<a href="/users">Usuarios</a>
-		<span>
-			<form method="post" action="/posts/search">
-				<input type="text" name="find" id="search"/>
-				<input name="commit" type="submit" value="Buscar" />
-			</form>
-		</span>
+		<div>
+			<h1>El Blog del curioso</h1>
+			<a href="/">Inicio</a>
+			<a href="/autores">Autores</a>
+			<a href="/posts">Posts</a>
+			<a href="/users">Usuarios</a>
+			<div id ="search">
+				<form method="post" action="/posts/search">
+					<input type="text" name="find" id="search"/>
+					<input name="commit" type="submit" value="Buscar" />
+				</form>
+			</div>
+			<div id="logininfo">
+				<% if (session.user) { %>
+					<%= session.user.name %>
+					<a href="/logout">Cerrar Sesión</a>
+				<% } else { %>
+					<a href="/login?redir=/posts">Login</a>
+					<a href="/users/new">Registrarse</a>
+				<% } %>
+			</div>
+	<link rel="stylesheet" type="text/css" href="/stylesheets/flash.css">
+		</div>
 	</header>
 	<section>
 		<% var flash = locals.flash() %>
