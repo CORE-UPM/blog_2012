@@ -198,7 +198,8 @@ exports.update = function(req, res, next) {
     }
     req.user.save(fields_to_update) //Se guardan solo los cambios especificados
         .success(function() {
-            req.flash('success', 'Usuario actualizado con éxito.');
+            req.flash('success', 'Usuario actualizado con éxito.');  
+            res.locals.session.user = req.user; 
             res.redirect('/users');
         })
         .error(function(error) {

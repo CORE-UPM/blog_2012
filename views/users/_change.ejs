@@ -1,10 +1,9 @@
-<div class='<%- locals.validate_errors && validate_errors.title 
-		? "invalid_field" : "field" %>'>
+<div>
 	Login: <%= user.login %>
 	<br />
 </div>
 
-<div class='<%- locals.validate_errors && validate_errors.title 
+<div class='<%- locals.validate_errors && validate_errors.name 
 		? "invalid_field" : "field" %>'>
 	<label for="user_name">Nombre:</label>
 	<br />
@@ -12,7 +11,7 @@
 		size="30" value="<%= user.name %>" />
 </div>
 
-<div class='<%- locals.validate_errors && validate_errors.title 
+<div class='<%- locals.validate_errors && validate_errors.email 
 		? "invalid_field" : "field" %>'>
 	<label for="user_email">E-mail:</label>
 	<br />
