@@ -9,6 +9,7 @@ var express = require('express'),
     autores = require('./routes/autores'),
     postController = require('./routes/post_controller'),
     userController = require('./routes/user_controller'),
+    sessionController = require('./routes/session_controller'),
     count = require('./public/javascripts/count'),
     http = require('http'),
     util = require('util'),
@@ -85,22 +86,26 @@ app.param('userid', userController.load);
 app.get('/', routes.index);
 app.get('/autores', autores.autores);
 
+app.get('/login', sessionController.new);
+app.get('/logout', sessionController.destroy);
+app.post('/login', sessionController.create);
+
 app.get('/posts.:format?', postController.index);
-app.get('/posts/new', postController.new);
+app.get('/posts/new', sessionController.requiresLogin, postController.new);
 app.get('/posts/:postid([0-9]+).:format?', postController.show);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
-app.post('/posts', postController.create);
+app.post('/posts', sessionController.requiresLogin, postController.create);
 app.post('/posts/search', postController.search);
-app.put('/posts/:postid([0-9]+)', postController.update);
-app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.put('/posts/:postid([0-9]+)', sessionController.requiresLogin, postController.update);
+app.delete('/posts/:postid([0-9]+)', sessionController.requiresLogin, postController.destroy);
 
 app.get('/users.:format?', userController.index);
 app.get('/users/new', userController.new);
 app.get('/users/:userid([0-9]+).:format?', userController.show);
-app.get('/users/:userid([0-9]+)/edit', userController.edit);
+app.get('/users/:userid([0-9]+)/edit', sessionController.requiresLogin, userController.edit);
 app.post('/users', userController.create);
-app.put('/users/:userid([0-9]+)', userController.update);
-app.delete('/users/:userid([0-9]+)', userController.destroy);
+app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.update);
+app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.destroy);
 
 // Atender peticiones en puerto 3000 o donde diga port
 http.createServer(app).listen(app.get('port'), function(){

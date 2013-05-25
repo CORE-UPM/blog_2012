@@ -1,0 +1,17 @@
+<h1>Login</h1>
+<form method="POST" action="/login">
+	<input type="hidden" name="redir" value="<%= redir %>">
+	<div class="field">
+		<label for="login">Login:</label>
+		<br />
+		<input type="text" id="login" name="login" size="30" />
+	</div>
+	<div class="field">
+		<label for="password">Contraseña:</label>
+		<br />
+		<input type="password" id="password" name="password" size="30" />
+	</div>
+	<div class="actions">
+		<input name="commit" type="submit" value="Iniciar Sesión" />
+	</div>
+</form>	
