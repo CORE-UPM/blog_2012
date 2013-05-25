@@ -250,3 +250,53 @@ function encriptarPassword(password, salt) {
 function crearSalt() {
 	return Math.round((new Date().valueOf() * Math.random())) + '';
 }
+
+function users_to_xml(users) {
+    var builder = require('xmlbuilder');
+    var xml = builder.create('users');
+    for (var i in users) {
+        xml.ele('user')
+            .ele('login')
+                .txt(users[i].login)
+                .up()
+            .ele('name')
+                .txt(users[i].name)
+                .up()
+            .ele('email')
+                .txt(users[i].email)
+                .up()
+            .ele('createdAt')
+                .txt(users[i].createdAt)
+                .up()
+            .ele('updatedAt')
+                .txt(users[i].updatedAt);
+    }
+    return xml.end({pretty: true});
+}
+
+function user_to_xml(user) {
+    var builder = require('xmlbuilder');
+    if (user) {
+        var xml = builder.create('user')
+            .ele('login')
+                .txt(user.login)
+                .up()
+            .ele('name')
+                .txt(user.name)
+                .up()
+            .ele('email')
+                .txt(user.email)
+                .up()
+            .ele('createdAt')
+                .txt(user.createdAt)
+                .up()
+            .ele('updatedAt')
+                .txt(user.updatedAt);
+        return xml.end({pretty: true});
+    }
+    else {
+        var xml = builder.create('error')
+            .txt('El usuario no existe');
+        return xml.end({pretty: true});
+    }
+}

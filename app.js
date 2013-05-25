@@ -94,9 +94,9 @@ app.post('/posts/search', postController.search);
 app.put('/posts/:postid([0-9]+)', postController.update);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
 
-app.get('/users', userController.index);
+app.get('/users.:format?', userController.index);
 app.get('/users/new', userController.new);
-app.get('/users/:userid([0-9]+)', userController.show);
+app.get('/users/:userid([0-9]+).:format?', userController.show);
 app.get('/users/:userid([0-9]+)/edit', userController.edit);
 app.post('/users', userController.create);
 app.put('/users/:userid([0-9]+)', userController.update);
