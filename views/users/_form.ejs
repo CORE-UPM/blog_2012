@@ -23,18 +23,20 @@
 </div>
 
 <!-- Contraseña -->
-<div class="field">
+<div class='<%- locals.password && password=="empty" 
+		? "invalid_field" : "field" %>'>
 	<label for="user_password">Contraseña:</label>
 	<br />
 	<input  type="password" id="user_password" name="user[password]" 
 		size="30" placeholder="Recomendable: 8 caracteres" />
-<div>
-<div class="field">
+</div>
+<div class='<%- locals.password && (password=="empty" || password=="mismatch") 
+		? "invalid_field" : "field" %>'>
 	<label for="user_confirm_password">Confirmar contraseña:</label>
 	<br />
 	<input  type="password" id="user_confirm_password" name="user[confirm_password]" 
 		size="30" placeholder="Confirmar la contraseña" />
-<div>
+</div>
 
 <div class="actions">
 	<input name="commit" type="submit" value="Guardar"/>

@@ -20,31 +20,25 @@
 </div>
 
 <!-- Contraseña -->
-<div class="field">
-	<label for="user_password">Cambiar Contraseña:</label>
+<div class='<%- locals.password && password=="old" 
+		? "invalid_field" : "field" %>'>
+	<label for="user_password">Contraseña Antigua:</label>
+	<br />
+	<input type="password" id="user_old_password" name="user[old_password]" size="30" value="" />
+</div>
+<div class='<%- locals.password && password=="mismatch" 
+		? "invalid_field" : "field" %>'>
+	<label for="user_password">Nueva Contraseña:</label>
 	<br />
 	<input type="password" id="user_password" name="user[password]" size="30" value="" />
-<div>
-<div class="field">
-	<label for="user_confirm_password">Confirmar contraseña:</label>
+</div>
+<div class='<%- locals.password && password=="mismatch" 
+		? "invalid_field" : "field" %>'>
+	<label for="user_confirm_password">Confirmar nueva contraseña:</label>
 	<br />
-	<input type="password" id="user_confirm_password" size="30" value="" />
-<div>
-
-<div class="actions">
-	<input name="commit" type="submit" value="Guardar" onclick="return confirmPassword()" />
+	<input type="password" id="user_confirm_password" name="user[confirm_password]" size="30" value="" />
 </div>
 
-<script type="text/javascript">
-	function confirmPassword() {
-		var pass1 = document.all['user_password'].value;
-		var pass2 = document.all['user_confirm_password'].value;
-		if (pass1 == pass2) {
-			return true;
-		}
-		else {
-			alert('La contraseña no coincide.');
-			return false;
-		}
-	}
-</script>
+<div class="actions">
+	<input name="commit" type="submit" value="Guardar"/>
+</div>

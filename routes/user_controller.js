@@ -119,37 +119,37 @@ exports.create = function(req, res, next) {
             }
             else {
                 var validate_errors = user.validate();
-                if (validate_errors) {
-                    req.flash('error', 'Los datos del formulario son incorrectos');
-                    for (var err in validate_errors) {
-                        req.flash('error', validate_errors[err]);
-                    };
-                    res.render('users/new', {
-                        user: user, 
-                        visitas: count.getCount(), 
-                        style: "user_new",
-                        validate_errors:  validate_errors
-                    });
-                    return;
-                }
-                // El password no puede estar vacío
-                if (!req.body.user.password) {
-                    req.flash('error', 'Es obligatorio escribir una contraseña');
-                    res.render('users/new', {
-                        user: user, 
-                        visitas: count.getCount(), 
-                        style: "user_new"
-                    });
-                    return;
-                }
-                else if (req.body.user.password != req.body.user.confirm_password) {
-                    req.flash('error', 'Las contraseñas tienen que coincidir');
-                    res.render('users/new', {
-                        user: user, 
-                        visitas: count.getCount(), 
-                        style: "user_new"
-                    });
-                    return;
+                if (validate_errors || !req.body.user.password || 
+                    req.body.user.password != req.body.user.confirm_password) {
+			if (validate_errors) {
+                            req.flash('error', 'Los datos del formulario son incorrectos');
+                            for (var err in validate_errors) {
+                                req.flash('error', validate_errors[err]);
+                            };
+                        }
+                        var password = "";
+                        if (!req.body.user.password) {
+                            if (!validate_errors) {
+                                req.flash('error', 'Los datos del formulario son incorrectos');
+                            }
+                            req.flash('error', 'Es obligatorio escribir una contraseña');
+                            password = "empty";
+                        }
+                        else if (req.body.user.password != req.body.user.confirm_password) {
+                            if (!validate_errors) {
+                                req.flash('error', 'Los datos del formulario son incorrectos');
+                            }
+                            req.flash('error', 'Las contraseñas tienen que coincidir');
+                            password = "mismatch";
+                        }
+                        res.render('users/new', {
+                            user: user, 
+                            visitas: count.getCount(), 
+                            style: "user_new",
+                            validate_errors:  validate_errors,
+                            password: password
+                        });
+                        return;
                 }
                 user.salt = crearSalt();
                 user.hashed_password = encriptarPassword(req.body.user.password, user.salt);
@@ -174,27 +174,51 @@ exports.update = function(req, res, next) {
     req.user.name = req.body.user.name;
     req.user.email = req.body.user.email;
     var validate_errors = req.user.validate();
-    if (validate_errors) {
+    if (validate_errors || req.body.user.password) {
         console.log("Errores de validacion:", validate_errors);
         req.flash('error', 'Los datos del formulario son incorrectos.');
         for (var err in validate_errors) {
             req.flash('error', validate_error[err]);
         };
-        res.render('users/edit', {
-            user: req.user, 
-            visitas: count.getCount(), 
-            style: "user_edit",
-            validate_errors:  validate_errors
-        });
-        return;
+        var password = "";
+        if (req.body.user.password) {
+            var old_password = req.body.user.old_password || '';
+            var new_password = req.body.user.password;
+            var confirm_password = req.body.user.confirm_password || '';
+            old_password = encriptarPassword(old_password, req.user.salt);
+            if (old_password == '') {
+                req.flash('error', 'Tienes que escribir tu contraseña actual');
+                password = "old";
+            }
+	    else if (old_password == req.user.hashed_password) {
+                if (new_password != confirm_password) {
+                    req.flash('error', 'Las contraseñas no coinciden');
+                    password = "mismatch";
+                }
+            }
+            else {
+                req.flash('error', 'Contraseña incorrecta');
+                password = "old";
+            }
+        }
+        if (validate_errors || password != "") {
+            res.render('users/edit', {
+                user: req.user, 
+                visitas: count.getCount(), 
+                style: "user_edit",
+                validate_errors:  validate_errors,
+                password: password
+            });
+            return;
+        }
     }
     var fields_to_update = ['name', 'email'];
     if (req.body.user.password) {
-      console.log('Actualizando password');
-      req.user.salt = crearSalt();
-      req.user.hashed_password = encriptarPassword(req.body.user.password, req.user.salt);
-      fields_to_update.push('salt');
-      fields_to_update.push('hashed_password');
+        console.log('Actualizando password');
+        req.user.salt = crearSalt();
+        req.user.hashed_password = encriptarPassword(req.body.user.password, req.user.salt);
+        fields_to_update.push('salt');
+        fields_to_update.push('hashed_password');
     }
     req.user.save(fields_to_update) //Se guardan solo los cambios especificados
         .success(function() {
