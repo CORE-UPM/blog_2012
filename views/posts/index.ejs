@@ -3,29 +3,30 @@
 </header>
 
 <% for (var i in posts) { %>
-  <article>
+    <article>
      <header>
         <h3>
-          <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
+        <a href='/posts/<%= posts[i].id %>' class='titlelink'><%= posts[i].title %> </a>
         </h3>
-     </header>
-     
-     <p>
-        <%= posts[i].body.slice(0,300) %> ... 
-     </p>
+    </header>
+<p>
 
-     <footer>
+    <%= posts[i].body.slice(0,300) %> ...
+    </p>
+    
+    <footer>
         <form method='post' action='/posts/<%= posts[i].id %>'>
-          <input type='hidden' name='_method' value='delete'>
-          <a href="/posts/<%= posts[i].id %>/edit"> Editar </a> 
-          <a href="" onclick="submit();return false"> Borrar </a>  
+        <input type='hidden' name='_method' value='delete'>
+        <a href="/posts/<%= posts[i].id %>/edit"> Editar </a>
+        <a href="" onclick="submit();return false"> Borrar </a>
         </form>
      </footer>
-  </article>
+    </article>
 
-<%  }; %>
+<% };%>
 <footer>
   <nav>
     <a href="/posts/new"> Crear nuevo Post </a>
   </nav>
 </footer>
+    

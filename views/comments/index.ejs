@@ -1,0 +1,49 @@
+<header>
+   <h2> Comentarios </h2>
+</header>
+
+
+<% for (var i in comments) { %>
+  <div class="comment">
+        <strong> <%= comments[i].author && comments[i].author.name || "Sin autor" %> </strong> comentó:
+        <em class="pull-right">
+          <%= comments[i].updatedAt.toLocaleDateString() %>
+        </em>
+     
+     <p>
+       <%- escapeText(comments[i].body) %>
+     </p>
+
+     <div class="pull-right">
+
+      <% if (session.user && session.user.id == comments[i].authorId) {%>
+
+        <% var form_name = 'fci' + i; %>
+
+        <form method='post' action='/posts/<%= post.id %>/comments/<%= comments[i].id %>'
+              name='<%= form_name %>'>
+          <input type='hidden' name='_method' value='delete'>
+          <a class='btn btn-warning btn-mini' href="/posts/<%= post.id %>/comments/<%= comments[i].id %>/edit">
+             <i class='icon-edit icon-white'></i> Editar 
+          </a> 
+          <a class='btn btn-danger btn-mini' href="" 
+              onclick="return confirmarSubmit('¿Seguro que desea borrar el comentario?', '<%= form_name %>')"> 
+             <i class='icon-trash icon-white'></i> Borrar
+          </a>  
+
+        </form>
+
+      <% } %>
+
+     </div>
+  </div>
+<%  }; %>
+
+<footer>
+  <nav>
+<!--
+    <a href="/posts/<%= post.id %>/comments/new"> Crear nuevo Comentario </a>
+-->
+  </nav>
+</footer>
+

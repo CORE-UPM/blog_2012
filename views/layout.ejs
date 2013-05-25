@@ -1,28 +1,27 @@
 <!DOCTYPE html>
-<html lang="es">
+<html lang="en">
 <head>
-   <meta charset="utf-8">
-   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-   <title>CORE</title>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<title>BLOG</title>
 </head>
-
 <body>
-  <header>
-    <h1> COmputación en REd - CORE</h1>
-    <nav>
-      <a href="/">Home</a>
-      <a href="/Posts">Posts</a>
-    </nav>
-  </header>
-       
-  <section>
-   <hr />
-   <%- body %>
-   <hr />
-  </section>
-
-  <footer>
-    <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
-  </footer>
+	<h1> Nuestro BLOG</h1>
+	<form method='get' action='/posts/search'>
+		<div class="field" align="right">
+			<input type="text" id="search_txt" name="searchtxt" />
+			<input type="submit" value="Buscar" />
+		</div>
+	</form>
+	<a href="/">Home</a>
+	<a href="/Posts">Posts</a>
+	<a href="/aboutUs">About us</a>
+	<h2>Número de visitas: <%= cuenta %></h2>
+	<hr />
+	<%- body %>
+	<hr />
+	<p>
+		2012-2013
+	</p>
 </body>
 </html>
