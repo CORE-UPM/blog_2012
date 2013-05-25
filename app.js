@@ -10,6 +10,7 @@ var express = require('express')
   , partials = require('express-partials')
   , path = require('path')
   , count = require('./public/javascripts/count')
+  , expire = require('./public/javascripts/session_expire')
   , sessionController = require('./routes/session_controller.js')
   , postController = require('./routes/post_controller.js')
   , userController = require('./routes/user_controller.js')
@@ -30,6 +31,7 @@ app.use(express.bodyParser());
 app.use(express.methodOverride());
 app.use(express.cookieParser('your secret here'));
 app.use(express.session());
+
 //para usar los mensajes flash
 app.use(require('connect-flash')());
 app.use(function(req, res, next) {
@@ -39,7 +41,7 @@ app.use(function(req, res, next) {
      res.locals.session = req.session;
      next();
 });
-
+app.use(expire.comp_ses);
 app.use(app.router);
 app.use(express.static(path.join(__dirname, 'public')));
 

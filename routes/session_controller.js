@@ -75,7 +75,8 @@ exports.create = function(req, res) {
         // IMPORTANTE: creo req.session.user.
         // Solo guardo algunos campos del usuario en la sesion.
         // Esto es lo que uso para saber si he hecho login o no.
-        req.session.user = {id:user.id, login:user.login, name:user.name};
+        var dat =new Date().getTime();
+        req.session.user = {id:user.id, login:user.login, name:user.name, login_time:dat};
 
         // Vuelvo al url indicado en redir
         res.redirect(redir);
