@@ -1,0 +1,73 @@
+  <!DOCTYPE html>
+  <html>
+
+  <head>
+    <title>Info</title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+    <link href="http://vjs.zencdn.net/4.0/video-js.css" rel="stylesheet">
+    <script src="http://vjs.zencdn.net/4.0/video.js"></script>
+  </head>
+
+  <body>
+    <div id="page_wrapper">
+    	<h1>Página explicativa estática </h1>
+      <aside>
+        <hr>
+        <strong>
+          <div id="menu">
+            <a href="/">HOME</a>
+            <a href="/info">INFO</a>
+            <a href="/posts">POSTS</a>
+          </div>
+          <div id="search">
+            <form method="GET" action="/posts/search">
+              <input type="text"  name="search_bar" size="30" value="Introduzca su búsqueda ...">
+              <input type="submit" value="Buscar">
+            </form>
+          </div>
+        </strong>
+        <br><br>
+        </hr>
+      </aside>
+     <hr>
+     <h3>
+       Acerca de este blog:
+     </h3>
+
+     <p id="description">
+      Este blog está construido con la tecnologia nodeJS, y el módulo "express", que nos permite realizar páginas web dinamicas.
+      <br><br>
+      A continuación podemos ver un vídeo explicativo sobre la práctica realizada.
+      <br><br>
+      <video id="my_video" class="video-js vjs-default-skin" controls preload="auto" width="640" height="360" data-setup="{}">
+        <source src="videos/video.mp4" type='video/mp4'>
+          <source src="videos/video.ogv" type='video/ogg'>
+            <source src="videos/video.webm" type='video/webm'>
+            </video>
+            <br>
+            <strong>Descarga el vídeo:</strong> <br>
+            <a href="videos/video.mp4">Formato MP4</a> <br>
+            <a href="videos/video.ogv">Formato OGV</a> <br>
+            <a href="videos/video.webm">Formato WEBM</a>
+
+          </p>
+        </hr>
+
+        <hr>
+        <p>
+          Software de Comunicaciones (SWCM) - Curso 2012-2013
+          <br><br>
+          Autores: <br>
+          - Enrique García Gutiérrez <br>
+          - Sergio Ruiz Peña
+        </p>
+      </hr>
+
+      <hr>
+      <p>
+
+      </p>
+    </hr>
+  </body>
+</div>
+</html> 

@@ -1,4 +1,4 @@
-blog 2012
-=========
+nodejs_blog
+===========
 
-Proyecto de la asignatura CORE 2012-2013
+Blog using nodejs and express

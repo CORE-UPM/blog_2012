@@ -1,26 +1,47 @@
 <!DOCTYPE html>
-<html lang="en">
-<head>
-   <meta charset="utf-8">
+<html>
+  <head>
+    <title><%= title %></title>
+    <link rel='stylesheet' href='/stylesheets/style.css' />
+  </head>
 
-   <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+  <body>
+    <div id="page_wrapper">
+    	<h1>Blog para SWCM </h1>
+      <aside>
+        <hr>
+        <strong>
+          <div id="menu">
+            <a href="/">HOME</a>
+            <a href="/info">INFO</a>
+            <a href="/posts">POSTS</a>
+          </div>
+          <div id="search">
+            <form method="GET" action="/posts/search">
+              <input type="text"  name="search_bar" size="30" value="Introduzca su búsqueda ...">
+              <input type="submit" value="Buscar">
+            </form>
+          </div>
+        </strong>
+        <br><br>
+        </hr>
+      </aside>
+    	<hr>
 
-   <title>CORE</title>
-</head>
+      	<%- body %>
+  	  </hr>
 
-<body>
-   <h1> COmputación en REd - CORE</h1>
+      <hr>
+        <p>
+  		    Curso 2012-2013
+        </p>
+      </hr>
 
-   <a href="/">Home</a>
-       
-   <hr />
-
-   <%- body %>
-      
-   <hr />
-
-   <p>
-      Curso 2012-2013
-   </p>
-</body>
-</html>
+    <hr>
+      <p>
+        Contador de visitas: Llevamos <%= contador %> visitas
+      </p>
+  	</hr>
+</div>
+  </body>
+</html> 

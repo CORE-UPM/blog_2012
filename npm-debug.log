@@ -1,0 +1,124 @@
+0 info it worked if it ends with ok
+1 verbose cli [ '/usr/bin/node', '/usr/bin/npm', 'install' ]
+2 info using npm@1.2.21
+3 info using node@v0.10.7
+4 verbose node symlink /usr/bin/node
+5 verbose read json /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/package.json
+6 warn package.json swcm-blog@0.0.1 No repository field.
+7 verbose readDependencies using package.json deps
+8 verbose install where, deps [ '/home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012',
+8 verbose install   [ 'express', 'ejs', 'express-partials', 'sequelize' ] ]
+9 verbose from cache /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/package.json
+10 info preinstall swcm-blog@0.0.1
+11 verbose read json /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/ejs/package.json
+12 verbose read json /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/express/package.json
+13 verbose read json /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/express-partials/package.json
+14 verbose read json /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/sequelize/package.json
+15 verbose read json /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/sqlite3/package.json
+16 verbose from cache /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/package.json
+17 verbose readDependencies using package.json deps
+18 verbose from cache /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/ejs/package.json
+19 verbose from cache /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/express/package.json
+20 verbose from cache /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/express-partials/package.json
+21 verbose from cache /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/sequelize/package.json
+22 verbose from cache /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012/node_modules/sqlite3/package.json
+23 verbose cache add [ 'sequelize@https://github.com/sequelize/sequelize.git', null ]
+24 verbose cache add name=undefined spec="sequelize@https://github.com/sequelize/sequelize.git" args=["sequelize@https://github.com/sequelize/sequelize.git",null]
+25 verbose parsed url { protocol: null,
+25 verbose parsed url   slashes: null,
+25 verbose parsed url   auth: null,
+25 verbose parsed url   host: null,
+25 verbose parsed url   port: null,
+25 verbose parsed url   hostname: null,
+25 verbose parsed url   hash: null,
+25 verbose parsed url   search: null,
+25 verbose parsed url   query: null,
+25 verbose parsed url   pathname: 'sequelize@https://github.com/sequelize/sequelize.git',
+25 verbose parsed url   path: 'sequelize@https://github.com/sequelize/sequelize.git',
+25 verbose parsed url   href: 'sequelize@https://github.com/sequelize/sequelize.git' }
+26 verbose cache add name="sequelize" spec="https://github.com/sequelize/sequelize.git" args=["sequelize","https://github.com/sequelize/sequelize.git"]
+27 verbose parsed url { protocol: 'https:',
+27 verbose parsed url   slashes: true,
+27 verbose parsed url   auth: null,
+27 verbose parsed url   host: 'github.com',
+27 verbose parsed url   port: null,
+27 verbose parsed url   hostname: 'github.com',
+27 verbose parsed url   hash: null,
+27 verbose parsed url   search: null,
+27 verbose parsed url   query: null,
+27 verbose parsed url   pathname: '/sequelize/sequelize.git',
+27 verbose parsed url   path: '/sequelize/sequelize.git',
+27 verbose parsed url   href: 'https://github.com/sequelize/sequelize.git' }
+28 verbose cache add [ 'express-partials@https://github.com/publicclass/express-partials.git#c9b8adde89387dea',
+28 verbose cache add   null ]
+29 verbose cache add name=undefined spec="express-partials@https://github.com/publicclass/express-partials.git#c9b8adde89387dea" args=["express-partials@https://github.com/publicclass/express-partials.git#c9b8adde89387dea",null]
+30 verbose parsed url { protocol: null,
+30 verbose parsed url   slashes: null,
+30 verbose parsed url   auth: null,
+30 verbose parsed url   host: null,
+30 verbose parsed url   port: null,
+30 verbose parsed url   hostname: null,
+30 verbose parsed url   hash: '#c9b8adde89387dea',
+30 verbose parsed url   search: null,
+30 verbose parsed url   query: null,
+30 verbose parsed url   pathname: 'express-partials@https://github.com/publicclass/express-partials.git',
+30 verbose parsed url   path: 'express-partials@https://github.com/publicclass/express-partials.git',
+30 verbose parsed url   href: 'express-partials@https://github.com/publicclass/express-partials.git#c9b8adde89387dea' }
+31 verbose cache add name="express-partials" spec="https://github.com/publicclass/express-partials.git#c9b8adde89387dea" args=["express-partials","https://github.com/publicclass/express-partials.git#c9b8adde89387dea"]
+32 verbose parsed url { protocol: 'https:',
+32 verbose parsed url   slashes: true,
+32 verbose parsed url   auth: null,
+32 verbose parsed url   host: 'github.com',
+32 verbose parsed url   port: null,
+32 verbose parsed url   hostname: 'github.com',
+32 verbose parsed url   hash: '#c9b8adde89387dea',
+32 verbose parsed url   search: null,
+32 verbose parsed url   query: null,
+32 verbose parsed url   pathname: '/publicclass/express-partials.git',
+32 verbose parsed url   path: '/publicclass/express-partials.git',
+32 verbose parsed url   href: 'https://github.com/publicclass/express-partials.git#c9b8adde89387dea' }
+33 verbose already installed skipping express@3.2.4 /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012
+34 silly lockFile 570c3be5-thub-com-sequelize-sequelize-git https://github.com/sequelize/sequelize.git
+35 verbose lock https://github.com/sequelize/sequelize.git /home/sergio/.npm/570c3be5-thub-com-sequelize-sequelize-git.lock
+36 silly lockFile 995b9dc1-ss-partials-git-c9b8adde89387dea https://github.com/publicclass/express-partials.git#c9b8adde89387dea
+37 verbose lock https://github.com/publicclass/express-partials.git#c9b8adde89387dea /home/sergio/.npm/995b9dc1-ss-partials-git-c9b8adde89387dea.lock
+38 verbose already installed skipping ejs@* /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012
+39 verbose addRemoteTarball [ 'https://github.com/sequelize/sequelize.git', null ]
+40 verbose addRemoteTarball [ 'https://github.com/publicclass/express-partials.git#c9b8adde89387dea',
+40 verbose addRemoteTarball   null ]
+41 info retry fetch attempt 1 at 18:17:41
+42 verbose fetch to= /home/sergio/tmp/npm-3649/1369239461355-0.538049602881074/tmp.tgz
+43 http GET https://github.com/sequelize/sequelize.git
+44 info retry fetch attempt 1 at 18:17:41
+45 verbose fetch to= /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/tmp.tgz
+46 http GET https://github.com/publicclass/express-partials.git#c9b8adde89387dea
+47 http 200 https://github.com/publicclass/express-partials.git#c9b8adde89387dea
+48 http 200 https://github.com/sequelize/sequelize.git
+49 verbose tar unpack /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/tmp.tgz
+50 silly lockFile 7edb8ebd-61356-0-7272517303936183-package /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/package
+51 verbose lock /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/package /home/sergio/.npm/7edb8ebd-61356-0-7272517303936183-package.lock
+52 silly lockFile d7344e06-61356-0-7272517303936183-tmp-tgz /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/tmp.tgz
+53 verbose lock /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/tmp.tgz /home/sergio/.npm/d7344e06-61356-0-7272517303936183-tmp-tgz.lock
+54 silly gunzTarPerm modes [ '755', '644' ]
+55 verbose read json /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/package/package.json
+56 error not a package /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/tmp.tgz
+57 silly lockFile 7edb8ebd-61356-0-7272517303936183-package /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/package
+58 silly lockFile 7edb8ebd-61356-0-7272517303936183-package /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/package
+59 silly lockFile d7344e06-61356-0-7272517303936183-tmp-tgz /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/tmp.tgz
+60 silly lockFile d7344e06-61356-0-7272517303936183-tmp-tgz /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/tmp.tgz
+61 silly lockFile 995b9dc1-ss-partials-git-c9b8adde89387dea https://github.com/publicclass/express-partials.git#c9b8adde89387dea
+62 silly lockFile 995b9dc1-ss-partials-git-c9b8adde89387dea https://github.com/publicclass/express-partials.git#c9b8adde89387dea
+63 error Error: ENOENT, open '/home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/package/package.json'
+64 error If you need help, you may report this log at:
+64 error     <http://github.com/isaacs/npm/issues>
+64 error or email it to:
+64 error     <npm-@googlegroups.com>
+65 error System Linux 3.8.0-21-generic
+66 error command "/usr/bin/node" "/usr/bin/npm" "install"
+67 error cwd /home/sergio/Dropbox/Universidad/SWCM/Entregas/Entrega 3 Blog/blog_2012
+68 error node -v v0.10.7
+69 error npm -v 1.2.21
+70 error path /home/sergio/tmp/npm-3649/1369239461356-0.7272517303936183/package/package.json
+71 error code ENOENT
+72 error errno 34
+73 verbose exit [ 34, true ]
