@@ -112,7 +112,8 @@ function posts_to_xml(posts) {
 
 // GET /posts/33
 exports.show = function(req, res, next) {
-
+  //tenemos el post ya cargado con precarga
+  
     // Buscar el autor
     models.User
         .find({where: {id: req.post.authorId}})

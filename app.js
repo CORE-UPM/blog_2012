@@ -97,7 +97,10 @@ app.get('/posts/:postid([0-9]+)/edit',
         sessionController.requiresLogin,
         postController.loggedUserIsAuthor,
         postController.edit);
-app.put('/posts/:postid([0-9]+)', postController.update);
+app.put('/posts/:postid([0-9]+)', 
+        sessionController.requiresLogin,
+        postController.loggedUserIsAuthor,
+        postController.update);
 app.delete('/posts/:postid([0-9]+)', 
            sessionController.requiresLogin,
            postController.loggedUserIsAuthor,
