@@ -110,10 +110,15 @@ app.delete('/posts/:postid([0-9]+)', sessionController.requiresLogin,
 app.get('/users.:format?', userController.index);
 app.get('/users/new', userController.new);
 app.get('/users/:userid([0-9]+).:format?', userController.show);
-app.get('/users/:userid([0-9]+)/edit', sessionController.requiresLogin, userController.edit);
+
+app.get('/users/:userid([0-9]+)/edit', sessionController.requiresLogin, 
+	userController.loggedUserIsUser, userController.edit);
+
 app.post('/users', userController.create);
-app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.update);
-app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.destroy);
+app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, 
+	userController.loggedUserIsUser, userController.update);
+
+//app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.destroy);
 
 // Atender peticiones en puerto 3000 o donde diga port
 http.createServer(app).listen(app.get('port'), function(){

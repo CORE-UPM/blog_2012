@@ -250,6 +250,7 @@ exports.destroy = function(req, res, next) {
             next(error);
         });
 }
+
 // Generador de contraseña
 exports.autenticar = function(login, password, callback) {
     models.User.find({where: {login: login}})
@@ -275,6 +276,16 @@ exports.autenticar = function(login, password, callback) {
             callback(err);
         });
 }
+
+exports.loggedUserIsUser = function(req, res, next) {
+	if (req.session.user && req.session.user.id == req.user.id) {
+		next();
+	}
+	else {
+		console.log("Ruta prohibida: no soy el usuario logueado");
+		res.send(403);
+	}
+}	
 
 function encriptarPassword(password, salt) {
 	return crypto.createHmac('sha1', salt).update(password).digest('hex');
