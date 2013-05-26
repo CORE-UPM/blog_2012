@@ -202,6 +202,16 @@ exports.search = function(req, res, next) {
         });
 }
 
+exports.loggedUserIsAuthor = function(req, res, next) {
+	if (req.session.user && req.session.user.id == req.post.authorId) {
+		next();
+	}
+	else {
+		console.log('Prohibida: El usuario logueado no es el autor');
+		res.send(403);
+	}
+}
+
 function posts_to_xml(posts) {
     var builder = require('xmlbuilder');
     var xml = builder.create('posts');
