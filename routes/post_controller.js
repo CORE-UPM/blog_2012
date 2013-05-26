@@ -297,19 +297,17 @@ exports.browser = function(req, res, next) {
         order: "updatedAt DESC"
       })
         .success(function(posts) {
-            if (posts) {
+            if (posts.length != 0) {
               res.render('posts/search_result', {
                 posts: posts
               });
             } else {
-                req.flash('error', 'No existe el post con id=' + id + '.');
-                next('No existe el post con id='+id+'.');
-            }
+                req.flash('error', 'Ningún post encontrado, no existe el post');
+                res.redirect('/');
+              }
         })
         .error(function(error) {
-          console.log("here");
-          req.flash('error', 'No existe el post con id='+id+'.');
-          next('No existe el post con id='+id+'.' + error);
+          next('No existe el post' + error);
         });
 }
 
