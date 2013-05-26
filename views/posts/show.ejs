@@ -1,7 +1,7 @@
 <p>
 	<b><%= post.title %></b>
 	<br />
-	por <em>El autor</em>
+	<em><%= post.author && post.author.name || 'Anónimo' %></em>
 </p>
 <p><%= post.updatedAt.toLocaleDateString() %></p>
 <p><%- escapeText(post.body) %></p>

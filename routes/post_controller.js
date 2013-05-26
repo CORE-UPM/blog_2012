@@ -24,7 +24,7 @@ exports.index = function(req, res, next) {
     var format = req.params.format || 'html';
     format = format.toLowerCase();
     models.Post
-        .findAll({order: 'createdAt DESC'})
+        .findAll({order: 'updatedAt DESC', include: [{model:models.User, as:'Author'}]})
         .success(function(posts) {
             switch (format) {
                 case 'html':
@@ -36,7 +36,17 @@ exports.index = function(req, res, next) {
                     });
                     break;
                 case 'json':
-                    res.send(posts);
+                    var posts_json = posts;
+                    for (var i in posts_json) {
+                        delete posts_json[i].authorId;
+                        if (posts_json[i].author != null) {
+                            posts_json[i].author = posts_json[i].author.login;
+                        }
+                        else {
+                            posts_json[i].author = 'Anónimo';
+                        }
+                    }
+                    res.send(posts_json);
                     break;
                 case 'xml':
                     res.send(posts_to_xml(posts));
@@ -55,25 +65,39 @@ exports.index = function(req, res, next) {
 exports.show = function(req, res, next) {
     var format = req.params.format || 'html';
     format = format.toLowerCase();
-    switch (format) {
-        case 'html':
-        case 'htm':
-            res.render('posts/show', {
-                post: req.post, 
-                visitas: count.getCount(), 
-                style: "post_show" 
-            });
-            break;
-        case 'json':
-            res.send(req.post);
-            break;
-        case 'xml':
-            res.send(post_to_xml(req.post));
-            break;
-        default:
-            console.log("Formato \"" + format + "\" no soportado");
-            res.send(406);
-    }
+    models.User
+        .find({where: {id: req.post.authorId}})
+        .success(function(user) {
+            req.post.author = user || {};
+            switch (format) {
+                case 'html':
+                case 'htm':
+                    res.render('posts/show', {
+                        post: req.post, 
+                        visitas: count.getCount(), 
+                        style: "post_show" 
+                    });
+                    break;
+                case 'json':
+                    var post_json = req.post;
+                    delete post_json.authorId;
+                    if (post_json.author != null) {
+                        post_json.author = post_json.author.login;
+                    }
+console.log(post_json);
+                    res.send(post_json);
+                    break;
+                case 'xml':
+                    res.send(post_to_xml(req.post));
+                    break;
+                default:
+                    console.log("Formato \"" + format + "\" no soportado");
+                    res.send(406);
+            }
+        })
+        .error(function(error) {
+            next(error);
+        });
 }
 
 // GET /posts/new
@@ -186,7 +210,17 @@ exports.search = function(req, res, next) {
                     });
                     break;
                 case 'json':
-                    res.send(posts);
+                    var posts_json = posts;
+                    for (var i in posts_json) {
+                        delete posts_json[i].authorId;
+                        if (posts_json[i].author != null) {
+                            posts_json[i].author = posts_json[i].author.login;
+                        }
+                        else {
+                            posts_json[i].author = 'Anónimo';
+                        }
+                    }
+                    res.send(posts_json);
                     break;
                 case 'xml':
                     res.send(posts_to_xml(posts));
@@ -226,8 +260,8 @@ function posts_to_xml(posts) {
             .ele('body')
                 .txt(posts[i].body)
                 .up()
-            .ele('authorId')
-                .txt(posts[i].authorId)
+            .ele('author')
+                .txt(posts[i].author && posts[i].author.name || 'Anónimo')
                 .up()
             .ele('createdAt')
                 .txt(posts[i].createdAt)
@@ -251,8 +285,8 @@ function post_to_xml(post) {
             .ele('body')
                 .txt(post.body)
                 .up()
-            .ele('authorId')
-                .txt(post.authorId)
+            .ele('author')
+                .txt(post.author && post.author.name || 'Anónimo')
                 .up()
             .ele('createdAt')
                 .txt(post.createdAt)

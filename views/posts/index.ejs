@@ -9,6 +9,7 @@
 				<%= posts[i].title %>
 				</a>
 			</h3>
+			<em><%= posts[i].author && posts[i].author.name || 'Anónimo' %></em>
 		</header>
 		<p><%= posts[i].body.slice(0, 500) %></p>
 		<footer>
