@@ -38,7 +38,12 @@ exports.index = function(req, res, next) {
                     });
                     break;
                 case 'json':
-                    res.send(users);
+                    var users_json = users;
+                    for (var i in users_json) {
+                       delete users_json[i].hashed_password;
+                       delete users_json[i].salt;
+                    }
+                    res.send(users_json);
                     break;
                 case 'xml':
                     res.send(users_to_xml(users));
@@ -67,7 +72,10 @@ exports.show = function(req, res, next) {
             });
             break;
         case 'json':
-            res.send(req.user);
+            var user_json = req.user;
+            delete user_json.hashed_password;
+            delete user_json.salt;
+            res.send(user_json);
             break;
         case 'xml':
             res.send(user_to_xml(req.user));
