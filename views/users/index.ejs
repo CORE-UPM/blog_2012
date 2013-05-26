@@ -1,36 +1,39 @@
 <section>
-	<header>
-		<h2> Usuarios </h2>
-	</header>
-	<article>
-		<table>
-			<tr>
-				<th>Login</th>
-				<th>Nombre</th>
-				<th>E-mail</th>
-				<th></th>
-			</tr>
-			<% for (var i in users) { %>
-				<tr>
-					<td><%= users[i].login %></td>
-					<td><%= users[i].name %></td>
-					<td><%= users[i].email %></td>
-					<td>
-						<form method="post" action="/users/<%= users[i].id %>">
-							<input type="hidden" name="_method" value="delete">
-							<a href="/users/<%= users[i].id %>">Ver</a>
-							<% if (session.user && session.user.id == users[i].id) { %>
-								<a href="/users/<%= users[i].id %>/edit">Editar</a>
-							<% } %>
-						</form>
-					</td>
-				</tr>
-			<% }; %>
-		</table>
-	</article>
-	<footer>
-		<nav>
-			<a href="/users/new">Crear Nuevo Usuario</a>
-		</nav>
-	</footer>
+    <header>
+        <h2> Usuarios </h2>
+    </header>
+    <article>
+        <table>
+            <tr>
+                <th>Login</th>
+                <th>Nombre</th>
+                <th>E-mail</th>
+                <th></th>
+            </tr>
+            <% for (var i in users) { %>
+                <tr>
+                    <td><%= users[i].login %></td>
+                    <td><%= users[i].name %></td>
+                    <td><%= users[i].email %></td>
+                    <td>
+                        <form method="post" action="/users/<%= users[i].id %>">
+                            <input type="hidden" name="_method" value="delete">
+                            <a href="/users/<%= users[i].id %>">Ver</a>
+                            <% if (session.user && session.user.id == users[i].id) { %>
+                                <a href="/users/<%= users[i].id %>/edit">Editar</a>
+                            <% } %>
+                            <% if (session.user && session.user.login == 'root' && users[i].login != 'root') { %>
+                                <a href="#" onclick="this.parentNode.submit()">Borrar</a>
+                            <% } %>
+                        </form>
+                    </td>
+                </tr>
+            <% }; %>
+        </table>
+    </article>
+    <footer>
+        <nav>
+            <a href="/users/new">Crear Nuevo Usuario</a>
+        </nav>
+    </footer>
 </section>

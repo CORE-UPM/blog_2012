@@ -285,7 +285,17 @@ exports.loggedUserIsUser = function(req, res, next) {
 		console.log("Ruta prohibida: no soy el usuario logueado");
 		res.send(403);
 	}
-}	
+}
+
+exports.loggedUserIsRoot = function(req, res, next) {
+	if (req.session.user && req.session.user.login == 'root') {
+		next();
+	}
+	else {
+		console.log("Ruta prohibida: se necesitan privilegios de administrador");
+		res.send(403);
+	}
+}
 
 function encriptarPassword(password, salt) {
 	return crypto.createHmac('sha1', salt).update(password).digest('hex');

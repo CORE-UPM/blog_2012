@@ -1,5 +1,5 @@
 var visitas = 0;
-exports.count_mw = function (){
+exports.count = function (){
         return function (req, res, next){
             var method = (req.method || '');
             method = new RegExp(method);

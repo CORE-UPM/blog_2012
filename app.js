@@ -11,6 +11,7 @@ var express = require('express'),
     userController = require('./routes/user_controller'),
     sessionController = require('./routes/session_controller'),
     count = require('./public/javascripts/count'),
+    root = require('./public/javascripts/root'),
     http = require('http'),
     util = require('util'),
     path = require('path');
@@ -18,7 +19,7 @@ var express = require('express'),
 var app = express();
 
 app.use(partials());
-app.use(count.count_mw());
+app.use(count.count());
 
 app.configure(function() {
 	// Crea servidor http
@@ -46,6 +47,7 @@ app.configure(function() {
 		res.locals.session = req.session;
 		next();
 	});
+	app.use(root.configRoot);
 	// Middleware para permitir crear rutas
 	app.use(app.router);
 	// Middleware para atender páginas estáticas
@@ -118,7 +120,8 @@ app.post('/users', userController.create);
 app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, 
 	userController.loggedUserIsUser, userController.update);
 
-//app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.destroy);
+app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, 
+	userController.loggedUserIsRoot, userController.destroy);
 
 // Atender peticiones en puerto 3000 o donde diga port
 http.createServer(app).listen(app.get('port'), function(){
