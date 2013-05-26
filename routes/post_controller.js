@@ -90,7 +90,7 @@ exports.create = function(req, res, next) {
     var post = models.Post.build({
         title: req.body.post.title,
         body: req.body.post.body,
-        authorId: 0
+        authorId: req.session.user.id
     });
     var validate_errors = post.validate();
     if (validate_errors) {

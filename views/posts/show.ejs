@@ -5,5 +5,7 @@
 </p>
 <p><%= post.updatedAt.toLocaleDateString() %></p>
 <p><%- escapeText(post.body) %></p>
-<a href="/posts/<%= post.id %>/edit">Editar</a>
+<% if (session.usr && session.user.id == post.authorId) { %>
+	<a href="/posts/<%= post.id %>/edit">Editar</a>
+<% } %>
 <a href="/posts">Volver</a>
