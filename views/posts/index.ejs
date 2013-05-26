@@ -13,7 +13,8 @@
      
      <p>
         <%= posts[i].body.slice(0,300) %> ... 
-     </p>
+     </p>  
+      
 
      <footer>
         <% if (session.user && session.user.id == posts[i].authorId) {%>

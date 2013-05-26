@@ -45,24 +45,37 @@ exports.index = function(req, res, next) {
 
     var format = req.params.format || 'html';
     format = format.toLowerCase();
-
+    
     models.Post
         .findAll({order: 'updatedAt DESC',
                   include: [ { model: models.User, as: 'Author' } ]
         })
         .success(function(posts) {
+            //var coms = new Array();
 
-          console.log(posts);
+            //for (var i=0;i <posts.length;i++) {
+             // models.Comment.count({ where: {postId: posts[i].id}}).success(function(c) { 
+             // coms[i]=c;
+             // console.log("comentarios del post "+i+": "+coms[i]);
+
+            
           
+            //})
+            //  .error(function(error) {
+            //    next(error);
+            //  }); 
+            //}
+
             switch (format) { 
               case 'html':
               case 'htm':
                   res.render('posts/index', {
                     posts: posts
+                    //coms: coms
                   });
                   break;
               case 'json':
-                  res.send(posts);
+                  res.send(posts, coms);
                   break;
               case 'xml':
                   res.send(posts_to_xml(posts));
@@ -112,7 +125,7 @@ function posts_to_xml(posts) {
 
 // GET /posts/33
 exports.show = function(req, res, next) {
-
+  numero =0;
     // Buscar el autor
     models.User
         .find({where: {id: req.post.authorId}})
@@ -131,17 +144,20 @@ exports.show = function(req, res, next) {
 
                     var format = req.params.format || 'html';
                     format = format.toLowerCase();
-
+                    //contador de comentarios
+                    models.Comment.count({ where: {postId: req.post.id}}).success(function(c) {
                     switch (format) { 
                       case 'html':
                       case 'htm':
                           var new_comment = models.Comment.build({
                               body: 'Introduzca el texto del comentario'
                           });
+                          
                           res.render('posts/show', {
                               post: req.post,
                               comments: comments,
-                              comment: new_comment
+                              comment: new_comment,
+                              num_com: c
                           });
                           break;
                       case 'json':
@@ -157,6 +173,7 @@ exports.show = function(req, res, next) {
                           console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
                           res.send(406);
                     }
+                    });
                  })
                  .error(function(error) {
                      next(error);
