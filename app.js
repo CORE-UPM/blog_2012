@@ -15,7 +15,6 @@ var express = require('express'),
     util = require('util'),
     path = require('path');
 
-var visitas = count.getCount();
 var app = express();
 
 app.use(partials());
@@ -85,6 +84,8 @@ app.locals.escapeText = function(text) {
 // Definición de rutas
 app.param('postid', postController.load);
 app.param('userid', userController.load);
+
+app.all('/*', sessionController.timeout);
 
 app.get('/', routes.index);
 app.get('/autores', autores.autores);

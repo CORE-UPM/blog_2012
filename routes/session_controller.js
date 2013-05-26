@@ -1,5 +1,6 @@
 var count = require('../public/javascripts/count.js');
 var util = require('util');
+var time = -1;
 
 // Formulario para hacer login
 // Típica ruta REST que devuelve un formulario para crear un nuevo recurso
@@ -29,7 +30,7 @@ exports.create = function(req, res) {
 				next(error);
 			}
 			else {
-				req.flash('error', 'Se ha producido un error: ' + error);
+				req.flash('error', 	error);
 				res.redirect("/login?redir=" + redir);
 			}
 			return;
@@ -56,3 +57,31 @@ exports.requiresLogin = function(req, res, next) {
 		res.redirect('/login?redir=' + req.url);
 	}
 }
+
+// Session timer
+exports.timeout = function(req, res, next) {
+	if (req.session.user) {
+		if (time == -1) {
+			time = new Date().getTime();
+			next();
+		}
+		else {
+			now = new Date().getTime();
+			if ((now-time) < 60*1000) {
+				time = now;
+				next();
+			}
+			else {
+				delete req.session.user;
+				time = -1;
+				req.flash('info', 'La sesión ha expirado. Vuelve a hacer login');
+				res.redirect('/login');
+			}
+		}
+	}
+	else {
+		time = -1;
+		next();
+	}
+}
+	
