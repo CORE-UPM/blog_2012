@@ -164,6 +164,7 @@ exports.create = function(req, res, next) {
                 user.save() 
                     .success(function() {
                         req.flash('success', 'Usuario creado con éxito.');
+			req.session.user = {id:user.id, login:user.login, name:user.name};
                         res.redirect('/users');
                     })
                     .error(function(error) {

@@ -15,6 +15,9 @@
 			<a href="/autores">Autores</a>
 			<a href="/posts">Posts</a>
 			<a href="/users">Usuarios</a>
+			<% if (session.user && session.user.login == 'root') { %>
+				<a href="/admin">Administrador</a>
+			<% } %>
 			<div id ="search">
 				<form method="post" action="/posts/search">
 					<input type="text" name="find" id="search"/>

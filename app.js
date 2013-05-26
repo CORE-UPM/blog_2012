@@ -7,6 +7,7 @@ var express = require('express'),
     partials = require('express-partials'),
     routes = require('./routes'), // Solo para index
     autores = require('./routes/autores'),
+    admin = require('./routes/admin'),
     postController = require('./routes/post_controller'),
     userController = require('./routes/user_controller'),
     sessionController = require('./routes/session_controller'),
@@ -99,7 +100,10 @@ app.post('/login', sessionController.create);
 app.get('/posts.:format?', postController.index);
 app.get('/posts/new', sessionController.requiresLogin, postController.new);
 app.get('/posts/:postid([0-9]+).:format?', postController.show);
-app.get('/posts/:postid([0-9]+)/edit', sessionController.requiresLogin, postController.loggedUserIsAuthor, postController.edit);
+
+app.get('/posts/:postid([0-9]+)/edit', sessionController.requiresLogin, 
+	postController.loggedUserIsAuthor, postController.edit);
+
 app.post('/posts', sessionController.requiresLogin, postController.create);
 app.post('/posts/search', postController.search);
 
@@ -117,11 +121,16 @@ app.get('/users/:userid([0-9]+)/edit', sessionController.requiresLogin,
 	userController.loggedUserIsUser, userController.edit);
 
 app.post('/users', userController.create);
+
 app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, 
 	userController.loggedUserIsUser, userController.update);
 
 app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, 
 	userController.loggedUserIsRoot, userController.destroy);
+
+
+app.get('/admin', sessionController.requiresLogin, 
+	userController.loggedUserIsRoot, admin.root);
 
 // Atender peticiones en puerto 3000 o donde diga port
 http.createServer(app).listen(app.get('port'), function(){
