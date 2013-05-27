@@ -8,10 +8,19 @@
 
 <body>
   <header>
+    <form method='get' action='/posts/search'>
+      <div class="field" align="right">
+       <input type="text" id="search_post" name="search" />
+       <input type="submit" value="Buscar" />
+      </div>
+     </form> 
     <h1> COmputación en REd - CORE</h1>
+
+    
     <nav>
       <a href="/">Home</a>
       <a href="/Posts">Posts</a>
+      <a href="/Video">Informacion del programador</a>
     </nav>
   </header>
        
@@ -23,6 +32,7 @@
 
   <footer>
     <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
+    <p> Número de Visitas:   <%= count()%></p>
   </footer>
 </body>
 </html>
