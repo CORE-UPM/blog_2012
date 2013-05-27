@@ -68,32 +68,48 @@ exports.show = function(req, res, next) {
     models.User
         .find({where: {id: req.post.authorId}})
         .success(function(user) {
-            req.post.author = user || {};
-            switch (format) {
-                case 'html':
-                case 'htm':
-                    res.render('posts/show', {
-                        post: req.post, 
-                        visitas: count.getCount(), 
-                        style: "post_show" 
+            req.post.author = user || {};        
+            // Buscamos sus comentarios
+            models.Comment
+                .findAll({ where: {postId: req.post.id},
+                           order: 'updatedAt DESC',
+                           include: [{model: models.User, as: 'Author'}]
+                })
+                .success(function(comments) {
+                    var new_comment = models.Comment.build({
+                        body: 'Introduzca el texto del comentario'
                     });
-                    break;
-                case 'json':
-                    var post_json = req.post;
-                    delete post_json.authorId;
-                    if (post_json.author != null) {
-                        post_json.author = post_json.author.login;
+                    switch (format) {
+                        case 'html':
+                        case 'htm':
+                            res.render('posts/show', {
+                                post: req.post, 
+                                comments: comments,
+                                comment: new_comment,
+                                visitas: count.getCount(), 
+                                style: "post_show" 
+                            });
+                            break;
+                        case 'json':
+                            var post_json = req.post;
+                            delete post_json.authorId;
+                            if (post_json.author != null) {
+                                post_json.author = post_json.author.login;
+                            }
+                            post_json.comments = comments;
+                            res.send(post_json);
+                            break;
+                        case 'xml':
+                            res.send(post_to_xml(req.post, comments));
+                            break;
+                        default:
+                            console.log("Formato \"" + format + "\" no soportado");
+                            res.send(406);
                     }
-console.log(post_json);
-                    res.send(post_json);
-                    break;
-                case 'xml':
-                    res.send(post_to_xml(req.post));
-                    break;
-                default:
-                    console.log("Formato \"" + format + "\" no soportado");
-                    res.send(406);
-            }
+                })
+                .error(function(error) {
+                    next(error);
+                });
         })
         .error(function(error) {
             next(error);
@@ -180,14 +196,22 @@ exports.update = function(req, res, next) {
 
 // DELETE /posts/#id
 exports.destroy = function(req, res, next) {
-    req.post.destroy()
-        .success(function() {
-            req.flash('success', 'Post borrado');
-            res.redirect('/posts');
+    var Sequelize = require('sequelize');
+    var chainer = new Sequelize.Utils.QueryChainer;
+    req.post.getComments()
+        .success(function(comments) {
+            for (var i in comments) {
+                chainer.add(comments[i].destroy());
+            }
+            chainer.add(req.post.destroy());
+            chainer.run()
+                .success(function() {
+                    req.flash('success', 'Post (y sus comentarios) eliminado con éxito.');
+                    res.redirect('/posts');
+                })
+                .error(function(errors) { next(errors[0]); });
         })
-        .error(function(error) {
-            next(error);
-        });
+        .error(function(error) { next(error); });
 }
 
 // GET /posts/search
@@ -272,7 +296,7 @@ function posts_to_xml(posts) {
     return xml.end({pretty: true});
 }
 
-function post_to_xml(post) {
+function post_to_xml(post, comments) {
     var builder = require('xmlbuilder');
     if (post) {
         var xml = builder.create('post')

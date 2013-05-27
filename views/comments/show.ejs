@@ -1,0 +1,12 @@
+<h2> Comentario </h2>
+
+<p><em><%= comment.author && comment.author.name || 'Anónimo' %><em></p>
+
+<p><%= comment.updatedAt.toLocaleDateString() %>/p>
+
+<p><%- escapeText(comment.body) %></p>
+
+<% if (session.user && session.user.id == comment.authorId) { %>
+	<a href="/posts/<%= posts.id %>/comments/<%= comment.id %>/edit">Editar</a>
+<% } %>
+<a href="/posts/<%= post.id %>/comments">Volver</a>

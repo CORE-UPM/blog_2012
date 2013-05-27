@@ -11,6 +11,7 @@ var express = require('express'),
     postController = require('./routes/post_controller'),
     userController = require('./routes/user_controller'),
     sessionController = require('./routes/session_controller'),
+    commentController = require('./routes/comment_controller.js'),
     count = require('./public/javascripts/count'),
     root = require('./public/javascripts/root'),
     http = require('http'),
@@ -87,6 +88,7 @@ app.locals.escapeText = function(text) {
 // Definición de rutas
 app.param('postid', postController.load);
 app.param('userid', userController.load);
+app.param('commentid', commentController.load);
 
 app.all('/*', sessionController.timeout);
 
@@ -128,9 +130,23 @@ app.put('/users/:userid([0-9]+)', sessionController.requiresLogin,
 app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, 
 	userController.loggedUserIsRoot, userController.destroy);
 
-
 app.get('/admin', sessionController.requiresLogin, 
 	userController.loggedUserIsRoot, admin.root);
+
+app.get('/posts/:postid([0-9]+)/comments', commentController.index);
+app.get('/posts/:postid([0-9]+)/comments/new', sessionController.requiresLogin, commentController.new);
+app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', commentController.show);
+
+app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)/edit', sessionController.requiresLogin,
+	commentController.loggedUserIsAuthor, commentController.edit);
+
+app.post('/posts/:postid([0-9]+)/comments', sessionController.requiresLogin, commentController.create);
+
+app.put('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.requiresLogin,
+	commentController.loggedUserIsAuthor, commentController.update);
+
+app.delete('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.requiresLogin, 
+	commentController.loggedUserIsAuthor, commentController.destroy);
 
 // Atender peticiones en puerto 3000 o donde diga port
 http.createServer(app).listen(app.get('port'), function(){
