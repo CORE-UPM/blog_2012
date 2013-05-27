@@ -14,3 +14,4 @@ var sequelize = new Sequelize(null, null, null,
 
 exports.Post = sequelize.import(path.join(__dirname,'post'));
 
+sequelize.sync();

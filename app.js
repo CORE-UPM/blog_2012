@@ -9,13 +9,14 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , partials = require('express-partials')
+  , count = require('./count')
   , postController = require('./routes/post_controller.js');
 
 var app = express();
 
 app.use(partials());
 
-app.configure(function(){
+  app.configure(function(){
   app.set('port', process.env.PORT || 3000);
   app.set('views', __dirname + '/views');
   app.set('view engine', 'ejs');
@@ -25,6 +26,9 @@ app.configure(function(){
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
   app.use(express.session());
+  app.use(count.count_nw()); 
+  //app.use(count.getCount);
+  console.log("Visitas: " + count.getCount());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -48,8 +52,13 @@ app.locals.escapeText =  function(text) {
 app.get('/', routes.index);
 app.get('/users', user.list);
 
-//---------------------
 
+//var count
+
+app.locals.count= function(){return count.getCount();}
+
+//---------------------
+//app.get('/video', video.video); 
 app.get('/posts.:format?', postController.index);
 app.get('/posts/new', postController.new);
 app.get('/posts/:postid([0-9]+).:format?', postController.show);
@@ -57,6 +66,7 @@ app.post('/posts', postController.create);
 app.get('/posts/:postid([0-9]+)/edit', postController.edit);
 app.put('/posts/:postid([0-9]+)', postController.update);
 app.delete('/posts/:postid([0-9]+)', postController.destroy);
+app.get('/posts/search', postController.search); 
 
 //---------------------
 
