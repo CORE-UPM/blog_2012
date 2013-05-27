@@ -48,22 +48,16 @@ exports.index = function(req, res, next) {
     
     models.Post
         .findAll({order: 'updatedAt DESC',
-                  include: [ { model: models.User, as: 'Author' } ]
+                  include: [ { model: models.User, as: 'Author' } ],
+                  include: [ { model: models.Comment, as: 'Coms'} ] //Definido en models.js
         })
         .success(function(posts) {
+
+             //METO LA LÓGICA DE NUMERO DE POSTS EN EL INDEX.EJS
             //var coms = new Array();
-
-            //for (var i=0;i <posts.length;i++) {
-             // models.Comment.count({ where: {postId: posts[i].id}}).success(function(c) { 
-             // coms[i]=c;
-             // console.log("comentarios del post "+i+": "+coms[i]);
-
-            
-          
-            //})
-            //  .error(function(error) {
-            //    next(error);
-            //  }); 
+            //for (var i in posts) {
+            //    coms[i]=posts[i].coms.length;
+            //    console.log("comments en "+i+": "+coms[i]);
             //}
 
             switch (format) { 

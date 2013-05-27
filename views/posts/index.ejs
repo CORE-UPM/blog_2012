@@ -14,7 +14,7 @@
      <p>
         <%= posts[i].body.slice(0,300) %> ... 
      </p>  
-      
+      <p>Numero de comentarios: <%= posts[i].coms.length%></p>
 
      <footer>
         <% if (session.user && session.user.id == posts[i].authorId) {%>
