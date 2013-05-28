@@ -4,13 +4,13 @@ var util = require('util');
 
 // Middleware: Login is required:
 //
-// Si el usuario ya hizo login anteriormente entonces existira 
-// el objeto user en req.session, por lo que continuo con los demas 
+// Si el usuario ya hizo login anteriormente entonces existira
+// el objeto user en req.session, por lo que continuo con los demas
 // middlewares o rutas.
-// Si no existe req.session.user, entonces es que aun no he hecho 
-// login, por lo que me redireccionan a una pantalla de login. 
-// Guardo cual es mi url para volver automaticamente a esa url 
-// despues de hacer rlogin. 
+// Si no existe req.session.user, entonces es que aun no he hecho
+// login, por lo que me redireccionan a una pantalla de login.
+// Guardo cual es mi url para volver automaticamente a esa url
+// despues de hacer rlogin.
 //
 exports.requiresLogin = function (req, res, next) {
     if (req.session.user) {
@@ -24,15 +24,15 @@ exports.requiresLogin = function (req, res, next) {
 
 // Formulario para hacer login
 //
-// Es la tipica ruta REST que devuelve un formulario para crear 
+// Es la tipica ruta REST que devuelve un formulario para crear
 // un nuevo recurso.
-// Paso como parametro el valor de redir (es una url a la que 
-// redirigirme despues de hacer login) que me han puesto en la 
+// Paso como parametro el valor de redir (es una url a la que
+// redirigirme despues de hacer login) que me han puesto en la
 // query (si no existe uso /).
 //
 exports.new = function(req, res) {
 
-    res.render('session/new', 
+    res.render('session/new',
                { redir: req.query.redir || '/'
                });
 };
@@ -41,13 +41,13 @@ exports.new = function(req, res) {
 // Crear session, es decir, hacer el login.
 //
 // El formulario mostrado por /login usa como action este metodo.
-// Cojo los parametros que se han metido en el formulario y hago 
+// Cojo los parametros que se han metido en el formulario y hago
 // login con ellos, es decir crea la session.
-// Uso el metodo autenticar exportado por user_controller para 
+// Uso el metodo autenticar exportado por user_controller para
 // comprobar los datos introducidos.
-// Si la autenticacion falla, me redirijo otra vez al formulario 
+// Si la autenticacion falla, me redirijo otra vez al formulario
 // de login.
-// Notar que el valor de redir lo arrastro siempre. 
+// Notar que el valor de redir lo arrastro siempre.
 exports.create = function(req, res) {
 
     var redir = req.body.redir || '/'
@@ -67,7 +67,7 @@ exports.create = function(req, res) {
                 next(error);
             } else {
                 req.flash('error', 'Se ha producido un error: '+error);
-                res.redirect("/login?redir="+redir);        
+                res.redirect("/login?redir="+redir);
             }
             return;
         }
@@ -80,18 +80,40 @@ exports.create = function(req, res) {
         // Vuelvo al url indicado en redir
         res.redirect(redir);
     });
-}; 
+};
 
 
 // Logout
-// 
+//
 // Para salir de la session simplemente destruyo req.session.user
 //
 exports.destroy = function(req, res) {
 
     delete req.session.user;
     req.flash('success', 'Logout.');
-    res.redirect("/login");     
+    res.redirect("/login");
 };
 
+// Tiempo Límite
+//
+// Si el estás inactivo 1 minuto se expira la sesión
+//
 
+exports.tiempoLimite = function(req, res, next) {
+
+    if (req.session.user ) {
+        if(req.session.user.now){
+            if (req.session.user.now + 60000 >= Date.now()) {
+                req.session.user.now = Date.now();
+            } else {
+                delete req.session.user;
+                req.flash('info', 'Sesión expirada');
+                console.log("Sesión expirada");
+            }
+        }
+        else{
+            req.session.user.now = Date.now();
+        }
+    }
+    next();
+};
