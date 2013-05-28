@@ -26,12 +26,12 @@ exports.index = function(req, res, next) {
 	format = format.toLowerCase();
 
 	models.Post
-	.findAll({order: 'updatedAt DESC', include: [{model:models.User, as:'Author' }]})
+	.findAll({order: 'updatedAt DESC', include: [{model:models.User, as:'Author' },models.Comment]})
 	.success(function(posts) {
 		switch (format) { 
 			case 'html': 
 			case 'htm':
-	          	res.render('posts/index', { posts: posts });
+	          	res.render('posts/index', { posts: posts});
 				break; 
 			case 'json':
 				res.send(posts);
@@ -298,6 +298,29 @@ exports.loggedUserIsAuthor = function(req, res, next){
 	}
 };
 
+function numberComments(posts){
+	var lengths= [];
+	for(var i in posts) {
+	 models.Comment
+                 .count({where: {postId: posts[i].id}  
+                 })
+                 .success(function(number) {
+             		
+
+                 	lengths[posts[i].id]=number;
+                 	console.log(number);
+                 })
+                 .error(function(error) {
+                     send(406);
+                  });
+                 console.log("put");
+	}
+
+	console.log("done");
+	
+	return lengths;
+
+}
 function posts_to_xml(posts) {
 	var builder = require('xmlbuilder');
 	var xml = builder.create('posts');

@@ -784,3 +784,16 @@ border-radius: 8px;
   text-align: right;
   
 }
+
+.comments_number{
+  text-align: right;
+  margin-top: 1rem;
+}
+
+.comments_number a{
+  text-decoration: none;
+}
+
+.comments_number a:hover{
+  text-decoration: underline;
+}

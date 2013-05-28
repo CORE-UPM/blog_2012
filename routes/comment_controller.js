@@ -1,6 +1,13 @@
 var models = require("../models/models.js");
 
 
+exports.count = function(req,res,next, id){
+    models.count({where: {postId: req.post.id},
+                  order: 'updatedAt DESC',
+                  include: [ {model: models.User, as: 'Author'} ]}).success(function(number) {
+  console.log("There are " + number + " projects with an id greater than 25.");
+    });
+};
 /*
 *  Auto-loading con app.param
 */
