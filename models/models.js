@@ -22,22 +22,26 @@ var Post = sequelize.import(path.join(__dirname, 'post'));
 var User = sequelize.import(path.join(__dirname, 'user'));
 var Favourite = sequelize.import(path.join(__dirname, 'favourite'));
 var Comment = sequelize.import(path.join(__dirname, 'comment'));
+var Attachment = sequelize.import(path.join(__dirname, 'attachment'));
 
 User.hasMany(Post, {foreignKey: 'authorId'});
 User.hasMany(Comment, {foreignKey: 'authorId'});
 User.hasMany(Favourite, {foreignKey: 'userId'});
 Post.hasMany(Comment, {foreignKey: 'postId'});
 Post.hasMany(Favourite, {foreignKey: 'postId'});
+Post.hasMany(Attachment, {foreignKey: 'postId'});
 
 Post.belongsTo(User, {as: 'Author', foreignKey: 'authorId'});
 Comment.belongsTo(User, {as: 'Author', foreignKey: 'authorId'});
 Comment.belongsTo(Post, {foreignKey: 'postId'});
 Favourite.belongsTo(User, {foreignKey: 'userId'});
 Favourite.belongsTo(Post, {foreignKey: 'postId'});
+Attachment.belongsTo(Post, {foreignKey: 'postId'});
 
 exports.Post = Post;
 exports.User = User;
 exports.Comment = Comment;
 exports.Favourite = Favourite;
+exports.Attachment = Attachment;
 
 sequelize.sync(); // No hace falta si la migración se hace a mano

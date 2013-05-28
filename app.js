@@ -12,6 +12,7 @@ var express = require('express'),
     userController = require('./routes/user_controller'),
     sessionController = require('./routes/session_controller'),
     commentController = require('./routes/comment_controller.js'),
+    attachmentController = require('./routes/attachment_controller.js'),
     count = require('./public/javascripts/count'),
     root = require('./public/javascripts/root'),
     http = require('http'),
@@ -89,6 +90,7 @@ app.locals.escapeText = function(text) {
 app.param('postid', postController.load);
 app.param('userid', userController.load);
 app.param('commentid', commentController.load);
+app.param('attachmentid', attachmentController.load);
 
 app.all('/*', sessionController.timeout);
 
@@ -147,6 +149,17 @@ app.put('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.
 
 app.delete('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.requiresLogin, 
 	commentController.loggedUserIsAuthor, commentController.destroy);
+
+app.get('/posts/:postid([0-9]+)/attachments', attachmentController.index);
+
+app.get('/posts/:postid([0-9]+)/attachments/new', sessionController.requiresLogin, 
+	postController.loggedUserIsAuthor, attachmentController.new);
+
+app.post('/posts/:postid([0-9]+)/attachments', sessionController.requiresLogin, 
+	postController.loggedUserIsAuthor, attachmentController.create);
+
+app.delete('/posts/:postid([0-9]+)/attachments/:attachmentid([0-9]+)', sessionController.requiresLogin, 
+	postController.loggedUserIsAuthor, attachmentController.destroy);
 
 // Atender peticiones en puerto 3000 o donde diga port
 http.createServer(app).listen(app.get('port'), function(){
