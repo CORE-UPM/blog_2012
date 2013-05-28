@@ -152,7 +152,7 @@ exports.update = function(req, res, next) {
     } 
 
     var fields_to_update = ['name','email'];
-    
+
     // ¿Cambio el password?
     if (req.body.user.password) {
         console.log('Hay que actualizar el password');
@@ -185,7 +185,6 @@ exports.destroy = function(req, res, next) {
             next(error);
         });
 };
-
 
 
 
