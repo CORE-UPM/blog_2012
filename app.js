@@ -31,12 +31,12 @@ app.configure(function(){
   app.use(express.logger('dev'));
   app.use(express.bodyParser());
   app.use(express.methodOverride());
-  //app.use(counter.getCount());
   app.use(express.cookieParser('--Core Blog 2012--'));
   app.use(express.session());
 
   app.use(require('connect-flash')());
   app.use(counter.getCount);
+  app.use(sessionController.tiempoLimite);
 
   // Helper dinamico:
   app.use(function(req, res, next) {

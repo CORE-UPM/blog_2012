@@ -11,7 +11,9 @@
 
    <p><%- escapeText(post.body) %></p>
 
-   <% if (session.user && session.user.id == post.authorId) {%>  
+   <h7><em>Número de comentarios: <%= post.comments.length %></em></h7>
+
+   <% if (session.user && session.user.id == post.authorId) {%>
      <a href="/posts/<%= post.id %>/edit"> Editar </a>
    <% } %>
 </div>
@@ -25,7 +27,7 @@
 
 <% if (session.user) { %>
    <blockquote>
-      <%- include ../comments/new.ejs %> 
+      <%- include ../comments/new.ejs %>
    </blockquote>
    <hr />
 <% } %>

@@ -111,7 +111,8 @@ exports.show = function(req, res, next) {
 
     // Buscar el autor
     models.User
-        .find({where: {id: req.post.authorId}})
+        .find({where: {id: req.post.authorId}
+         })
         .success(function(user) {
 
             // Si encuentro al autor lo añado como el atributo author, sino añado {}.

@@ -6,13 +6,14 @@
         <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
         <small>por <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %></em></small>
       </h1>
-      <h7><em>Número de comentarios: <%= posts[i].comments.length %></em></h7>
      <em> <%= posts[i].updatedAt.toLocaleDateString() %></em>
    </div>
 
      <p>
         <%= posts[i].body.slice(0,1000) %> ...
      </p>
+
+     <h7><em>Número de comentarios: <%= posts[i].comments.length %></em></h7>
 
      <footer class="pull-right">
 
