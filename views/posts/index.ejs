@@ -4,13 +4,14 @@
     <div class="page-header">
       <h1>
         <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
-        <small>por <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em></small>
+        <small>por <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %></em></small>
       </h1>
+      <h7><em>Número de comentarios: <%= posts[i].comments.length %></em></h7>
      <em> <%= posts[i].updatedAt.toLocaleDateString() %></em>
    </div>
-      
+
      <p>
-        <%= posts[i].body.slice(0,1000) %> ... 
+        <%= posts[i].body.slice(0,1000) %> ...
      </p>
 
      <footer class="pull-right">
@@ -22,13 +23,13 @@
         <form method='post' action='/posts/<%= posts[i].id %>'
               name='<%= form_name %>'>
           <input type='hidden' name='_method' value='delete'>
-          <a class='btn btn-warning btn-mini' href="/posts/<%= posts[i].id %>/edit"> 
-             <i class='icon-edit icon-white'></i> Editar 
-          </a> 
-          <a class='btn btn-danger btn-mini' href="" 
-             onclick="return confirmarSubmit('¿Seguro que desea borrar el post?', '<%= form_name %>')"> 
+          <a class='btn btn-warning btn-mini' href="/posts/<%= posts[i].id %>/edit">
+             <i class='icon-edit icon-white'></i> Editar
+          </a>
+          <a class='btn btn-danger btn-mini' href=""
+             onclick="return confirmarSubmit('¿Seguro que desea borrar el post?', '<%= form_name %>')">
              <i class='icon-trash icon-white'></i> Borrar
-          </a>  
+          </a>
         </form>
 
       <% } %>
