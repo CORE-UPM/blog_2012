@@ -298,29 +298,7 @@ exports.loggedUserIsAuthor = function(req, res, next){
 	}
 };
 
-function numberComments(posts){
-	var lengths= [];
-	for(var i in posts) {
-	 models.Comment
-                 .count({where: {postId: posts[i].id}  
-                 })
-                 .success(function(number) {
-             		
 
-                 	lengths[posts[i].id]=number;
-                 	console.log(number);
-                 })
-                 .error(function(error) {
-                     send(406);
-                  });
-                 console.log("put");
-	}
-
-	console.log("done");
-	
-	return lengths;
-
-}
 function posts_to_xml(posts) {
 	var builder = require('xmlbuilder');
 	var xml = builder.create('posts');
