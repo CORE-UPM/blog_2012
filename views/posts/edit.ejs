@@ -1,12 +1,18 @@
-<h1>Editar Post</h1>
+<%- include _changeSelectedMenu.ejs %>
 
-<form method='post' action='/posts/<%= post.id %>' class='form-horizontal'>
 
-  <input type='hidden' name='_method' value='put'>
+<div class="left_title">Edit Book</div>
 
-  <%- include _form.ejs %>
+<div class="clear"></div>
+
+<form method='post' action='/posts/<%= post.id %>'>
+
+    <input type='hidden' name='_method' value='put'>
+
+    <% include _form.ejs %>
 
 </form>
 
-
-<a href="/posts"> Volver </a>
+<div class="left_box post" id="footer">
+    <a href="/posts"> Back  </a>
+</div>

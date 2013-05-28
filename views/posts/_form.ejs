@@ -1,31 +1,29 @@
+<div class="left_box" id="post_form">
+    <div class="post_form">
+    <div class="post_form_subtitle">all fields are requierd</div>
+        <div class="post_form_row">
+            <div class="post_field">
+                <label for="post_title" class="newPost">Book Title</label><br />
+                <input type="text" id="post_title" class="post_input" name="post[title]" size="62" value='<%= post.title%>' />
+            </div>
+        </div>
 
-  <div class='control-group <%- locals.validate_errors && validate_errors.title 
-                                ? "error" : "" %>'>
 
-    <label class='control-label' for="post_title">Título:</label>
-    
-    <div class='controls'>
-      <input type="text" id="post_title" name="post[title]" 
-             class='input-xlarge' size='80' 
-             placeholder='Introduzca el contenido del post'
-             value='<%= post.title%>' />
-      <p class='help-block'>Introduzca el título del post</p> 
+
+        <div class="post_form_row">
+            <div class="post_field">
+                <label for="post_body" class="newPost">Synopsis and Comments</label><br />
+                <textarea id="post_body" class="post_textarea" name="post[body]" rows="20" cols="70"><%= post.body %>
+                </textarea>
+            </div>
+        </div>
+
+
+        <div class="post_form_row">
+        <div class="actions contact">
+            <input class="submit_button" name="commit" type="submit" value="Save" />
+        </div>
     </div>
-  </div>
+</div
 
-
-  <div class='control-group <%- locals.validate_errors && validate_errors.body 
-                                ? "error" : "" %>'>
-
-    <label class='control-label' for="post_body">Contenido:</label>
-
-    <div class='controls'>
-      <textarea id="post_body" name="post[body]" 
-                placeholder='Introduzca el contenido del post' rows="20" cols="80"><%= post.body %></textarea>
-      <p class='help-block'>Introduzca el contenido del post</p> 
-    </div>
-  </div>
-
-  <button type='submit' class='btn btn-success'>Salvar</button>
-  <button type='reset' class='btn'>Limpiar</button>
-
+<div class="clear"></div>
