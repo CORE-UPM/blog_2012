@@ -20,7 +20,7 @@ exports.requiresLogin = function (req, res, next) {
 
 exports.create = function(req, res) {
 
-    var redir = req.body.redir || '/'
+    var redir = req.body.redir || '/';
 
     console.log('REDIR = ' + redir);
 
@@ -45,7 +45,8 @@ exports.create = function(req, res) {
         // IMPORTANTE: creo req.session.user.
         // Solo guardo algunos campos del usuario en la sesion.
         // Esto es lo que uso para saber si he hecho login o no.
-        req.session.user = {id:user.id, login:user.login, name:user.name};
+        req.session.user = {id:user.id, login:user.login, name:user.name, time : ((new Date()).getTime())};
+       
 
         // Vuelvo al url indicado en redir
         res.redirect(redir);
@@ -62,3 +63,28 @@ exports.destroy = function(req, res) {
     req.flash('success', 'Logout.');
     res.redirect("/login");     
 };
+
+
+exports.isExpired = function(req,res,next){
+
+    if(req.session.user){
+        var currentTime = (new Date()).getTime();
+        var lastTransaction = req.session.user.time;
+        console.log("currentTime: "+currentTime);
+        console.log("lastTransaction: "+lastTransaction);
+
+        if((currentTime-lastTransaction)>=60000 ){
+            console.log("SESSION EXPIRADA");
+            delete req.session.user;
+            req.flash("info","Su sesión ha expirado");
+            res.redirect("/login");
+        }else{
+            next();
+        }
+         
+
+    }else{
+        console.log('Ruta prohibida: no soy el usuario logeado o sesión caduc');
+        res.send(403);
+    }
+}

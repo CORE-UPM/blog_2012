@@ -48,6 +48,7 @@ app.configure(function(){
   app.use(express.bodyParser());
   app.use(express.methodOverride());
   app.use(express.cookieParser('your secret here'));
+  //app.use(express.session({cookie: { maxAge: 3000 }}));
   app.use(express.session());
   app.use(require('connect-flash')());
 
@@ -92,20 +93,20 @@ app.get('/users', userController.index);
 app.get('/users/new', userController.new);
 app.get('/users/:userid([0-9]+)', userController.show);
 app.post('/users', userController.create);
-app.get('/users/:userid([0-9]+)/edit', sessionController.requiresLogin, userController.loggedUserIsUser,userController.edit);
-app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.loggedUserIsUser, userController.update);
+app.get('/users/:userid([0-9]+)/edit', sessionController.requiresLogin, sessionController.isExpired,userController.loggedUserIsUser,userController.edit);
+app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, sessionController.isExpired, userController.loggedUserIsUser, userController.update);
 //app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, userController.destroy);
 
 
 // Comentarios
 
 app.get('/posts/:postid([0-9]+)/comments', commentController.index);
-app.get('/posts/:postid([0-9]+)/comments/new', sessionController.requiresLogin,commentController.new);
+app.get('/posts/:postid([0-9]+)/comments/new', sessionController.requiresLogin, sessionController.isExpired,commentController.new);
 app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)',commentController.show);
-app.post('/posts/:postid([0-9]+)/comments', sessionController.requiresLogin,commentController.create);
-app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)/edit', sessionController.requiresLogin, commentController.loggedUserIsAuthor, commentController.edit);
-app.put('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.requiresLogin, commentController.loggedUserIsAuthor, commentController.update);
-app.delete('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.requiresLogin, commentController.loggedUserIsAuthor, commentController.destroy);
+app.post('/posts/:postid([0-9]+)/comments', sessionController.requiresLogin,sessionController.isExpired,commentController.create);
+app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)/edit', sessionController.requiresLogin, sessionController.isExpired, commentController.loggedUserIsAuthor, commentController.edit);
+app.put('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.requiresLogin, sessionController.isExpired,commentController.loggedUserIsAuthor, commentController.update);
+app.delete('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', sessionController.requiresLogin, sessionController.isExpired, commentController.loggedUserIsAuthor, commentController.destroy);
 
 
 //
@@ -118,13 +119,13 @@ app.param('userid',userController.load);
 app.param('commentid', commentController.load);
 
 app.get('/posts.:format?', postController.index);
-app.get('/posts/new', sessionController.requiresLogin,postController.new);
+app.get('/posts/new', sessionController.requiresLogin,sessionController.isExpired,postController.new);
 app.get('/posts/:postid([0-9]+).:format?',postController.show);
 app.get('/posts/search',postController.search);
-app.post('/posts',sessionController.requiresLogin, postController.create);
-app.get('/posts/:postid([0-9]+)/edit',sessionController.requiresLogin, postController.loggedUserIsAuthor,postController.edit);
-app.put('/posts/:postid([0-9]+)',sessionController.requiresLogin, postController.loggedUserIsAuthor,postController.update);
-app.delete('/posts/:postid([0-9]+)',sessionController.requiresLogin, postController.loggedUserIsAuthor, postController.destroy);
+app.post('/posts',sessionController.requiresLogin,sessionController.isExpired, postController.create);
+app.get('/posts/:postid([0-9]+)/edit',sessionController.requiresLogin,sessionController.isExpired, postController.loggedUserIsAuthor,postController.edit);
+app.put('/posts/:postid([0-9]+)',sessionController.requiresLogin, sessionController.isExpired,postController.loggedUserIsAuthor,postController.update);
+app.delete('/posts/:postid([0-9]+)',sessionController.requiresLogin, sessionController.isExpired, postController.loggedUserIsAuthor, postController.destroy);
 
 
 http.createServer(app).listen(app.get('port'), function(){
