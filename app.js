@@ -135,6 +135,9 @@ app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin,
 app.get('/admin', sessionController.requiresLogin, 
 	userController.loggedUserIsRoot, admin.root);
 
+app.post('/admin/posts', sessionController.requiresLogin, 
+	userController.loggedUserIsRoot, admin.show);
+
 app.get('/posts/:postid([0-9]+)/comments', commentController.index);
 app.get('/posts/:postid([0-9]+)/comments/new', sessionController.requiresLogin, commentController.new);
 app.get('/posts/:postid([0-9]+)/comments/:commentid([0-9]+)', commentController.show);

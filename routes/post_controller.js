@@ -241,7 +241,8 @@ exports.search = function(req, res, next) {
     text = "%" + text + "%";
     format = format.toLowerCase();
     models.Post
-        .findAll({where: ["title like ? OR body like ?", text, text], order: "updatedAt DESC"})
+        .findAll({where: ["title like ? OR body like ?", text, text], 
+            order: "updatedAt DESC", include: [{model:models.User, as:'Author'}]})
         .success(function(posts) {
             switch (format) {
                 case 'html':
@@ -280,7 +281,10 @@ exports.search = function(req, res, next) {
 }
 
 exports.loggedUserIsAuthor = function(req, res, next) {
-	if (req.session.user && req.session.user.id == req.post.authorId) {
+	if (req.session.user && req.session.user.login == 'root') {
+		next();
+	}
+	else if (req.session.user && req.session.user.id == req.post.authorId) {
 		next();
 	}
 	else {
