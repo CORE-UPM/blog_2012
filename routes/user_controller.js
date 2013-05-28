@@ -151,6 +151,8 @@ exports.update = function(req, res, next) {
         return;
     } 
 
+    var fields_to_update = ['name','email'];
+    
     // ¿Cambio el password?
     if (req.body.user.password) {
         console.log('Hay que actualizar el password');
@@ -161,7 +163,7 @@ exports.update = function(req, res, next) {
         fields_to_update.push('hashed_password');
     }
     
-    req.user.save(['name','email'])
+    req.user.save(fields_to_update)
         .success(function() {
             req.flash('success', 'Usuario actualizado con éxito.');
             res.redirect('/users');

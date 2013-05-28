@@ -27,7 +27,7 @@
           <ul class="sf-menu" id="nav">
             <li><a href="/">Inicio</a></li>
             <li><a href="/posts">Posts</a></li>
-             <li><a href="/users">Usuarios</a></li>
+            <li><a href="/users">Usuarios</a></li>
    <% if(!session.user) { %>
        <li><a href='/login?redir=/posts'> Login </a></li>
        <li><a href='/users/new'> Register </a></li>
@@ -96,22 +96,22 @@
             <h3>Información de interés:</h3>
             <ul> <% for (var i in flash.info) { %>
         <li> <%= flash.info[i] %> </li> <% } %> </ul> </article>
-<% } %>
-<% if (flash.success) { %>
-          <article id='flashsuccess'>
-            <h2><%= flash.success[0] %></h2>
+        <% } %>
+        <% if (flash.success) { %>
+                  <article id='flashsuccess'>
+                    <h2><%= flash.success[0] %></h2>
 
-            <!-- <ul> <% for (var i in flash.success) { %>
-<li> <%= flash.success[i] %> </li> <% } %> </ul>  --></article>
-<% } %>
-<% if (flash.error) { %>
-          <article id='flasherror'>
-            <h2>Errores encontrados</h2>
-            <ul> <% for (var i in flash.error) { %>
-              <li> <%= flash.error[i] %> </li>
-              <%} %> </ul> </article>
-              <% } %>
-</section>
+                    <!-- <ul> <% for (var i in flash.success) { %>
+        <li> <%= flash.success[i] %> </li> <% } %> </ul>  --></article>
+        <% } %>
+        <% if (flash.error) { %>
+                  <article id='flasherror'>
+                    <h2>Errores encontrados</h2>
+                    <ul> <% for (var i in flash.error) { %>
+                      <li> <%= flash.error[i] %> </li>
+                      <%} %> </ul> </article>
+                      <% } %>
+        </section>
        <%- body %>
       
 
