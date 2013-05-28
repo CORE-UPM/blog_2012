@@ -128,6 +128,10 @@ exports.show = function(req, res, next) {
             // Si encuentro al autor lo añado como el atributo author, sino añado {}.
             req.post.author = user || {};
 
+            // Buscar Adjuntos
+            req.post.getAttachments({order: 'updatedAt DESC'})
+               .success(function(attachments) {
+
             // Buscar comentarios
             models.Comment
                  .findAll({where: {postId: req.post.id},
@@ -151,7 +155,8 @@ exports.show = function(req, res, next) {
                               post: req.post,
                               comments: comments,
                               comment: new_comment,
-                              num_com: c
+                              num_com: c,
+                              attachments: attachments
                           });
                           break;
                       case 'json':
@@ -172,6 +177,10 @@ exports.show = function(req, res, next) {
                  .error(function(error) {
                      next(error);
                   });
+                })
+               .error(function(error) {
+                   next(error);
+                });
         })
         .error(function(error) {
             next(error);
@@ -301,7 +310,18 @@ exports.destroy = function(req, res, next) {
                 // Eliminar un comentario
                 chainer.add(comments[i].destroy());
            }
+          // Obtener los adjuntos
+           req.post.getAttachments()
+              .success(function(attachments) {
+                  for (var i in attachments) {
+                      // Eliminar un adjunto
+                      chainer.add(attachments[i].destroy());
 
+                      // Borrar el fichero en Cloudinary.
+                      cloudinary.api.delete_resources(attachments[i].public_id,
+                                    function(result) {},
+                                    {resource_type: 'raw'});
+                  }
            // Eliminar el post
            chainer.add(req.post.destroy());
 
@@ -311,9 +331,13 @@ exports.destroy = function(req, res, next) {
                  req.flash('success', 'Post (y sus comentarios) eliminado con éxito.');
                  res.redirect('/posts');
             })
-            .error(function(errors){
-                next(errors[0]);   
-            })
+                      .error(function(errors){
+                          next(errors[0]);   
+                      })
+              })
+              .error(function(error) {
+                  next(error);
+              });
        })
        .error(function(error) {
            next(error);

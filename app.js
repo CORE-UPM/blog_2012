@@ -14,6 +14,7 @@ var express = require('express')
   , sessionController = require('./routes/session_controller.js')
   , postController = require('./routes/post_controller.js')
   , userController = require('./routes/user_controller.js')
+  , attachmentController = require('./routes/attachment_controller.js')
   , commentController = require('./routes/comment_controller.js')
   , util = require('util');
 var app = express();
@@ -78,6 +79,7 @@ app.locals.escapeText =  function(text) {
 app.param('postid', postController.load);
 app.param('commentid', commentController.load);
 app.param('userid', userController.load);
+app.param('attachmentid', attachmentController.load);
 
 // -- Routes
 app.get('/', routes.index);
@@ -90,6 +92,28 @@ app.post('/login', sessionController.create);
 app.get('/logout', sessionController.destroy);
 //---------------------
 
+app.get('/posts/:postid([0-9]+)/attachments', 
+  attachmentController.index);
+
+app.get('/posts/:postid([0-9]+)/attachments/new', 
+  sessionController.requiresLogin,
+  postController.loggedUserIsAuthor,
+  attachmentController.new);
+
+app.post('/posts/:postid([0-9]+)/attachments', 
+   sessionController.requiresLogin,
+   postController.loggedUserIsAuthor,
+   attachmentController.create);
+
+app.delete('/posts/:postid([0-9]+)/attachments/:attachmentid([0-9]+)', 
+     sessionController.requiresLogin,
+     postController.loggedUserIsAuthor,
+     attachmentController.destroy);
+
+app.get('/raws', 
+  attachmentController.raws);
+
+//-------------------
 app.get('/posts/:postid([0-9]+)/comments', 
   commentController.index);
 
