@@ -48,7 +48,10 @@ exports.index = function(req, res, next) {
     
     models.Post
         .findAll({order: 'updatedAt DESC',
-                  include: [ { model: models.Comment, as: 'Coms'},{ model: models.User, as: 'Author' } ]
+                  include: [ { model: models.Comment, as: 'Coms'},
+                  { model: models.User, as: 'Author' },
+                  { model: models.Favourite, as: 'Fav'} ]
+                  
                    //Definido en models.js
         })
         .success(function(posts) {

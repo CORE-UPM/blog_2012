@@ -1,21 +1,14 @@
-
+<h2>Favoritos</h2>
 <% for (var i in posts) { %>
   <div class="post">
     <div class="page-header">
       <h1>
         <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
         <small>por <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em></small>
-
         <% if (posts[i].fav && session.user) { %>
                   <form action="/users/<%= session.user.id%>/favourites/<%= posts[i].fav.id %>" method="post">
                   <input type='hidden' name='_method' value='delete'>
-                  <input type="image" value="delete" class='fav'src="images/fav_on.jpg" />
-                  </form>
-  
-                <% } else if(session.user){ %>
-
-                <form action="/users/<%= session.user.id%>/favourites/<%= posts[i].id %>" method='post'>
-                  <input type="image" class='fav' src="images/fav_off.jpeg" />
+                  <input type="image" value="delete" class='fav' src="/images/fav_on.jpg" />
                   </form>
         <% } %>
       </h1>
@@ -51,9 +44,5 @@
   </div>
 <%  }; %>
 
-<footer>
-  <nav>
-    <a href="/posts/new"> <i class='icon-plus-sign'></i> Crear nuevo Post </a>
-  </nav>
-</footer>
+
 

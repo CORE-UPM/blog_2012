@@ -12,7 +12,10 @@ body {
 .sidebar-nav {
   padding: 9px 0;
 }
-
+.fav{
+  width: 25px;
+  height: 25px;
+}
 
 article {
   border: 2px solid #ffffff;

@@ -59,6 +59,9 @@
               <li><a href="/"><i class='icon-home icon-white'></i> Home</a></li>
               <li><a href="/posts"><i class='icon-tasks icon-white'></i> Posts</a></li>
               <li><a href="/users"><i class='icon-user icon-white'></i> Usuarios</a></li>
+              <% if (session.user) { %>
+              <li><a href="/users/<%= session.user.id%>/favourites"><i class='icon-user icon-white'></i> Favoritos</a></li>
+              <% } %>
             </ul>
           </div><!--/.nav-collapse -->
            <form class="form-inline" id="buscador" action="/posts/search" method="GET">

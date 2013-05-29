@@ -16,6 +16,7 @@ var express = require('express')
   , userController = require('./routes/user_controller.js')
   , attachmentController = require('./routes/attachment_controller.js')
   , commentController = require('./routes/comment_controller.js')
+  , favouriteController = require('./routes/favourite_controller.js')
   , util = require('util');
 var app = express();
 
@@ -80,6 +81,7 @@ app.param('postid', postController.load);
 app.param('commentid', commentController.load);
 app.param('userid', userController.load);
 app.param('attachmentid', attachmentController.load);
+app.param('favouriteid', favouriteController.load);
 
 // -- Routes
 app.get('/', routes.index);
@@ -90,6 +92,20 @@ app.get('/', routes.index);
 app.get('/login',  sessionController.new);
 app.post('/login', sessionController.create);
 app.get('/logout', sessionController.destroy);
+
+//---------------------
+
+app.post('/users/:userid/favourites/:postid',
+  sessionController.requiresLogin,
+  favouriteController.create);
+
+app.delete('/users/:userid/favourites/:favouriteid',
+  sessionController.requiresLogin,
+  favouriteController.destroy);
+
+app.get('/users/:userid/favourites',
+  sessionController.requiresLogin,
+  favouriteController.index);
 //---------------------
 
 app.get('/posts/:postid([0-9]+)/attachments', 

@@ -23,6 +23,7 @@ var Post = sequelize.import(path.join(__dirname,'post'));
 var User = sequelize.import(path.join(__dirname,'user'));
 var Comment = sequelize.import(path.join(__dirname,'comment'));
 var Attachment = sequelize.import(path.join(__dirname,'attachment'));
+var Favourite = sequelize.import(path.join(__dirname,'favourite'));
 
 // Relaciones
 
@@ -35,7 +36,9 @@ var Attachment = sequelize.import(path.join(__dirname,'attachment'));
 // en vez de UserId, he añadido una opcion que lo indica.
 User.hasMany(Post, {foreignKey: 'authorId'});
 User.hasMany(Comment, {foreignKey: 'authorId'});
+User.hasMany(Favourite, {foreignKey: 'authorId'});
 Post.hasMany(Comment, {as: 'Coms' ,foreignKey: 'postId'});
+Post.hasOne(Favourite, {as: 'Fav' ,foreignKey: 'postId'});
 Post.hasMany(Attachment, {foreignKey: 'postId'});
 // La llamada Post.belongsTo(User);
 //  - crea en el modelo de Post un atributo llamado UserId,
@@ -46,6 +49,8 @@ Post.hasMany(Attachment, {foreignKey: 'postId'});
 // foreignkey del modelo Post es authorId, y los metodos creados son 
 // setAuthor y getAuthor. 
 Post.belongsTo(User, {as: 'Author', foreignKey: 'authorId'});
+Favourite.belongsTo(User, {as: 'Author', foreignKey: 'authorId'});
+Favourite.belongsTo(Post, {foreignKey: 'authorId'});
 Comment.belongsTo(User, {as: 'Author', foreignKey: 'authorId'});
 Comment.belongsTo(Post, {foreignKey: 'postId'});
 Attachment.belongsTo(Post, {foreignKey: 'postId'});
@@ -55,4 +60,5 @@ exports.Post = Post;
 exports.User = User;
 exports.Comment = Comment;
 exports.Attachment = Attachment;
+exports.Favourite = Favourite;
 sequelize.sync();
