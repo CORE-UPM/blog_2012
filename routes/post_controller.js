@@ -62,6 +62,11 @@ exports.index = function(req, res, next) {
             //    coms[i]=posts[i].coms.length;
             //    console.log("comments en "+i+": "+coms[i]);
             //}
+            for (var i in posts){
+              if(posts[i].fav){
+                
+              }
+            }
 
             switch (format) { 
               case 'html':
