@@ -14,6 +14,7 @@ var userController = require('./routes/user_controller.js');
 var commentController = require('./routes/comment_controller.js');
 var sessionController = require('./routes/session_controller.js');
 var attachmentController = require('./routes/attachment_controller.js');
+var favouritesController = require('./routes/favourites_controller.js');
 var count = require('./count');
 
 var app = express();
@@ -85,6 +86,7 @@ app.param('postid', postController.load);
 app.param('userid', userController.load);
 app.param('commentid', commentController.load);
 app.param('attachmentid', attachmentController.load);
+app.param('favouriteid', favouritesController.load);
 
 //---------------------
 
@@ -153,6 +155,13 @@ app.post('/posts',sessionController.requiresLogin,sessionController.isExpired, p
 app.get('/posts/:postid([0-9]+)/edit',sessionController.requiresLogin,sessionController.isExpired, postController.loggedUserIsAuthor,postController.edit);
 app.put('/posts/:postid([0-9]+)',sessionController.requiresLogin, sessionController.isExpired,postController.loggedUserIsAuthor,postController.update);
 app.delete('/posts/:postid([0-9]+)',sessionController.requiresLogin, sessionController.isExpired, postController.loggedUserIsAuthor, postController.destroy);
+
+
+//Favourites
+
+//app.get('/users/:userid([0-9]+)/favourites', favouritesController.index);
+//app.put('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', sessionController.isExpired, favouritesController.create);
+//app.delete('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', sessionController.isExpired, favouritesController.destroy);
 
 
 http.createServer(app).listen(app.get('port'), function(){

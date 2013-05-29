@@ -27,11 +27,14 @@
           <ul class="sf-menu" id="nav">
             <li><a href="/">Inicio</a></li>
             <li><a href="/posts">Posts</a></li>
+            <% if(session.user) { %>
+               <li><a href="/users/<%= session.user.id %>/favourites">Favoritos</a></li>
+            <% } %> 
             <li><a href="/users">Usuarios</a></li>
    <% if(!session.user) { %>
        <li><a href='/login?redir=/posts'> Login </a></li>
        <li><a href='/users/new'> Register </a></li>
-<% } %> 
+   <% } %> 
 
 
 
