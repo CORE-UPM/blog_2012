@@ -159,9 +159,9 @@ app.delete('/posts/:postid([0-9]+)',sessionController.requiresLogin, sessionCont
 
 //Favourites
 
-//app.get('/users/:userid([0-9]+)/favourites', favouritesController.index);
-//app.put('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', sessionController.isExpired, favouritesController.create);
-//app.delete('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', sessionController.isExpired, favouritesController.destroy);
+app.get('/users/:userid([0-9]+)/favourites', favouritesController.index);
+app.put('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', sessionController.isExpired, favouritesController.add);
+app.delete('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', sessionController.isExpired, favouritesController.remove);
 
 
 http.createServer(app).listen(app.get('port'), function(){

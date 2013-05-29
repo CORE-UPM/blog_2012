@@ -7,3 +7,45 @@
 </div>
 <br>
 
+<% for (var i in posts) { %>
+
+ <img style="float: left; vertical-align: middle; margin: 0 10px 0 0;" src="images/home.png" alt="home" />
+ 
+   <div class="post">
+    <div class="page-header">
+      <h1>
+        <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
+        <br>
+        <small> por <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em></small>
+      </h1>
+
+     <em> <%= posts[i].updatedAt.toLocaleDateString() %></em>
+   </div>
+<div align="justify">
+ <%= posts[i].body.slice(0,300) %> 
+</div>
+</div>
+
+<% if (session.user) {%>
+<div>
+<% if (session.user.id ==posts[i].authorId) {%>
+<form class="post_actions" method='post' action='/posts/<%= posts[i].id %>'>
+<input type='hidden' name='_method' value='delete'>
+<a href="/posts/<%= posts[i].id %>/edit"> Editar</a>
+<a href="" onclick="submit();return false"> Borrar </a>
+</form>
+<% } %>
+<form  method='post' action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>'>
+<input type="hidden" name="_method" value="put" />
+<a href="" onclick="submit();return false"> Favorito </a>
+</form>
+<form  method='post' action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>'>
+<input type="hidden" name="_method" value="delete" />
+<a href="" onclick="submit();return false"> No Favorito </a>
+</form>
+</div>
+
+<% } %>
+<br><br>
+
+<% }; %>

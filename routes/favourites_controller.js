@@ -74,13 +74,38 @@ exports.index = function(req, res, next) {
     });
 };
 
-// DELETE  /users/:userid/favourites/:postid
-exports.destroy = function(req, res, next) {
+// PUT  /users/:userid/favourites/:postid
+exports.add = function(req, res, next) {
+  var favourite = models.Favourite.build({ userId: req.session.user.id, postId: req.post.id});
+  var validate_errors = favourite.validate(); 
 
-    req.comment.destroy()
+  if (validate_errors) {
+        console.log("Errores de validacion:", validate_errors);
+        req.flash('error','Los datos introducidos son incorrectos.');
+
+        for( var err in validate_errors){
+          req.flash('error',validate_errors[err]);
+        }
+
+        return;
+  }
+
+  favourite.save().success(function(){
+    req.flash('success','Añadido a favoritos');
+    res.redirect('/posts');
+  })
+  .error(function(error){
+    next(error);
+  });
+};
+
+// DELETE  /users/:userid/favourites/:postid
+exports.remove = function(req, res, next) {
+
+    req.favourite.destroy()
         .success(function() {
-            req.flash('success', 'Comentario eliminado con éxito.');
-            res.redirect('/posts/' + req.post.id );
+            req.flash('success', 'Quitado de favoritos');
+            res.redirect('/posts');
         })
         .error(function(error) {
             next(error);
