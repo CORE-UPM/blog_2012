@@ -48,14 +48,19 @@ exports.index = function(req, res, next) {
         .findAll({where: {authorId: req.user.id},
                   order: 'updatedAt DESC'})  
         .success(function(favourites) {
-            console.log("OSHEEEEE: "+favourites);
+            
              var postIds = favourites.map( 
                             function(favourite) 
                               {return favourite.postId;}
                            );
-             console.log("OSHEEEEE2: "+postIds);
+             var patch;
+            if (postIds.length == 0) {
+                    patch= '"Posts"."id" in (NULL)';
+            } else {
+                patch='"Posts"."id" in ('+postIds.join(',')+')';
+            } 
             models.Post.findAll({order: 'updatedAt DESC',
-                   where: {id: postIds}, 
+                   where: patch, 
                     include: [{ model: models.Comment, as: 'Coms'},
                     { model: models.User, as: 'Author'},
                     { model: models.Favourite, as: 'Fav'}
