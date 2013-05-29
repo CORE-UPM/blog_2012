@@ -12,6 +12,11 @@
 			<em><%= posts[i].author && posts[i].author.name || 'Anónimo' %></em>
 		</header>
 		<p><%= posts[i].body.slice(0, 500) %></p>
+		
+		<div>
+			<h4> Comentarios: <%= posts[i].comments && posts[i].comments.length || 'Ninguno' %> </h4>
+			<h4> Adjuntos: <%= posts[i].attachments && posts[i].attachments.length || 'Ninguno' %> </h4>
+		</div>
 		<footer>
 			<% if (session.user && session.user.id == posts[i].authorId) { %>
 				<form method='post' action='/posts/<%= posts[i].id %>'>

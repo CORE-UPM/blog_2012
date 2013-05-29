@@ -24,7 +24,9 @@ exports.index = function(req, res, next) {
     var format = req.params.format || 'html';
     format = format.toLowerCase();
     models.Post
-        .findAll({order: 'updatedAt DESC', include: [{model:models.User, as:'Author'}]})
+        .findAll({order: 'updatedAt DESC', 
+            include: [{model:models.User, as:'Author'}, 
+                      {model:models.Comment, as:'Comments'}]})
         .success(function(posts) {
             switch (format) {
                 case 'html':
@@ -44,6 +46,18 @@ exports.index = function(req, res, next) {
                         }
                         else {
                             posts_json[i].author = 'Anónimo';
+                        }
+                        if (posts_json[i].comments != null) {
+                            posts_json[i].comments = posts_json[i].comments.length;
+                        }
+                        else {
+                            posts_json[i].comments = 'No hay comentarios';
+                        }
+                        if (posts_json[i].attachments != null) {
+                            posts_json[i].attachments = posts_json[i].attachments.length;
+                        }
+                        else {
+                            posts_json[i].attachments = 'No hay adjuntos';
                         }
                     }
                     res.send(posts_json);
