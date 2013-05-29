@@ -2,7 +2,7 @@
 <% for (var i in posts) { %>
   <div class="post">
     <div class="page-header">
-    
+     
       <h1>
         <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
         <small>por <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em></small>
