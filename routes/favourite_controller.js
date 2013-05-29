@@ -106,7 +106,8 @@ exports.create = function(req, res, next) {
     favourite.save()
         .success(function() {
             req.flash('success', 'Favorito guardado.');
-            res.redirect('/users/' + req.session.user.id +'/favourites');
+            //res.redirect('/users/' + req.session.user.id +'/favourites');
+            res.redirect('/posts');
         })
         .error(function(error) {
             next(error);
@@ -122,7 +123,8 @@ exports.destroy = function(req, res, next) {
     req.favourite.destroy()
         .success(function() {
             req.flash('success', 'Favorito eliminado con éxito.');
-            res.redirect('/users/' + req.session.user.id +'/favourites');
+            //res.redirect('/users/' + req.session.user.id +'/favourites');
+            res.redirect('/posts');
         })
         .error(function(error) {
             next(error);

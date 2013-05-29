@@ -127,9 +127,15 @@ exports.show = function(req, res, next) {
     models.User
         .find({where: {id: req.post.authorId}})
         .success(function(user) {
-
-            // Si encuentro al autor lo añado como el atributo author, sino añado {}.
+          // Si encuentro al autor lo añado como el atributo author, sino añado {}.
             req.post.author = user || {};
+
+          models.Favourite
+        .find({where: {postId: req.post.id}})
+        .success(function(favourite) {
+            // Si encuentro al favorito lo añado como el atributo fav, sino añado 0.
+            req.post.fav = favourite || 0;
+            
 
             // Buscar Adjuntos
             req.post.getAttachments({order: 'updatedAt DESC'})
@@ -184,6 +190,10 @@ exports.show = function(req, res, next) {
                .error(function(error) {
                    next(error);
                 });
+        })
+        .error(function(error) {
+            next(error);
+        });
         })
         .error(function(error) {
             next(error);

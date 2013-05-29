@@ -36,7 +36,7 @@ var Favourite = sequelize.import(path.join(__dirname,'favourite'));
 // en vez de UserId, he añadido una opcion que lo indica.
 User.hasMany(Post, {foreignKey: 'authorId'});
 User.hasMany(Comment, {foreignKey: 'authorId'});
-User.hasMany(Favourite, {foreignKey: 'authorId'});
+User.hasMany(Favourite, {as: 'Fav',foreignKey: 'authorId'});
 Post.hasMany(Comment, {as: 'Coms' ,foreignKey: 'postId'});
 Post.hasOne(Favourite, {as: 'Fav' ,foreignKey: 'postId'});
 Post.hasMany(Attachment, {foreignKey: 'postId'});
