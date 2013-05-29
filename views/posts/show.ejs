@@ -2,6 +2,7 @@
 
  <div class="post">
     <div class="page-header">
+    
       <h1>
         <%= post.title %>
         <small>por <em> <%= post.author && post.author.name || "Sin autor" %> </em></small>
@@ -21,10 +22,14 @@
                   </form>
         <% } %>
         </div>
+        <div class='pull-center'>
+            Comentarios: <span class='badge badge-info'>  <%= num_com%> </span>
+            <i class='icon-comment'></i> 
+        </div>
    </div>
 
    <p><%- escapeText(post.body) %></p>
-   <p>Numero de comentarios: <%= num_com%></p>
+
    <% if (session.user && session.user.id == post.authorId) {%>  
      <a href="/posts/<%= post.id %>/edit"> Editar </a>
    <% } %>

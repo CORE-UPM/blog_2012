@@ -2,7 +2,8 @@
 <% for (var i in posts) { %>
   <div class="post">
     <div class="page-header">
-      <h1>
+      
+        <h1>
         <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
         <small>por <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em></small>
         <div class="pull-right">
@@ -21,12 +22,15 @@
         </div>
       </h1>
      <em> <%= posts[i].updatedAt.toLocaleDateString() %></em>
+     <div class='pull-center'>
+            Comentarios: <span class='badge badge-info'> <%= posts[i].coms.length%> </span>
+            <i class='icon-comment'></i> 
+        </div>
    </div>
       
      <p>
         <%= posts[i].body.slice(0,1000) %> ... 
      </p>
-     <p>Numero de comentarios: <%= posts[i].coms.length%></p>
 
      <footer class="pull-right">
 
