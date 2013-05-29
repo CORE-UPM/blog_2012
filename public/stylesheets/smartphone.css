@@ -1,0 +1,39 @@
+body{
+	padding: 5px;
+	text-align: center;
+}
+
+#div_video{
+	padding: 1%;
+}
+
+#video{
+	width: 97%;
+    display:block;
+    margin:0 auto;   
+    box-shadow: 10px 10px 10px;
+    box-shadow: 5px 5px 5px #000;
+    margin-bottom: 8px;
+}
+h1{
+	text-align: center;
+}
+footer{
+	text-align: center;
+	line-height:30px;
+}
+nav{
+	text-align: center;
+	line-height:30px;
+}
+#visitas{
+	text-align: center;
+}
+#blog{
+	width: 80%;
+}
+.imagenCentrada{
+  text-align: center;
+  padding: 10px;
+  width: 90%;
+}

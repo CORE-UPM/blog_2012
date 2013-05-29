@@ -6,16 +6,20 @@
 var express = require('express')
   , routes = require('./routes')
   , user = require('./routes/user')
+  , about = require('./routes/about')
   , http = require('http')
   , path = require('path')
   , partials = require('express-partials')
-  , postController = require('./routes/post_controller.js');
+  , postController = require('./routes/post_controller.js')
+  , count = require('./count.js')
+  , search = require('./routes/search');
 
 var util = require('util');
 
 var app = express();
 
 app.use(partials());
+app.use(count());
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -62,6 +66,12 @@ app.locals.escapeText =  function(text) {
 
 app.get('/', routes.index);
 app.get('/users', user.list);
+app.get('/about', about.about);
+//---------------------
+
+app.get('/Search', search.search);
+
+app.get('/posts/search', postController.search);
 
 //---------------------
 

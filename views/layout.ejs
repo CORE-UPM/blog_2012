@@ -3,15 +3,22 @@
 <head>
    <meta charset="utf-8">
    <link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
-   <title>CORE</title>
+   <link rel='stylesheet' 
+          media='only screen and (min-width: 530px) and (min-device-width: 530px)'
+          href='/stylesheets/wide.css' />
+    <link rel='stylesheet' 
+          media='only screen and (max-width: 530px)' 
+          href='/stylesheets/smartphone.css' />
+   <title>Blog SWCM</title>
 </head>
 
 <body>
   <header>
-    <h1> COmputación en REd - CORE</h1>
+    <h1> Blog SWCM</h1>
     <nav>
-      <a href="/">Home</a>
-      <a href="/Posts">Posts</a>
+      <a class="botonesNav" href="/">Home</a>
+      <a class="botonesNav" href="/Posts">Posts</a>
+      <div id="visitas">Visit number <%= aaa %> </div>
     </nav>
   </header>
        
@@ -22,7 +29,10 @@
   </section>
 
   <footer>
-    <p> Universidad Politécnica de Madrid. Curso 2012-2013. </p>
+    <p> 
+      Universidad Politécnica de Madrid. Curso 2012-2013. 
+      <a id="about" href="/about">About</a>
+    </p>
   </footer>
 </body>
 </html>

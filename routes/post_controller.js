@@ -218,3 +218,44 @@ exports.destroy = function(req, res, next) {
             next(error);
         });
 };
+
+// SEARCH 
+exports.search = function(req, res, next) {
+  var format = req.params.format || 'html';
+  format = format.toLowerCase();
+
+  var searchText = "%" + (req.query.search || "") + "%";
+  searchText = searchText.replace(/ /g, "%");
+
+  models.Post
+    .findAll({where: ["title like ? OR body like ?", searchText, searchText], order: "updatedAt DESC"})
+    .success(function(posts) {
+      switch (format) { 
+        case 'html':
+        case 'htm':
+            res.render('posts/index', {
+              posts: posts
+            });
+            break;
+        case 'json':
+            res.send(posts);
+            break;
+        case 'xml':
+            res.send(posts_to_xml(posts));
+            break;
+        case 'txt':
+            res.send(posts.map(function(post) {
+                return post.title+' ('+post.body+')';
+            }).join('\n'));
+            break;
+        default:
+            console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+            res.send(406);
+      }
+    })
+    .error(function(error) {
+            next(error);
+        });
+};
+
+

@@ -1,7 +1,7 @@
 <header>
-  <h2> Posts </h2>
-</header>
-
+<h2> Posts </h2>
+</header> 
+<div id="contenedorPosts">
 <% for (var i in posts) { %>
   <article>
      <header>
@@ -17,15 +17,24 @@
      <footer>
         <form method='post' action='/posts/<%= posts[i].id %>'>
           <input type='hidden' name='_method' value='delete'>
-          <a href="/posts/<%= posts[i].id %>/edit"> Editar </a> 
-          <a href="" onclick="submit();return false"> Borrar </a>  
+          <a href="/posts/<%= posts[i].id %>/edit"> Edit </a> 
+          <a href="" onclick="submit();return false"> Delete </a>  
         </form>
      </footer>
   </article>
-
 <%  }; %>
+</div>
 <footer>
   <nav>
-    <a href="/posts/new"> Crear nuevo Post </a>
+    <div id="newPost">
+      <a href="/posts/new"> Create new Post </a>
+    </div>
+    <div id="busqueda">
+      <form method='get' action='/posts/search'>
+        <input type="text" id="search" size="23" name="search" placeholder="Posts with these words."/>
+        <input type="submit" value="Search">
+      </form>
+    </div>
   </nav>
 </footer>
+
