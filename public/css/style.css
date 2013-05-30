@@ -613,16 +613,22 @@ font-size: 200%;
 
 
 #flashinfo {
-  width: 450px;
-  border: 2px solid blue; 
-  padding: 2px; 
-  padding-bottom: 0; 
-  margin-bottom: 20px; 
-  background-color: #f0f0f0;
-
+   width: 400px;
+  border: 2px solid #1EC9F4; 
+  padding: 0; 
+  padding-bottom: 0;
+  margin-bottom: 20px;
   -webkit-border-radius: 8px;
 -moz-border-radius: 8px;
 border-radius: 8px;
+
+text-align: center;
+
+box-shadow: 5px 5px 5px #1EC9F4;
+margin-left: auto;
+  margin-right: auto;
+
+  
 }
 #flashsuccess {
   width: 400px;
@@ -636,13 +642,17 @@ border-radius: 8px;
 
 text-align: center;
 
-box-shadow: 5px 5px 5px rgba(0,255,0,0.2);
+box-shadow: 5px 5px 5px rgba(255,255,255,0.2);
 margin-left: auto;
   margin-right: auto;
 }
 
 #flashsuccess h2{
   color: green;
+}
+
+#flashinfo h2{
+  color: #1EC9F4;
 }
 
 #flasherror {
@@ -695,6 +705,19 @@ border-radius: 8px;
    width: 100%;
    margin-left: auto;
    margin-right: auto;
+}
+
+#flashinfo ul{
+   list-style-type: none;
+   list-style-image: none;
+   width: 100%;
+   margin-left: auto;
+   margin-right: auto;
+}
+
+#flashinfo ul li { 
+  font-size: 15px;
+  list-style: none;
 }
 #flasherror ul li { 
   font-size: 15px;
@@ -796,4 +819,23 @@ border-radius: 8px;
 
 .comments_number a:hover{
   text-decoration: underline;
+}
+
+.favorite{
+  height: 2rem;
+ width: 2rem;
+
+}
+
+.favorites_form{
+  height: 2rem;
+  width: 2rem;
+  padding:1rem;
+  float:left;
+}
+
+.not_favorite{
+  height: 2rem;
+  width: 2rem;
+
 }

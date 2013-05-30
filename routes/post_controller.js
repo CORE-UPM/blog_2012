@@ -3,6 +3,7 @@ var models = require("../models/models.js");
 
 // load
 exports.load = function(req, res, next, id){
+	req.postid=Number(id);
 	models.Post
 		.find({where:{id: Number(id)}})
 		.success(function(post){

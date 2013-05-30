@@ -1,6 +1,5 @@
-<link rel="stylesheet" type="text/css" href="../css/style.css" />
-<script type="text/javascript" src="../js/modernizr-1.5.min.js"></script>
-
+<link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+<script type="text/javascript" src="../../../../js/modernizr-1.5.min.js"></script>
 
 <div class="recuadro">
 <a href="/posts/new"> Crear nuevo Post </a>
@@ -9,7 +8,7 @@
 
 <% for (var i in posts) { %>
 
- <img style="float: left; vertical-align: middle; margin: 0 10px 0 0;" src="images/home.png" alt="home" />
+ <img style="float: left; vertical-align: middle; margin: 0 10px 0 0;" src="../../../../images/home.png" alt="home" />
  
    <div class="post">
     <div class="page-header">
@@ -35,17 +34,21 @@
 <a href="" onclick="submit();return false"> Borrar </a>
 </form>
 <% } %>
-<form  method='post' action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>'>
+<p>
+<form   class="favorites_form" method='post' action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>'>
 <input type="hidden" name="_method" value="put" />
-<a href="" onclick="submit();return false"> Favorito </a>
+<a href="" onclick="submit();return false"> <img class="favorite" src="../../../../images/yellow_star.png"/> </a>
 </form>
-<form  method='post' action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>'>
+<form class="favorites_form"  method='post' action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>'>
 <input type="hidden" name="_method" value="delete" />
-<a href="" onclick="submit();return false"> No Favorito </a>
+<a href="" onclick="submit();return false"> <img class="not_favorite" src="../../../../images/grey_star.png"/></a>
 </form>
+</p>
 </div>
 
 <% } %>
+<br><br>
+
 <br><br>
 
 <% }; %>

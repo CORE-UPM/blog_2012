@@ -76,7 +76,7 @@ exports.index = function(req, res, next) {
 
 // PUT  /users/:userid/favourites/:postid
 exports.add = function(req, res, next) {
-  var favourite = models.Favourite.build({ userId: req.session.user.id, postId: req.post.id});
+  var favourite = models.Favourite.build({ userId: req.session.user.id, postId: req.postid});
   var validate_errors = favourite.validate(); 
 
   if (validate_errors) {
@@ -93,6 +93,7 @@ exports.add = function(req, res, next) {
   favourite.save().success(function(){
     req.flash('success','Añadido a favoritos');
     res.redirect('/posts');
+    //next();
   })
   .error(function(error){
     next(error);
@@ -102,10 +103,14 @@ exports.add = function(req, res, next) {
 // DELETE  /users/:userid/favourites/:postid
 exports.remove = function(req, res, next) {
 
-    req.favourite.destroy()
-        .success(function() {
-            req.flash('success', 'Quitado de favoritos');
-            res.redirect('/posts');
+   models.Favourite.find({where: {postId: req.postid}})
+        .success(function(favourite) {
+           favourite.destroy() .success(function(){
+               req.flash('success', 'Quitado de favoritos');
+               res.redirect('/posts');
+           }) .error(function(error){
+            next(error);
+           });
         })
         .error(function(error) {
             next(error);
