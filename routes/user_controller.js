@@ -1,6 +1,8 @@
-
 var models = require('../models/models.js');
+
 var crypto = require('crypto');
+
+
 
 /*
 *  Auto-loading con app.param
@@ -23,20 +25,6 @@ exports.load = function(req, res, next, id) {
         });
 };
 
-
-/*
-* Comprueba que el usuario logeado es el usuario alque se refiere esta ruta.
-*/
-exports.loggedUserIsUser = function(req, res, next) {
-    
-   if (req.session.user && req.session.user.id == req.user.id) {
-      next();
-   } else {
-      console.log('Ruta prohibida: no soy el usuario logeado.');
-      res.send(403);
-   }
-};
-
 // ----------------------------------
 // Rutas
 // ----------------------------------
@@ -45,10 +33,7 @@ exports.loggedUserIsUser = function(req, res, next) {
 exports.index = function(req, res, next) {
 
     models.User
-        .findAll({ offset: req.pagination.offset,
-                   limit:  req.pagination.limit,
-                   order: 'name'
-                 })
+        .findAll({order: 'name'})
         .success(function(users) {
             res.render('users/index', {
                 users: users
@@ -114,8 +99,8 @@ exports.create = function(req, res, next) {
                                              validate_errors: validate_errors});
                     return;
                 } 
-                
-                // El password no puede estar vacio
+
+                  // El password no puede estar vacio
                 if ( ! req.body.user.password) {
                     req.flash('error', 'El campo Password es obligatorio.');
                     res.render('users/new', {user: user});
@@ -124,7 +109,7 @@ exports.create = function(req, res, next) {
 
                 user.salt = createNewSalt();
                 user.hashed_password = encriptarPassword(req.body.user.password, user.salt);
-
+                
                 user.save()
                     .success(function() {
                         req.flash('success', 'Usuario creado con éxito.');
@@ -165,9 +150,9 @@ exports.update = function(req, res, next) {
                                   validate_errors: validate_errors});
         return;
     } 
- 
+
     var fields_to_update = ['name','email'];
-    
+
     // ¿Cambio el password?
     if (req.body.user.password) {
         console.log('Hay que actualizar el password');
@@ -200,6 +185,7 @@ exports.destroy = function(req, res, next) {
             next(error);
         });
 };
+
 
 
 // ----------------------------------
@@ -245,6 +231,7 @@ exports.autenticar = function(login, password, callback) {
                 
                 if (hash == user.hashed_password) {
                     callback(null,user);
+
                 } else {
                     callback('Password erróneo.');
                 };
@@ -258,3 +245,16 @@ exports.autenticar = function(login, password, callback) {
 }; 
 
 //  ----------------------------------
+
+
+exports.loggedUserIsUser = function(req,res, next){
+
+    if(req.session.user && req.session.user.id == req.user.id){
+        next();
+    } else{
+        console.log('Ruta prohibida: no soy el usuario logeado.');
+        res.send(403);
+    }
+
+};
+

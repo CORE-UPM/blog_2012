@@ -1,7 +1,5 @@
+var models = require("../models/models.js");
 
-var models = require('../models/models.js');
-
-var userController = require('./user_controller');
 
 /*
 *  Auto-loading con app.param
@@ -69,7 +67,7 @@ exports.show = function(req, res, next) {
 
             // Añado el autor del post como el atributo "author". 
             // Si no encuentro el autor uso el valor {}.
-            req.post.author = user || {};
+            req.post.author = user || {};
 
             // Buscar el autor del comentario
             models.User
@@ -78,7 +76,7 @@ exports.show = function(req, res, next) {
 
                     // Añado el autor del comentario como el atributo "author".
                     // Si no encuentro el autor uso el valor {}.
-                    req.comment.author = user || {};
+                    req.comment.author = user || {};
 
                     res.render('comments/show', {
                         comment: req.comment,
@@ -190,28 +188,3 @@ exports.destroy = function(req, res, next) {
             next(error);
         });
 };
-
-//-----------------------------------------------------------
-
-// GET /orphancomments
-exports.orphans = function(req, res, next) {
-
-    models.Comment
-        .findAll({order: 'postId',
-                  include: [ {model: models.User, as: 'Author'},
-                             {model: models.Post, as: 'Post'} ]})
-        .success(function(comments) {
-
-            console.log(comments);
-
-            res.render('comments/orphans', {
-                comments: comments
-            });
-        })
-        .error(function(error) {
-            next(error);
-        });
-};
-
-//-----------------------------------------------------------
-

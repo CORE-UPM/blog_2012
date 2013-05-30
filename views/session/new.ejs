@@ -1,30 +1,26 @@
 
+<h2>Login</h2>
 
-<h1>Login</h1>
+<form method='POST' action='/login'>
 
+<div class="form_settings">
 
-<form method='POST' action='/login' class='form-horizontal'>
-
+<div class="form_settings">
   <input type='hidden' name='redir' value='<%= redir %>'>
 
-  <div class='control-group'>
-    <label class='control-label' for="login">Login:</label>
-    <div class='controls'>
-        <input type="text" id="login" name="login" size="30" />
-    </div>
+  <div class="field">
+    <h3 >Login</h3><br />
+    <input type="text" id="login" name="login" size="30" />
   </div>
 
-
- <div class='control-group'>
-    <label class='control-label' for="password">Password:</label>
-    <div class='controls'>
-        <input type="password" id="password" name="password" size="30" />
-    </div>
+  <div class="field">
+    <h3 >Password</h3><br />
+    <input type="password" id="password" name="password" size="30" />
   </div>
 
+  
+  <p><input name="commit" class="submit" type="submit" value="Login" /> </p>
 
-  <button type='submit' class='btn btn-success'>Login</button>
-
-
+  </div>
+</div>
 </form>
-

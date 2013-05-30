@@ -1,0 +1,21 @@
+POSTGRES
+********
+
+Host	ec2-107-20-217-22.compute-1.amazonaws.com
+Database	dbgnvb0qts93n1
+User	ydzwjbqchavnai
+Port	5432
+Password	vwVSxYRmGqusMSVJ9FTdkq4z0w
+
+
+GIT: git@heroku.com:neburtotem.git
+URL: http://neburtotem.herokuapp.com/
+
+
+DATABASE_NAME=dbgnvb0qts93n1 \
+DATABASE_USER=ydzwjbqchavnai \
+DATABASE_PASSWORD=vwVSxYRmGqusMSVJ9FTdkq4z0w \
+DATABASE_DIALECT=postgres \
+DATABASE_PROTOCOL=postgres \
+DATABASE_PORT=5432 \
+DATABASE_HOST=ec2-107-20-217-22.compute-1.amazonaws.com

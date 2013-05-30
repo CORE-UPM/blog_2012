@@ -1,11 +1,14 @@
-<h1>Editar Comentario</h1>
+<link rel="stylesheet" type="text/css" href="../../../../css/style.css" />
+<script type="text/javascript" src="../../../../js/modernizr-1.5.min.js"></script>
 
-<form method='post' action='/posts/<%= post.id %>/comments/<%= comment.id %>' class='form-horizontal'>
+<h2>Editar Comentario</h2>
 
+<form method='post' action='/posts/<%= post.id %>/comments/<%= comment.id %>'>
+ <div class="form_settings">
   <input type='hidden' name='_method' value='put'>
 
   <%- include _form.ejs %>
-
+ </div>
 </form>
 
 

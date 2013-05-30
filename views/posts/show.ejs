@@ -1,33 +1,35 @@
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<script type="text/javascript" src="../js/modernizr-1.5.min.js"></script>
 
+<p>
+<h2><b><%- post.title %></b></h2>
+by
+<em><%= post.author && post.author.name || 'Sin autor' %> </em>
+</p>
+<p>
+<%- post.updatedAt.toLocaleDateString() %>
+</p>
 
- <div class="post">
-    <div class="page-header">
-      <h1>
-        <%= post.title %>
-        <small>por <em> <%= post.author && post.author.name || "Sin autor" %> </em></small>
-      </h1>
-     <em> <%= post.updatedAt.toLocaleDateString() %></em>
-   </div>
+<p align="justify"><%- escapeText(post.body) %></p>
 
-   <p><%- escapeText(post.body) %></p>
+<div class="post_actions">
+<% if (session.user && session.user.id ==post.authorId) {%>
+<a href="/posts/<%= post.id %>/edit"> Editar</a>
 
-   <% if (session.user && session.user.id == post.authorId) {%>  
-     <a href="/posts/<%= post.id %>/edit"> Editar </a>
-   <% } %>
+<% } %>
+<a href="/posts"> Volver al índice de Posts </a>
 </div>
+<br/>
+<hr/>
 
-<hr />
 <%- include ../attachments/index.ejs %>
 <hr />
 <%- include ../comments/index.ejs %>
-<hr />
+<hr/>
 
+<% if(session.user) { %>
 
-<% if (session.user) { %>
-   <blockquote>
-      <%- include ../comments/new.ejs %> 
-   </blockquote>
-   <hr />
+		<%- include ../comments/new.ejs %>
+	<hr/>
 <% } %>
 
-<a href="/posts"> Volver al índice de Posts</a>

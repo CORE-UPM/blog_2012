@@ -1,12 +1,18 @@
-<h1>Editar Usuario</h1>
+
+<link rel="stylesheet" type="text/css" href="../../css/style.css" />
+<script type="text/javascript" src="../../js/modernizr-1.5.min.js"></script>
+
+<h2>Editar Usuario</h2>
 
 
-<form method='post' action='/users/<%= user.id %>' class='form-horizontal'>
+<form method='post' action='/users/<%= user.id %>'>
 
+<div class="form_settings">
   <input type='hidden' name='_method' value='put'>
 
   <%- include _form.ejs %>
 
+</div>
 </form>
 
 

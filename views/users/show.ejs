@@ -1,23 +1,24 @@
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<script type="text/javascript" src="../js/modernizr-1.5.min.js"></script>
+
 <h2>Usuario</h2>
 
 <p>
-  <b>Login:</b>
+  <b>Login</b>
   <%= user.login %>
 </p>
 
 <p>
-  <b>Name:</b>
+  <b>Nombre</b>
   <%= user.name %>
 </p>
 
 <p>
-  <b>Email:</b>
+  <b>Email</b>
   <%= user.email %>
 </p>
 
-
-<% if (session.user && session.user.id == user.id) {%>
-   <a href="/users/<%= user.id %>/edit"> Editar </a>
+<% if(session.user && session.user.id == user.id){ %> 
+<a href="/users/<%= user.id %>/edit"> Edit </a>
 <% } %>
-
 <a href="/users"> Back  </a>

@@ -1,9 +1,14 @@
-<h1>Nuevo Usuario</h1>
+<link rel="stylesheet" type="text/css" href="../css/style.css" />
+<script type="text/javascript" src="../js/modernizr-1.5.min.js"></script>
 
-<form method='post' action='/users' class='form-horizontal'>
+<h2>Nuevo Usuario</h2>
+
+<form method='post' action='/users'>
+
+<div class="form_settings">
 
   <%- include _form.ejs %>
-
+</div>
 </form>
 
 <A href="/users"> Volver </a>

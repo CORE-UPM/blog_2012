@@ -1,31 +1,18 @@
+<div class='<%- locals.validate_errors && validate_errors.title ? "invalid_field"
+: "field" %>'>
+	<h3 >Titulo</h3><br />
+	<input type="text" id="post_title" name="post[title]"
+		size='80' value='<%= post.title%>' />
 
-  <div class='control-group <%- locals.validate_errors && validate_errors.title 
-                                ? "error" : "" %>'>
+</div>
 
-    <label class='control-label' for="post_title">Título:</label>
-    
-    <div class='controls'>
-      <input type="text" id="post_title" name="post[title]" 
-             class='input-xlarge' size='80' 
-             placeholder='Introduzca el contenido del post'
-             value='<%= post.title%>' />
-      <p class='help-block'>Introduzca el título del post</p> 
-    </div>
-  </div>
+<div class='<%- locals.validate_errors && validate_errors.title ? "invalid_field"
+: "field" %>'>
 
+	<h3 >Contenido</h3><br />
 
-  <div class='control-group <%- locals.validate_errors && validate_errors.body 
-                                ? "error" : "" %>'>
+ 	<textarea rows="15" cols="80" id="post_body" name="post[body]"><%= post.body %></textarea>
 
-    <label class='control-label' for="post_body">Contenido:</label>
+  	<p id="salvar_button" style="padding-top: 15px"><input class="submit" type="submit" name="name" value="Guardar" /></p>
 
-    <div class='controls'>
-      <textarea id="post_body" name="post[body]" 
-                placeholder='Introduzca el contenido del post' rows="20" cols="80"><%= post.body %></textarea>
-      <p class='help-block'>Introduzca el contenido del post</p> 
-    </div>
-  </div>
-
-  <button type='submit' class='btn btn-success'>Salvar</button>
-  <button type='reset' class='btn'>Limpiar</button>
-
+ </div>

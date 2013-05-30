@@ -1,5 +1,3 @@
-
-
 <script>
    function confirmPassword() {
       var pw1 = document.all['user_password'].value;    
@@ -16,71 +14,52 @@
          return true;
       } else {
          alert('Los passwords introducidos no coinciden.');
-         return false;		     
+         return false;         
       } 
    }
 </script>
 
 
-  <div class='control-group <%- locals.validate_errors && validate_errors.login 
-                                ? "error" : "" %>'>
+  <div class='<%- locals.validate_errors && validate_errors.login 
+                  ? "invalid_field" : "field" %>'>
 
      <% if ( ! user.id) { %>
-        <label class='control-label' for="user_login">Login:</label>
-        <div class='controls'> 
-           <input type="text" id="user_login" name="user[login]" size="30" 
-                  placeholder='Login para acceder a la cuenta' value='<%= user.login%>' />
-        </div>   
+        <h3 >Login</h3><br />
+        <input type="text" id="user_login" name="user[login]" size="30" value='<%= user.login%>' />
      <% } else { %>
         Login: <%= user.login %>
      <% } %>
   </div>
 
 
-  <div class='control-group <%- locals.validate_errors && validate_errors.name 
-                                ? "error" : "" %>'>
+  <div class='<%- locals.validate_errors && validate_errors.name 
+                  ? "invalid_field" : "field" %>'>
 
-    <label class='control-label' for="user_name">Nombre</label>
-    <div class='controls'>
-
-      <input type="text" id="user_name" name="user[name]" size="30" 
-             placeholder='Nombre y aplellidos' value='<%= user.name%>' />
-    </div>   
+    <h3 for="user_name">Nombre</h3><br />
+    <input type="text" id="user_name" name="user[name]" size="30" value='<%= user.name%>' />
   </div>
 
 
-  <div class='control-group <%- locals.validate_errors && validate_errors.email 
-                                ? "error" : "" %>'>
+  <div class='<%- locals.validate_errors && validate_errors.email 
+                  ? "invalid_field" : "field" %>'>
 
-    <label class='control-label' for="user_email">Email</label>
-    <div class='controls'>
-      <div class='input-prepend'>
-        <span class='add-on'><i class='icon-envelope'></i></span>
-        <input type="text" id="user_email" name="user[email]" size="30" 
-             placeholder='Dirección de correo electrónico' value='<%= user.email %>' />
-      </div>   
-    </div>   
+    <h3 >Email</h3><br />
+    <input type="text" id="user_email" name="user[email]" size="30" value='<%= user.email %>' />
   </div>
 
 
-  <div class="control-group">
-    <label class='control-label' for="user_password">Password:</label>
-    <div class='controls'>
-      <input type="password" id="user_password" name="user[password]" size="30" 
-             placeholder='Palabra de paso' value='' />
-    </div>   
+
+  <div class="field">
+    <h3>Contraseña</h3>
+    <input type="password" id="user_password" name="user[password]" size='30' value=''/>
   </div>
 
-  <div class="control-group">
-    <label class='control-label' for="user_confirm_password">Confirmar Password:</label>
-    <div class='controls'>
-      <input type="password" id="user_confirm_password" size="30" 
-            placeholder='Repita la palabra de paso' value='' />
-    </div>   
+
+  <div class="field">
+    <h3>Confirma contraseña</h3>
+    <input type="password" id="user_confirm_password"  size='30' value=''/>
   </div>
 
-  <button type='submit' class='btn btn-success' onclick='return confirmPassword()'>
-     Salvar
-  </button>
-  <button type='reset' class='btn'>Limpiar</button>
 
+
+    <p><input name="commit" onclick='return confirmPassword()' class="submit" type="submit" value="Salvar" /></p>

@@ -1,4 +1,3 @@
-
 // Definicion del modelo Comment:
 
 module.exports = function(sequelize, DataTypes) {
@@ -23,3 +22,4 @@ module.exports = function(sequelize, DataTypes) {
         }
       });
 }
+
