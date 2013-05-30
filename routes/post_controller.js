@@ -1,12 +1,10 @@
 
 var models = require('../models/models.js');
 
-
 /*
 *  Auto-loading con app.param
 */
 exports.load = function(req, res, next, id) {
-
    models.Post
         .find({where: {id: Number(id)}})
         .success(function(post) {
@@ -49,12 +47,12 @@ exports.index = function(req, res, next) {
 
     models.Post
         .findAll({order: 'updatedAt DESC',
-	                include: [ { model: models.User, as: 'Author' } ]
-	      })
+                  include: [ { model: models.User, as: 'Author' },
+                  models.Comment ]
+        })
         .success(function(posts) {
 
-          // console.log(posts);
-          
+          function renderizar() {
             switch (format) { 
               case 'html':
               case 'htm':
@@ -77,6 +75,46 @@ exports.index = function(req, res, next) {
                   console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
                   res.send(406);
             }
+          }
+
+          // Array que indica qué post es favorito y cuál no
+          res.locals.comprobarFavorito = [];
+          
+          if (req.session.user && posts.length > 0) {
+              for (var i in posts) {
+                if (i < posts.length - 1) {
+                  // Comprueba si es favorito del usuario
+                  models.Favourite.find({where: {userId: req.session.user.id, postId: posts[i].id}}).success(function(favourite) {
+                    if(favourite != null) {
+                      console.log("Es favorito");
+                      res.locals.comprobarFavorito.push(true);
+                    } else {
+                      console.log("No es favorito");
+                      res.locals.comprobarFavorito.push(false);
+                    }
+                  }).error(function(error){
+                    next(error);
+                  });
+                } else if(i == posts.length - 1) {
+                  // Comprueba si es favorito del usuario y renderiza la vista
+                  models.Favourite.find({where: {userId: req.session.user.id, postId: posts[i].id}}).success(function(favourite) {
+                    if(favourite != null) {
+                      console.log("Es favorito");
+                      res.locals.comprobarFavorito.push(true);
+                    } else {
+                      console.log("No es favorito");
+                      res.locals.comprobarFavorito.push(false);
+                    }
+                    renderizar();
+                  }).error(function(error){
+                    next(error);
+                  });
+                }
+             }
+          } else {
+            renderizar();
+          }
+ 
         })
         .error(function(error) {
             next(error);
@@ -118,19 +156,31 @@ exports.show = function(req, res, next) {
     models.User
         .find({where: {id: req.post.authorId}})
         .success(function(user) {
-
             // Si encuentro al autor lo añado como el atributo author, sino añado {}.
             req.post.author = user || {};
 
+            if(req.session.user){
+              models.Favourite.find({where: {userId: req.session.user.id, postId: req.post.id}}).success(function(favourite){
+                if(favourite != null){
+                  res.locals.comprobarFavorito = true;
+                  console.log("Añadido a favoritos");
+                }
+                else{
+                  res.locals.comprobarFavorito = false;
+                  console.log("Eliminado de favoritos");
+                }
+              });
+            }
             // Buscar Adjuntos
             req.post.getAttachments({order: 'updatedAt DESC'})
                .success(function(attachments) {
             
                   // Buscar comentarios
                   models.Comment
-                       .findAll({where: {postId: req.post.id},
-                                 order: 'updatedAt DESC',
-                                 include: [ { model: models.User, as: 'Author' } ] 
+                       .findAll({ 
+                                  where: {postId: req.post.id},
+                                  order: 'updatedAt DESC',
+                                  include: [ { model: models.User, as: 'Author' } ] 
                        })
                        .success(function(comments) {
 
@@ -145,6 +195,7 @@ exports.show = function(req, res, next) {
                                 });
                                 res.render('posts/show', {
                                     post: req.post,
+                                    comentarios: comments.length,
                                     comments: comments,
                                     comment: new_comment,
                                     attachments: attachments
@@ -336,3 +387,43 @@ exports.destroy = function(req, res, next) {
            next(error);
        });
 };
+
+// SEARCH 
+exports.search = function(req, res, next) {
+  var format = req.params.format || 'html';
+  format = format.toLowerCase();
+
+  var searchText = "%" + (req.query.search || "") + "%";
+  searchText = searchText.replace(/ /g, "%");
+
+  models.Post
+    .findAll({where: ["title like ? OR body like ?", searchText, searchText], order: "updatedAt DESC"})
+    .success(function(posts) {
+      switch (format) { 
+        case 'html':
+        case 'htm':
+            res.render('posts/index', {
+              posts: posts
+            });
+            break;
+        case 'json':
+            res.send(posts);
+            break;
+        case 'xml':
+            res.send(posts_to_xml(posts));
+            break;
+        case 'txt':
+            res.send(posts.map(function(post) {
+                return post.title+' ('+post.body+')';
+            }).join('\n'));
+            break;
+        default:
+            console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
+            res.send(406);
+      }
+    })
+    .error(function(error) {
+            next(error);
+        });
+};
+

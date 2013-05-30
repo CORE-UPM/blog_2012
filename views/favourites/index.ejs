@@ -1,6 +1,6 @@
 
 <header>
-  <h2> Posts </h2>
+  <h2> Favourites Posts </h2>
 </header>
 
 <div id="busqueda">
@@ -16,17 +16,10 @@
       <div id="star">
         <% if (session) { %>
           <% if ( session.user ) { %>
-            <% if ( !comprobarFavorito[i] ) { %>
-                <form method='post' action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>'>
-                  <input type='hidden' name='_method' value='put'>
-                  <input type='image' src='./images/starG.png'>
-                </form>
-            <% } else {%>
                 <form method='post' action='/users/<%= session.user.id %>/favourites/<%= posts[i].id %>'>
                   <input type='hidden' name='_method' value='delete'>
-                  <input type='image' src='./images/starY.png'>
+                  <input type='image' src='../../images/starY.png'>
                 </form>
-            <% } %>
           <% } %>
         <% } %>
       </div>

@@ -1,7 +1,6 @@
 
 var util = require('util');
-
-
+var user_controller = require('./user_controller.js')
 // Middleware: Login is required:
 //
 // Si el usuario ya hizo login anteriormente entonces existira 
@@ -75,8 +74,9 @@ exports.create = function(req, res) {
         // IMPORTANTE: creo req.session.user.
         // Solo guardo algunos campos del usuario en la sesion.
         // Esto es lo que uso para saber si he hecho login o no.
-        req.session.user = {id:user.id, login:user.login, name:user.name};
-
+        var segundos = new Date().getTime()/1000;
+        req.session.user = {id:user.id, login:user.login, name:user.name, time:segundos};
+        user_controller.actualizarTiempo(req, res);
         // Vuelvo al url indicado en redir
         res.redirect(redir);
     });

@@ -45,7 +45,9 @@ exports.loggedUserIsUser = function(req, res, next) {
 exports.index = function(req, res, next) {
 
     models.User
-        .findAll({order: 'name'})
+        .findAll({
+                   order: 'name'
+                 })
         .success(function(users) {
             res.render('users/index', {
                 users: users
@@ -254,4 +256,18 @@ exports.autenticar = function(login, password, callback) {
         });
 }; 
 
+
+exports.actualizarTiempo = function(req, res){
+    models.User.find({where:{login:req.session.user.login}})
+        .success(function(user){
+            if(user){
+                console.log("tiempo actualizado");
+                var segundos = new Date().getTime()/1000;
+                req.session.user.time = segundos;
+            }
+        })
+        .error(function(err){
+            next(error);
+        });
+};
 //  ----------------------------------

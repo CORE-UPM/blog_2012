@@ -1,7 +1,7 @@
 
 // Definicion de la clase User:
-
 module.exports = function(sequelize, DataTypes) {
+    var segundos = new Date().getTime()/1000;
   return sequelize.define('User',
       { login: {
             type: DataTypes.STRING,
@@ -27,7 +27,10 @@ module.exports = function(sequelize, DataTypes) {
         },
         salt: {
             type: DataTypes.STRING
+        },
+        time: {
+            type: DataTypes.INTEGER,
+            defaultValue: segundos
         }
-        
     });
 }

@@ -3,7 +3,7 @@
 <head>
    <meta charset="utf-8">
    
-   <title>CORE</title>
+   <title>SWCM</title>
 
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <meta name="description" content="Proyecto Blog de CORE">
@@ -30,7 +30,7 @@
             <span class="icon-bar"></span>
           </a>
 
-          <a class="brand" href="#">El Blog de CORE</a>
+          <a class="brand" href="/">El Blog de SWCM</a>
 
           <div class="btn-group pull-right">
             <a class="btn dropdown-toggle" data-toggle="dropdown" href="#">
@@ -60,6 +60,9 @@
               <li><a href="/"><i class='icon-home icon-white'></i> Home</a></li>
               <li><a href="/posts"><i class='icon-tasks icon-white'></i> Posts</a></li>
               <li><a href="/users"><i class='icon-user icon-white'></i> Usuarios</a></li>
+              <% if (session.user) { %>
+                <li><a href="/users/<%= session.user.id%>/favourites"><i class='icon-star icon-white'></i> Favoritos</a></li>
+              <% } %>   
             </ul>
           </div><!--/.nav-collapse -->
 
@@ -131,6 +134,12 @@
             </div>
           </div>
   
+          <div class="pull-right">
+            <%  if (locals.paginate_view) { %>
+              <%- paginate_view %>
+            <% } %>
+          </div>
+
         </div><!--/span10-->
 
         <div class="span2">
@@ -173,6 +182,10 @@
 
           <footer>
             <p class="text-info"> <small>&copy; Santiago Pavón. Universidad Politécnica de Madrid. Curso 2012-2013.</small></p>
+            <div>
+              <a id="about" href="/about">About</a>
+              <i>Visit number <%= aaa %> </i>
+            </div>
           </footer>
         </div>
       </div>

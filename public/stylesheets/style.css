@@ -7,7 +7,12 @@ body {
 .sidebar-nav {
   padding: 9px 0;
 }
-
+#star{
+  width: 50px;
+  height: 50px;
+  display: block;
+  float: right;
+}
 
 article {
   border: 2px solid #ffffff;
@@ -74,4 +79,20 @@ Comment
   font-weight: 200;
   line-height: 27px;
   color: inherit;
+}
+
+#div_video{
+  width: 80%;
+  text-align: center;
+}
+#video{
+  width: 97%;
+  display:block;
+  box-shadow: 10px 10px 10px;
+  box-shadow: 5px 5px 5px #000;
+  margin-bottom: 8px;
+}
+
+#about{
+  margin-right: 12px;
 }

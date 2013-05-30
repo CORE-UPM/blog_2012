@@ -2,6 +2,23 @@
 
  <div class="post">
     <div class="page-header">
+      <div id="star">
+        <% if (session) { %>
+          <% if ( session.user ) { %>
+            <% if ( !comprobarFavorito ) { %>
+                <form method='post' action='/users/<%= session.user.id %>/favourites/<%= post.id %>'>
+                  <input type='hidden' name='_method' value='put'>
+                  <input type='image' src='../images/starG.png'>
+                </form>
+            <% } else {%>
+                <form method='post' action='/users/<%= session.user.id %>/favourites/<%= post.id %>'>
+                  <input type='hidden' name='_method' value='delete'>
+                  <input type='image' src='../images/starY.png'>
+                </form>
+            <% } %>
+          <% } %>
+        <% } %>
+      </div>
       <h1>
         <%= post.title %>
         <small>por <em> <%= post.author && post.author.name || "Sin autor" %> </em></small>
@@ -10,7 +27,7 @@
    </div>
 
    <p><%- escapeText(post.body) %></p>
-
+   <i  style="font-size:15px"><%= comentarios %> comentarios.<i>
    <% if (session.user && session.user.id == post.authorId) {%>  
      <a href="/posts/<%= post.id %>/edit"> Editar </a>
    <% } %>

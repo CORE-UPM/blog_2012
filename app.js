@@ -8,17 +8,23 @@ var express = require('express')
   , http = require('http')
   , path = require('path')
   , partials = require('express-partials')
+  , about = require('./routes/about')
   , sessionController = require('./routes/session_controller.js')
   , postController = require('./routes/post_controller.js')
   , userController = require('./routes/user_controller.js')
   , commentController = require('./routes/comment_controller.js')
-  , attachmentController = require('./routes/attachment_controller.js');
+  , attachmentController = require('./routes/attachment_controller.js')
+  , favouriteController = require('./routes/favourite_controller.js')  //Para añadir favoritos
+  , count = require('./count.js')
+  , search = require('./routes/search')
+  , timeOut = require('./timeOut.js');
 
 var util = require('util');
-
 var app = express();
 
 app.use(partials());
+
+app.use(count());
 
 app.configure(function(){
   app.set('port', process.env.PORT || 3000);
@@ -44,7 +50,7 @@ app.configure(function(){
 
      next();
   });
-
+  app.use(timeOut());
   app.use(app.router);
   app.use(express.static(path.join(__dirname, 'public')));
 });
@@ -95,12 +101,19 @@ app.param('postid', postController.load);
 app.param('userid', userController.load);
 app.param('commentid', commentController.load);
 app.param('attachmentid', attachmentController.load);
+app.param('favouriteid', favouriteController.load);
 
 //---------------------
 
 app.get('/login',  sessionController.new);
 app.post('/login', sessionController.create);
 app.get('/logout', sessionController.destroy);
+
+//---------------------
+
+app.get('/about', about.about);
+app.get('/Search', search.search);
+app.get('/posts/search', postController.search);
 
 //---------------------
 
@@ -162,13 +175,17 @@ app.get('/orphancomments',
 
 //---------------------
 
-app.get('/posts.:format?', postController.index);
+app.get('/posts.:format?', 
+
+        postController.index);
 
 app.get('/posts/new', 
         sessionController.requiresLogin,
         postController.new);
 
-app.get('/posts/:postid([0-9]+).:format?', postController.show);
+app.get('/posts/:postid([0-9]+).:format?', 
+        postController.show);
+
 app.post('/posts', 
 	sessionController.requiresLogin,
         postController.create);
@@ -191,18 +208,19 @@ app.delete('/posts/:postid([0-9]+)',
 //---------------------
 
 app.get('/users', userController.index);
+
 app.get('/users/new', userController.new);
 app.get('/users/:userid([0-9]+)', userController.show);
 app.post('/users', userController.create);
 
 app.get('/users/:userid([0-9]+)/edit', 
         sessionController.requiresLogin,
-	userController.loggedUserIsUser,
+        userController.loggedUserIsUser,
         userController.edit);
 
 app.put('/users/:userid([0-9]+)', 
         sessionController.requiresLogin,
-	userController.loggedUserIsUser,
+        userController.loggedUserIsUser,
         userController.update);
 
 // app.delete('/users/:userid([0-9]+)', 
@@ -210,7 +228,23 @@ app.put('/users/:userid([0-9]+)',
 //           userController.destroy);
 
 //---------------------
+//Favoritos
 
+app.put( '/users/:userid([0-9]+)/favourites/:postid([0-9]+)',
+        sessionController.requiresLogin,
+        userController.loggedUserIsUser,
+        favouriteController.create);
+app.delete('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', 
+        sessionController.requiresLogin,
+        userController.loggedUserIsUser,
+        favouriteController.destroy);
+app.get('/users/:userid([0-9]+)/favourites', 
+        sessionController.requiresLogin,
+        userController.loggedUserIsUser,
+        favouriteController.index);
+
+//---------------------
 http.createServer(app).listen(app.get('port'), function(){
   console.log("Express server listening on port " + app.get('port'));
 });
+
