@@ -93,6 +93,7 @@ exports.add = function(req, res, next) {
   favourite.save().success(function(){
     req.flash('success','Añadido a favoritos');
     res.redirect('/posts');
+   
     //next();
   })
   .error(function(error){
@@ -107,7 +108,8 @@ exports.remove = function(req, res, next) {
         .success(function(favourite) {
            favourite.destroy() .success(function(){
                req.flash('success', 'Quitado de favoritos');
-               res.redirect('/posts');
+               res.redirect('/users/'+req.session.user.id+'/favourites');
+               //res.redirect('/posts');
            }) .error(function(error){
             next(error);
            });
