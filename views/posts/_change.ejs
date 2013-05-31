@@ -1,4 +1,4 @@
-<div class='control-group <%- locals.validate_errors && validate_errors.title "invalid_field" : "field" %>'>
+<div class='control-group <%- locals.validate_errors && validate_errors.title ? "invalid_field" : "field" %>'>
 	<label class="control-label" for="post_title">Título:</label>
 	<div class="controls">
 		<input type="text" id="post_title" name="post[title]" class="input-xlarge"
