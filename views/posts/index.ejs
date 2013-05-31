@@ -9,26 +9,29 @@
         <div class="pull-right">
 
 
-        <% if (posts[i].fav&&session.user){
-            if (posts[i].fav.authorId==session.user.id) { %>
+        <% if (session.user){
+        var n=0;
+          for(var j in favs ){
 
-                  <form action="/users/<%= session.user.id%>/favourites/<%= posts[i].fav.id %>" method="post">
+            if ((favs[j].postId==posts[i].id) && (favs[j].authorId==session.user.id)) { 
+              n++%>
+
+                  <form action="/users/<%= session.user.id%>/favourites/<%= favs[j].id %>" method="post">
                   <input type='hidden' name='_method' value='delete'>
                   <input type="image" value="delete" class='fav'src="images/fav_on.jpg" />
                   </form>
-  
-                <% }else{ %>
-
-                <form action="/users/<%= session.user.id%>/favourites/<%= posts[i].id %>" method='post'>
-                  <input type="image" class='fav' src="images/fav_off.jpeg" />
-                  </form>
                   
-                  <%}} else if(session.user){ %>
-
-                <form action="/users/<%= session.user.id%>/favourites/<%= posts[i].id %>" method='post'>
+                <% 
+            }
+          }
+         } 
+          if((n==0)&&(session.user)){%>
+         <form action="/users/<%= session.user.id%>/favourites/<%= posts[i].id %>" method='post'>
                   <input type="image" class='fav' src="images/fav_off.jpeg" />
                   </form>
-        <% } %>
+                  <% }%>
+
+
         </div>
       </h1>
      <em> <%= posts[i].updatedAt.toLocaleDateString() %></em>

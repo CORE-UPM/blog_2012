@@ -1,6 +1,7 @@
 var models = require('../models/models.js');
 
 
+
 /*
 *  Auto-loading con app.param
 */
@@ -56,24 +57,18 @@ exports.index = function(req, res, next) {
         })
         .success(function(posts) {
 
-             //METO LA LÓGICA DE NUMERO DE POSTS EN EL INDEX.EJS
-            //var coms = new Array();
-            //for (var i in posts) {
-            //    coms[i]=posts[i].coms.length;
-            //    console.log("comments en "+i+": "+coms[i]);
-            //}
-            for (var i in posts){
-              if(posts[i].fav){
-                
-              }
-            }
+          models.Favourite
+        .findAll({
+                  order: 'updatedAt DESC'})  
+        .success(function(favourites) {
+            
 
             switch (format) { 
               case 'html':
               case 'htm':
                   res.render('posts/index', {
-                    posts: posts
-                    //coms: coms
+                    posts: posts,
+                    favs: favourites
                   });
                   break;
               case 'json':
@@ -91,6 +86,10 @@ exports.index = function(req, res, next) {
                   console.log('No se soporta el formato \".'+format+'\" pedido para \"'+req.url+'\".');
                   res.send(406);
             }
+        })
+        .error(function(error) {
+            next(error);
+        });
         })
         .error(function(error) {
             next(error);
@@ -134,12 +133,12 @@ exports.show = function(req, res, next) {
         .success(function(user) {
           // Si encuentro al autor lo añado como el atributo author, sino añado {}.
             req.post.author = user || {};
-
-          models.Favourite
-        .find({where: {postId: req.post.id}})
-        .success(function(favourite) {
+      models.Favourite
+        .findAll({
+                  order: 'updatedAt DESC'})  
+        .success(function(favourites) {
             // Si encuentro al favorito lo añado como el atributo fav, sino añado 0.
-            req.post.fav = favourite || 0;
+            req.post.fav = favourites || 0;
             
 
             // Buscar Adjuntos
@@ -170,7 +169,8 @@ exports.show = function(req, res, next) {
                               comments: comments,
                               comment: new_comment,
                               num_com: c,
-                              attachments: attachments
+                              attachments: attachments,
+                              favs: favourites
                           });
                           break;
                       case 'json':

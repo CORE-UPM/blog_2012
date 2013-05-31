@@ -69,7 +69,8 @@ exports.index = function(req, res, next) {
 
 
             res.render('favourites/index', {
-                posts: posts
+                posts: posts,
+                favs:favourites
             });
         })
             .error(function(error) {

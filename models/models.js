@@ -38,7 +38,7 @@ User.hasMany(Post, {foreignKey: 'authorId'});
 User.hasMany(Comment, {foreignKey: 'authorId'});
 User.hasMany(Favourite, {as: 'Fav',foreignKey: 'authorId'});
 Post.hasMany(Comment, {as: 'Coms' ,foreignKey: 'postId'});
-Post.hasOne(Favourite, {as: 'Fav' ,foreignKey: 'postId'});
+Post.hasMany(Favourite, {as: 'Fav' ,foreignKey: 'postId'});
 Post.hasMany(Attachment, {foreignKey: 'postId'});
 // La llamada Post.belongsTo(User);
 //  - crea en el modelo de Post un atributo llamado UserId,
