@@ -1,5 +1,5 @@
 <h1>Editar Post</h1>
-<form method="post" action="/posts/<%= post.id %>">
+<form method="post" action="/posts/<%= post.id %>" class="form-horizontal">
 	<input type="hidden" name="_method" value="put">
 	<% include _change.ejs %>
 </form>
