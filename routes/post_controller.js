@@ -340,6 +340,12 @@ exports.destroy = function(req, res, next) {
                                     function(result) {},
                                     {resource_type: 'raw'});
                   }
+                  req.post.getFavourites()
+              .success(function(favs) {
+                  for (var i in favs) {
+                      // Eliminar un adjunto
+                      chainer.add(favs[i].destroy());
+                    }
            // Eliminar el post
            chainer.add(req.post.destroy());
 
@@ -352,6 +358,10 @@ exports.destroy = function(req, res, next) {
                       .error(function(errors){
                           next(errors[0]);   
                       })
+              })
+              .error(function(error) {
+                  next(error);
+              });
               })
               .error(function(error) {
                   next(error);
