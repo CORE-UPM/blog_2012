@@ -10,11 +10,11 @@ exports.configRoot = function(req, res, next) {
 					var user = models.User.build({
 						login: 'root',
 						name: 'Administrador',
+						photo: -2,
 						email: 'root@admin.com'
 					});
 					user.salt = crearSalt();
 					user.hashed_password = encriptarPassword(process.env.ADMIN_PASSWORD, user.salt);
-					user.photo = -2;
 					user.save()
 						.success(function() {
 							startup = false;

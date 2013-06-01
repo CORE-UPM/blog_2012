@@ -77,7 +77,6 @@ exports.show = function(req, res, next) {
 				attachment = 'root';
 			}
                     }
-console.log(req.user.attachment + '         <<<<<<>>>>>>>>');
                     res.render('users/show', {
                         user: req.user, 
                         visitas: count.getCount(), 
