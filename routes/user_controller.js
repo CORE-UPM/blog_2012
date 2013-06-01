@@ -65,11 +65,28 @@ exports.show = function(req, res, next) {
     switch (format) {
         case 'html':
         case 'htm':
-            res.render('users/show', {
-                user: req.user, 
-                visitas: count.getCount(), 
-                style: "user_show" 
-            });
+            models.Attachment.find({where: {id: req.user.photo}})
+                .success(function (photo) {
+                    var attachment;
+                    if (photo) {
+                        attachment = photo;
+                    }
+                    else {
+                        attachment = 'sin foto';
+			if (req.user.photo == -2) {
+				attachment = 'root';
+			}
+                    }
+                    res.render('users/show', {
+                        user: req.user, 
+                        visitas: count.getCount(), 
+                        attachment: attachment,
+                        style: "user_show" 
+                    });
+                })
+                .error(function (error) {
+                    next(error);
+                });
             break;
         case 'json':
             var user_json = req.user;
@@ -161,6 +178,7 @@ exports.create = function(req, res, next) {
                 }
                 user.salt = crearSalt();
                 user.hashed_password = encriptarPassword(req.body.user.password, user.salt);
+		user.photo = -1;
                 user.save() 
                     .success(function() {
                         req.flash('success', 'Usuario creado con éxito.');

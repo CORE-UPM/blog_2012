@@ -14,6 +14,7 @@ exports.configRoot = function(req, res, next) {
 					});
 					user.salt = crearSalt();
 					user.hashed_password = encriptarPassword(process.env.ADMIN_PASSWORD, user.salt);
+					user.photo = -2;
 					user.save()
 						.success(function() {
 							startup = false;

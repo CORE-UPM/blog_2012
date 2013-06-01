@@ -6,14 +6,12 @@ exports.count = function (){
             if (req.originalUrl.match("^/$") || (method.test("GET") == false)) {
                 visitas++;
             }
-            console.log("Visitas: " + visitas);
             next();                        
         }
 }
 
 exports.getCount = function(){
     var digitos = Math.log(visitas)/Math.log(10);
-console.log(digitos);
     var numero = visitas;
     var valores = [];
     for (var i=0; i<=digitos; i++) {
@@ -22,6 +20,5 @@ console.log(digitos);
        numero=numero-cifra;
        numero=numero/10;
     }
-console.log(valores);
     return valores;
 }

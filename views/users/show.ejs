@@ -1,22 +1,48 @@
 <h2> Usuario </h2>
+<div class="row-fluid">
+	<div class="span2">
+		<% if (attachment.mime && attachment.mime.match(/^image\//)) { %>
+			<img src='<%= attachment.url %>' class="img-rounded">
+		<% } else if (attachment == 'root') { %> 
+			<img src='/images/root.jpeg' class="img-polaroid">
+		<% } else { %>
+			<img src='/images/avatar.png' class="img-rounded">
+		<% } %>
+		<% if ((session.user && session.user.id == user.id)
+		|| (session.user && session.user.login == 'root')) { %>
+			<hr />
+			<form class='form-inline' method='post' 
+			action='/users/<%= user.id %>/photo'>
+				<input type='hidden' name='_method' value='delete'>
+				<a class="btn btn-warning btn-mini" href="/users/<%= user.id %>/photo/change">
+					<i class="icon-edit icon-white"></i> Editar
+				</a>
+				<button class='btn btn-danger btn-mini' href='#' onclick="this.parentNode.submit()">
+					<i class='icon-trash icon-white'></i> Borrar
+				</button>
+			</form>
+		<% } %>
+	</div>
+	<div class="span4">
+		<p>
+			<b>Login:</b>
+			<%= user.login %>
+		</p>
 
-<p>
-	<b>Login:</b>
-	<%= user.login %>
-</p>
+		<p>
+			<b>Nombre:</b>
+			<%= user.name %>
+		</p>
 
-<p>
-	<b>Nombre:</b>
-	<%= user.name %>
-</p>
+		<p>
+			<b>E-mail:</b>
+			<%= user.email %>
+		</p>
 
-<p>
-	<b>E-mail:</b>
-	<%= user.email %>
-</p>
-
-<% if (session.user && session.user.id == user.id) { %>
-	<a href="/users/<%= user.id %>/edit">Editar</a>
-<% } %>
-
+		<% if (session.user && session.user.id == user.id) { %>
+			<a class="btn btn-info" href="/users/<%= user.id %>/edit">Editar</a>
+		<% } %>
+	</div>
+</div>
+<hr />
 <a class="btn btn-warning" href="/users"><i class="icon-arrow-left icon-white"></i> Volver</a>

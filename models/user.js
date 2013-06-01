@@ -21,6 +21,9 @@ module.exports = function(sequelize, DataTypes) {
 				notEmpty: { msg: "El campo e-mail no puede estar vacío" }
 			}
 		},
+		photo: {
+			type: DataTypes.INTEGER
+		},
 		hashed_password: {
 			type: DataTypes.STRING
 		},
