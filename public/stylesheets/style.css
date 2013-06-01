@@ -61,16 +61,20 @@ article {
 	font-weight: 200;
 	line-height: 27px;
 	color: inherit;
-}
-	
+}	
 
-.invalid_field {
-	padding: 2px;
-	background-color: red;
-	display: table;
-}
-.field {
-	width: 100%;
+.digit {
+	background: url("/images/digit.png") no-repeat left !important;
+	border: 1px solid #FFF;
+	display: inline-block;
+	height: 28px;
+	width: 22px;
+	line-height: 28px;
+	margin-left: -1px;
+	position: relative;
+	text-align: center;
+	font-size: 24px;
+	color: #FFF;
 }
 
 #search {

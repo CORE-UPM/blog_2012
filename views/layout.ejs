@@ -185,7 +185,11 @@
           <hr>
 
           <footer>
-            <p>Número de visitas: <%= visitas %></p> 
+	<p>Número de visitas:
+		<% for (var i in visitas) { %>
+			<span class="digit"><strong><%= visitas[visitas.length-1-i] %></strong></span>
+                <% } %>
+	</p>
             <p>Desde el 15 de Mayo de 2013</p>
           </footer>
         </div>

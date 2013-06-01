@@ -90,6 +90,50 @@ exports.create = function(req, res, next) {
 		.on('error', function(error) {out_stream.error();});
 }
 
+exports.profile = function(req, res, next) {
+	var upfile = req.files.adjunto;
+	var cloudinary = require('cloudinary');
+	if (!upfile || upfile.size==0) {
+		req.flash('error', 'El adjunto no existe o está vacío');
+		res.redirect('/posts/' + req.post.id);
+		return;
+	}
+	var max_adj_size_in_KB = 50;
+	if (upfile.size > max_adj_size_in_KB*1024) {
+		req.flash('error', 'Tamaño máximo permitido de ' + max_adj_size_in_KB + 'KB.');
+		res.redirect('/posts/' + req.post.id);
+		return;
+	}
+	var out_stream = cloudinary.uploader.upload_stream(function(result) {
+		fs.unlink(upfile.path); //borrar fichero subido
+		if (!result.error) {
+			var attachment = models.Attachment.build({
+				public_id: result.public_id,
+				url: result.url,
+				filename: upfile.name,
+				mime: upfile.type,
+				postId: req.post.id
+			});
+			attachment.save()
+				.success(function() {
+					req.flash('success', 'Adjunto subido con éxito');
+					res.redirect('/posts/' + req.post.id);
+				})
+				.error(function(error) {
+					next(error);
+				});
+		}
+		else {
+			req.flash('error', result.error.message);
+			res.redirect('/posts/', req.post.id);
+		}
+	}, {resource_type: 'raw', format: path.extname(upfile.name).replace('.', '')});
+	fs.createReadStream(req.files.adjunto.path, {encoding: 'binary'})
+		.on('data', function(data) {out_stream.write(data);})
+		.on('end', function() {out_stream.end();})
+		.on('error', function(error) {out_stream.error();});
+}
+
 exports.destroy = function(req, res, next) {
 	var cloudinary = require('cloudinary');
 	cloudinary.api.delete_resources(req.attachment.public_id, 

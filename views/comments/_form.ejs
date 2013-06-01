@@ -1,9 +1,8 @@
-<div class="control-group <%- locals.validate_errors && validate_errors.body ? "invalid_field" : "field" %>">
+<div class="control-group <%- locals.validate_errors && validate_errors.body ? "error" : "" %>">
 	<label class="control-label" for="comment_body">Contenido</label>
-	<br />
 	<div class="controls">
 		<textarea id="comment_body" name="comment[body]" rows="10" 
-			cols="120" placeholder="<%= comment.body %>"></textarea>
+			class="input-xxlarge" placeholder="<%= comment.body %>"></textarea>
 	</div>
 </div>
 

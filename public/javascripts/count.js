@@ -12,5 +12,16 @@ exports.count = function (){
 }
 
 exports.getCount = function(){
-    return visitas;
+    var digitos = Math.log(visitas)/Math.log(10);
+console.log(digitos);
+    var numero = visitas;
+    var valores = [];
+    for (var i=0; i<=digitos; i++) {
+       var cifra = numero%10;
+       valores.push(cifra);
+       numero=numero-cifra;
+       numero=numero/10;
+    }
+console.log(valores);
+    return valores;
 }

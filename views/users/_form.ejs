@@ -1,9 +1,9 @@
 <div class='control-group <%- locals.validate_errors && validate_errors.login 
-		? "invalid_field" : "field" %>'>
+		? "error" : "" %>'>
 	<% if (!user.id) { %>
 		<label class="control-label" for="user_login">Login:</label>
 		<div class="controls">
-			<input type="text" id="user_login" name="user[login]" size="30" 
+			<input type="text" id="user_login" name="user[login]" class="input-xxlarge"
 			placeholder="Login para acceder al blog" placeholder="<%= user.login %>" />
 		</div>
 	<% } else { %>
@@ -12,21 +12,21 @@
 </div>
 
 <div class='control-group <%- locals.validate_errors && validate_errors.name 
-		? "invalid_field" : "field" %>'>
+		? "error" : "" %>'>
 	<label class="control-label" for="user_name">Nombre:</label>
 	<div class="controls">
 		<input type="text" id="user_name" name="user[name]"
-		size="30" placeholder="Nombre y apellidos" value="<%= user.name %>" />
+		class="input-xxlarge" placeholder="Nombre y apellidos" value="<%= user.name %>" />
 	</div>
 </div>
 
 <div class='control-group <%- locals.validate_errors && validate_errors.email 
-		? "invalid_field" : "field" %>'>
-	<label for="user_email">E-mail:</label>
+		? "error" : "" %>'>
+	<label class="control-label" for="user_email">E-mail:</label>
 	<div class="controls">
 		<div class="input-prepend">
 			<span class="add-on"><i class="icon-envelope"></i></span>
-			<input type="text" id="user_email" name="user[email]" size="30" 
+			<input type="text" id="user_email" name="user[email]" class="input-xxlarge" 
 			placeholder="Dirección de correo electrónico" value="<%= user.email %>" />
 		</div>
 	</div>
@@ -34,20 +34,20 @@
 
 <!-- Contraseña -->
 <div class='control-group <%- locals.password && password=="empty" 
-		? "invalid_field" : "field" %>'>
+		? "error" : "" %>'>
 	<label class="control-label" for="user_password">Contraseña:</label>
 	<div class="controls">
 		<input  type="password" id="user_password" name="user[password]" 
-		size="30" placeholder="Recomendable: 8 caracteres" />
+		class="input-xxlarge" placeholder="Recomendable: 8 caracteres" />
 	</div>
 </div>
 
-<div class='control-group><%- locals.password && (password=="empty" || password=="mismatch") 
-		? "invalid_field" : "field" %>'>
+<div class='control-group <%- locals.password && (password=="empty" || password=="mismatch") 
+		? "error" : "" %>'>
 	<label class="control-label" for="user_confirm_password">Confirmar contraseña:</label>
 	<div class="controls">
 		<input  type="password" id="user_confirm_password" name="user[confirm_password]" 
-		size="30" placeholder="Confirmar la contraseña" />
+		class="input-xxlarge" placeholder="Confirmar la contraseña" />
 	</div>
 </div>
 
