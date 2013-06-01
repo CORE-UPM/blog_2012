@@ -8,7 +8,7 @@
 	</div>
 	<p><%- escapeText(post.body) %></p>
 	<% if (session.user && session.user.id == post.authorId) { %>
-		<a href="/posts/<%= post.id %>/edit">Editar</a>
+		<a href="/posts/<%= post.id %>/edit"><i class="icon-edit icon-white"></i> Editar</a>
 	<% } %>
 </div>
 <hr />
@@ -19,7 +19,7 @@
 <% if (session.user) { %>
 	<blockquote>
 		<%- include ../comments/new.ejs %>
-	<blockquote>
+	</blockquote>
 	<hr />
 <% } %>
-<a href="/posts">Volver</a>
+<a class="btn btn-warning" href="/posts"><i class="icon-arrow-left icon-white"></i> Volver</a>

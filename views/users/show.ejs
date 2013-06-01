@@ -15,5 +15,8 @@
 	<%= user.email %>
 </p>
 
-<a href="/users/<%= user.id %>/edit">Editar</a>
-<a href="/users">Volver</a>
+<% if (session.user && session.user.id == user.id) { %>
+	<a href="/users/<%= user.id %>/edit">Editar</a>
+<% } %>
+
+<a class="btn btn-warning" href="/users"><i class="icon-arrow-left icon-white"></i> Volver</a>

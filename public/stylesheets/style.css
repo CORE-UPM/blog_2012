@@ -30,14 +30,12 @@ article {
 
 .post h1 {
 	margin-bottom: 0;
-	font-size: 40px;
 	line-height: 1;
 	letter-spacing: -1px;
 	color: inherit;
 }
 
 .post p {
-	font-size: 18px;
 	font-weight: 200;
 	line-height: 27px;
 	color: inherit;
@@ -54,14 +52,12 @@ article {
 
 .comment h1 {
 	margin-bottom: 0;
-	font-size: 60px;
 	line-height: 1;
 	letter-spacing: -1px;
 	color: inherit;
 }
 
 .comment p {
-	font-size: 18px;
 	font-weight: 200;
 	line-height: 27px;
 	color: inherit;

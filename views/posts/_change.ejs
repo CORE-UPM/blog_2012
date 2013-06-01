@@ -8,11 +8,11 @@
 
 <div class='control-group <%- locals.validate_errors && validate_errors.body 
 		? "invalid_field" : "field" %>'>
-	<label class="control-label" for="post_title">Contenido:</label>
+	<label class="control-label" for="post_body">Contenido:</label>
 	<div class="controls">
-		<textarea id="post_body" name="post[body]" cols="80" rows="20"><%= post.body %></textarea>
+		<textarea id="post_body" name="post[body]" cols="120" rows="10"><%= post.body %></textarea>
 	</div>
 </div>
 
-<button type="submit" class="btn btn-success">Guardar</button>
-<button type="reset" class="btn">Borrar</button>
+<button type="submit" class="btn btn-success"><i class="icon-lock icon-white"></i> Guardar</button>
+<button type="reset" class="btn btn-primary"><i class="icon-file icon-white"></i> Borrar campos</button>

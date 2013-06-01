@@ -16,12 +16,14 @@
 			<% if (session.user && session.user.login == 'root') { %>
 				<form method='post' action='/posts/<%= posts[i].id %>'>
 					<input type='hidden' name='_method' value='delete'>
-					<a href="/posts/<%= posts[i].id %>/edit">Editar</a>
-					<a href="#" onclick="this.parentNode.submit()">Borrar</a>
+					<a class="btn btn-warning btn-mini" href="/posts/<%= posts[i].id %>/edit">
+						<i class="icon-edit icon-white"></i> Editar</a>
+					<a class="btn btn-danger btn-mini" href="#" onclick="this.parentNode.submit()">
+						<i class="icon-trash icon-white"></i> Borrar</a>
 				</form>
 			<% } %>
 		</footer>
 	</article>
 <% }; %>
 <hr />
-<a href="/admin">Volver</a>
+<a class="btn btn-inverse" href="/admin"><i class="icon-arrow-left icon-white"></i> Volver</a>

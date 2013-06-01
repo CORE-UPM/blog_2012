@@ -1,9 +1,9 @@
 <header>
    <h2> <div class='pull-right'>
           <span class='badge badge-info'> <%= attachments.length %> </span>
-          <i class='icon-file'></i>
+          <i class='icon-file icon-white'></i>
         </div>
-        Adjuntos </h2>
+         Adjuntos </h2>
 </header>
 
 
@@ -55,7 +55,9 @@
 
     <% if (session.user && session.user.id == post.authorId) {%>
 
-       <a class='btn btn-success' href="/posts/<%= post.id %>/attachments/new">Subir Adjunto</a>
+       <a class='btn btn-success' href="/posts/<%= post.id %>/attachments/new">
+	<i class="icon-upload icon-white"></i> Subir Adjunto
+       </a>
 
     <% } %>
 

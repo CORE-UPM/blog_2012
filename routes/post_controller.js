@@ -53,12 +53,6 @@ exports.index = function(req, res, next) {
                         else {
                             posts_json[i].comments = 'No hay comentarios';
                         }
-                        if (posts_json[i].attachments != null) {
-                            posts_json[i].attachments = posts_json[i].attachments.length;
-                        }
-                        else {
-                            posts_json[i].attachments = 'No hay adjuntos';
-                        }
                     }
                     res.send(posts_json);
                     break;
@@ -119,7 +113,7 @@ exports.show = function(req, res, next) {
                                     res.send(post_json);
                                     break;
                                 case 'xml':
-                                    res.send(post_to_xml(req.post, comments));
+                                    res.send(post_to_xml(req.post, comments, attachments));
                                     break;
                                 default:
                                     console.log("Formato \"" + format + "\" no soportado");
@@ -255,8 +249,8 @@ exports.search = function(req, res, next) {
     text = "%" + text + "%";
     format = format.toLowerCase();
     models.Post
-        .findAll({where: ["title like ? OR body like ?", text, text], 
-            order: "updatedAt DESC", include: [{model:models.User, as:'Author'}]})
+        .findAll({where: ["title like ? OR body like ?", text, text], order: 'updatedAt DESC', 
+            include: [{model:models.User, as:'Author'}]})
         .success(function(posts) {
             switch (format) {
                 case 'html':
@@ -276,6 +270,12 @@ exports.search = function(req, res, next) {
                         }
                         else {
                             posts_json[i].author = 'Anónimo';
+                        }
+                        if (posts_json[i].comments != null) {
+                            posts_json[i].comments = posts_json[i].comments.length;
+                        }
+                        else {
+                            posts_json[i].comments = 'No hay comentarios';
                         }
                     }
                     res.send(posts_json);
@@ -311,6 +311,12 @@ function posts_to_xml(posts) {
     var builder = require('xmlbuilder');
     var xml = builder.create('posts');
     for (var i in posts) {
+        if (posts[i].comments != null) {
+            posts[i].comments = posts[i].comments.length;
+        }
+        else {
+            posts[i].comments = 'No hay comentarios';
+        }
         xml.ele('post')
             .ele('id')
                 .txt(posts[i].id)
@@ -328,14 +334,23 @@ function posts_to_xml(posts) {
                 .txt(posts[i].createdAt)
                 .up()
             .ele('updatedAt')
-                .txt(posts[i].updatedAt);
+                .txt(posts[i].updatedAt)
+                .up();
     }
     return xml.end({pretty: true});
 }
 
-function post_to_xml(post, comments) {
+function post_to_xml(post, comments, attachments) {
     var builder = require('xmlbuilder');
     if (post) {
+        if (comments != null) {}
+        else {
+            comments = 'No hay comentarios';
+        }
+        if (attachments != null) {}
+        else {
+            attachments = 'No hay comentarios';
+        }
         var xml = builder.create('post')
             .ele('id')
                 .txt(post.id)
@@ -353,7 +368,8 @@ function post_to_xml(post, comments) {
                 .txt(post.createdAt)
                 .up()
             .ele('updatedAt')
-                .txt(post.updatedAt);
+                .txt(post.updatedAt)
+                .up();
         return xml.end({pretty: true});
     }
     else {

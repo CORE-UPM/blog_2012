@@ -14,14 +14,15 @@
 		<p><%= posts[i].body.slice(0, 1000) %></p>
 		
 		<footer class="pull-right">
-			<% if (session.user && session.user.id == posts[i].authorId) { %>
+			<% if ((session.user && session.user.id == posts[i].authorId) 
+				|| (session.user && session.user.login == 'root')) { %>
 				<% var form_name = 'fpi' + i; %>
 				<form method='post' action='/posts/<%= posts[i].id %>' name="<%= form_name %>">
 					<input type='hidden' name='_method' value='delete'>
 					<a class="btn btn-warning btn-mini" href="/posts/<%= posts[i].id %>/edit">
-						<i class="icon-edit icon-white"></i>Editar</a>
+						<i class="icon-edit icon-white"></i> Editar</a>
 					<a class="btn btn-danger btn-mini" href="#" onclick="this.parentNode.submit()">
-						<i class="icon-trash icon-white"></i>Borrar</a>
+						<i class="icon-trash icon-white"></i> Borrar</a>
 				</form>
 			<% } %>
 		</footer>
@@ -29,6 +30,6 @@
 <% }; %>
 <footer>
 	<nav>
-		<a href="/posts/new"><i class="icon-plus-sign"></i>Añadir Post</a>
+		<a class="btn btn-primary" href="/posts/new"><i class="icon-plus-sign icon-white"></i> Añadir Post</a>
 	</nav>
 </footer>
