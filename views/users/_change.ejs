@@ -1,44 +1,56 @@
-<div>
-	Login: <%= user.login %>
-	<br />
+<div class='control-group'>
+		Login: <%= user.login %>
 </div>
 
-<div class='<%- locals.validate_errors && validate_errors.name 
-		? "invalid_field" : "field" %>'>
-	<label for="user_name">Nombre:</label>
-	<br />
-	<input type="text" id="user_name" name="user[name]"
-		size="30" value="<%= user.name %>" />
+<div class='control-group <%- locals.validate_errors && validate_errors.name 
+		? "error" : "" %>'>
+	<label class="control-label" for="user_name">Nombre:</label>
+	<div class="controls">
+		<input type="text" id="user_name" name="user[name]"
+		class="input-xxlarge" placeholder="Nombre y apellidos" value="<%= user.name %>" />
+	</div>
 </div>
 
-<div class='<%- locals.validate_errors && validate_errors.email 
-		? "invalid_field" : "field" %>'>
-	<label for="user_email">E-mail:</label>
-	<br />
-	<input type="text" id="user_email" name="user[email]"
-		size="30" value="<%= user.email %>" />
+<div class='control-group <%- locals.validate_errors && validate_errors.email 
+		? "error" : "" %>'>
+	<label class="control-label" for="user_email">E-mail:</label>
+	<div class="controls">
+		<div class="input-prepend">
+			<span class="add-on"><i class="icon-envelope"></i></span>
+			<input type="text" id="user_email" name="user[email]" class="input-xxlarge" 
+			placeholder="Dirección de correo electrónico" value="<%= user.email %>" />
+		</div>
+	</div>
 </div>
 
 <!-- Contraseña -->
-<div class='<%- locals.password && password=="old" 
-		? "invalid_field" : "field" %>'>
-	<label for="user_password">Contraseña Antigua:</label>
-	<br />
-	<input type="password" id="user_old_password" name="user[old_password]" size="30" value="" />
-</div>
-<div class='<%- locals.password && password=="mismatch" 
-		? "invalid_field" : "field" %>'>
-	<label for="user_password">Nueva Contraseña:</label>
-	<br />
-	<input type="password" id="user_password" name="user[password]" size="30" value="" />
-</div>
-<div class='<%- locals.password && password=="mismatch" 
-		? "invalid_field" : "field" %>'>
-	<label for="user_confirm_password">Confirmar nueva contraseña:</label>
-	<br />
-	<input type="password" id="user_confirm_password" name="user[confirm_password]" size="30" value="" />
+
+<div class='control-group <%- locals.password && password=="old" 
+		? "error" : "" %>'>
+	<label class="control-label" for="user_old_password">Antigua Contraseña:</label>
+	<div class="controls">
+		<input  type="password" id="user_old_password" name="user[old_password]" 
+		class="input-xxlarge" placeholder="Recomendable: 8 caracteres" />
+	</div>
 </div>
 
-<div class="actions">
-	<input name="commit" type="submit" value="Guardar"/>
+<div class='control-group <%- locals.password && password=="mismatch" 
+		? "error" : "" %>'>
+	<label class="control-label" for="user_password">Nueva Contraseña:</label>
+	<div class="controls">
+		<input  type="password" id="user_password" name="user[password]" 
+		class="input-xxlarge" placeholder="Recomendable: 8 caracteres" />
+	</div>
 </div>
+
+<div class='control-group <%- locals.password && password=="mismatch" 
+		? "error" : "" %>'>
+	<label class="control-label" for="user_confirm_password">Confirmar contraseña:</label>
+	<div class="controls">
+		<input  type="password" id="user_confirm_password" name="user[confirm_password]" 
+		class="input-xxlarge" placeholder="Confirmar la contraseña" />
+	</div>
+</div>
+
+<button type="submit" class="btn btn-success"/><i class="icon-lock icon-white"></i> Guardar</button>
+<button type="reset" class="btn btn-primary"/><i class="icon-file icon-white"></i> Borrar Campos</button>

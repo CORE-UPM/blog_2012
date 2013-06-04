@@ -1,8 +1,7 @@
 module.exports = function(sequelize, DataTypes) {
 	return sequelize.define('Attachment', {
 		postId: {
-			type: DataTypes.INTEGER,
-			validate: { notEmpty: {msg: "El campo postId no puede estar vacío"}}
+			type: DataTypes.INTEGER
 		},
 		public_id: {
 			type: DataTypes.STRING,

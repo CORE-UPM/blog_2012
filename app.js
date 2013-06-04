@@ -124,6 +124,16 @@ app.get('/users/:userid([0-9]+).:format?', userController.show);
 app.get('/users/:userid([0-9]+)/edit', sessionController.requiresLogin, 
 	userController.loggedUserIsUser, userController.edit);
 
+app.get('/users/:userid([0-9]+)/photo/change', sessionController.requiresLogin, 
+	userController.loggedUserIsUser, attachmentController.newPhoto);
+
+app.post('/users/:userid([0-9]+)/photo/change', sessionController.requiresLogin, 
+	userController.loggedUserIsUser, attachmentController.profile);
+
+
+app.delete('/users/:userid([0-9]+)/photo', sessionController.requiresLogin, 
+	userController.loggedUserIsUser, attachmentController.deletePhoto);
+
 app.post('/users', userController.create);
 
 app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, 

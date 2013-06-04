@@ -46,6 +46,15 @@ exports.new = function(req, res, next) {
 	});
 }
 
+
+exports.newPhoto = function(req, res, next) {
+	res.render('attachments/newPhoto', {
+		user: req.user,
+		visitas: count.getCount(),
+		style: "attachment_new" 
+	});
+}
+
 exports.create = function(req, res, next) {
 	var upfile = req.files.adjunto;
 	var cloudinary = require('cloudinary');
@@ -95,13 +104,13 @@ exports.profile = function(req, res, next) {
 	var cloudinary = require('cloudinary');
 	if (!upfile || upfile.size==0) {
 		req.flash('error', 'El adjunto no existe o está vacío');
-		res.redirect('/posts/' + req.post.id);
+		res.redirect('/users/' + req.user.id);
 		return;
 	}
 	var max_adj_size_in_KB = 50;
 	if (upfile.size > max_adj_size_in_KB*1024) {
 		req.flash('error', 'Tamaño máximo permitido de ' + max_adj_size_in_KB + 'KB.');
-		res.redirect('/posts/' + req.post.id);
+		res.redirect('/users/' + req.user.id);
 		return;
 	}
 	var out_stream = cloudinary.uploader.upload_stream(function(result) {
@@ -112,12 +121,18 @@ exports.profile = function(req, res, next) {
 				url: result.url,
 				filename: upfile.name,
 				mime: upfile.type,
-				postId: req.post.id
 			});
 			attachment.save()
 				.success(function() {
-					req.flash('success', 'Adjunto subido con éxito');
-					res.redirect('/posts/' + req.post.id);
+					req.user.photo = attachment.id;
+					req.user.save(['photo'])
+						.success(function() {
+							req.flash('success', 'Adjunto subido con éxito');
+							res.redirect('/users/' + req.user.id);
+						})
+						.error(function(error) {
+							next(error);
+						});
 				})
 				.error(function(error) {
 					next(error);
@@ -125,7 +140,7 @@ exports.profile = function(req, res, next) {
 		}
 		else {
 			req.flash('error', result.error.message);
-			res.redirect('/posts/', req.post.id);
+			res.redirect('/users/', req.user.id);
 		}
 	}, {resource_type: 'raw', format: path.extname(upfile.name).replace('.', '')});
 	fs.createReadStream(req.files.adjunto.path, {encoding: 'binary'})
@@ -146,6 +161,42 @@ exports.destroy = function(req, res, next) {
 		.error(function(error) {
 			next(error);
 		});
+}
+
+exports.deletePhoto = function(req, res, next) {
+	var cloudinary = require('cloudinary');
+	if (req.user.photo && req.user.photo != -1 && req.user.photo != -2) {
+		models.Attachment
+			.find({where: {id: Number(req.user.photo)}})
+			.success(function(attachment) {
+				cloudinary.api.delete_resources(attachment.public_id, 
+					function(result) {}, {resource_type: 'raw'});
+				attachment.destroy()
+					.success(function() {
+						req.user.photo = -1;
+						if (req.user.login == 'root') {
+							req.user.photo = -2;
+						}
+						req.user.save(['photo'])
+						.success(function() {
+							req.flash('success', 'Foto eliminada con éxito');
+							res.redirect('/users/' + req.user.id);
+						})
+						.error(function(error) {
+							next(error);
+						});
+					})
+					.error(function(error) {
+						next(error);
+					});
+			})
+			.error(function(error) {
+				next(error);
+			});
+	}
+	else {
+		req.flash('info', 'Esta es la foto por defecto, no se puede borrar');
+	}
 }
 		
 

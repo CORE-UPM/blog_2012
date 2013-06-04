@@ -30,7 +30,7 @@ exports.create = function(req, res) {
 				next(error);
 			}
 			else {
-				req.flash('error', 	error);
+				req.flash('error', error);
 				res.redirect("/login?redir=" + redir);
 			}
 			return;

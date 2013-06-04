@@ -1,14 +1,10 @@
 <div class='control-group <%- locals.validate_errors && validate_errors.login 
 		? "error" : "" %>'>
-	<% if (!user.id) { %>
-		<label class="control-label" for="user_login">Login:</label>
-		<div class="controls">
-			<input type="text" id="user_login" name="user[login]" class="input-xxlarge"
-			placeholder="Login para acceder al blog" placeholder="<%= user.login %>" />
-		</div>
-	<% } else { %>
-		Login: <%= user.login %>
-	<% } %> 
+	<label class="control-label" for="user_login">Login:</label>
+	<div class="controls">
+		<input type="text" id="user_login" name="user[login]" class="input-xxlarge"
+		placeholder="Login para acceder al blog" placeholder="<%= user.login %>" />
+	</div>
 </div>
 
 <div class='control-group <%- locals.validate_errors && validate_errors.name 
