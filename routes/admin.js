@@ -17,12 +17,13 @@ exports.show = function(req, res, next) {
 				}
 			}
 			for (var i in posts_anonimos) {
-				if (posts_anonimos[i]) {
+				if (posts_anonimos[i] != null) {
 					res.render('admin/show', {
 						posts: posts_anonimos,
 						visitas: count.getCount(), 
 						style: "admin_show" 
 					});
+					return;
 				}
 			}
 			req.flash('info', 'No hay ningún post anónimo');

@@ -264,14 +264,30 @@ exports.update = function(req, res, next) {
 
 // DELETE /users/#id
 exports.destroy = function(req, res, next) {
-    req.user.destroy()
-        .success(function() {
-            req.flash('success', 'Usuario eliminado con éxito.');
-            res.redirect('/users');
+    var Sequelize = require('sequelize');
+    var chainer = new Sequelize.Utils.QueryChainer;
+    req.user.getFavourites()
+        .success(function(favourites) {
+            for (var i in favourites) {
+                chainer.add(favourites[i].destroy()); // Eliminar favorito
+            }
+            chainer.add(req.user.destroy());
+            chainer.run()
+                .success(function() {})
+                .error(function(errors) { next(errors[0]); });
+            models.Attachment.find({where: {id: req.user.photo}})
+                .success(function (photo) {
+                    if (photo) {
+                        photo.destroy();
+                    }
+                    req.flash('success', 'Usuario eliminado con éxito.');
+                    res.redirect('/users');
+                })
+                .error(function(error) {
+                    next(error);
+                });
         })
-        .error(function(error) {
-            next(error);
-        });
+        .error(function(error) { next(error); });
 }
 
 // Generador de contraseña

@@ -264,18 +264,25 @@ exports.destroy = function(req, res, next) {
             }
             req.post.getAttachments()
                 .success(function(attachments) {
-                    for (var i in attachments) {
-                        chainer.add(attachments[i].destroy()); // Eliminar adjunto
-                        cloudinary.api.delete_resources(attachments[i].public_id, 
-                            function(result) {}, {resource_type: 'raw'}); 
-                    }
-                    chainer.add(req.post.destroy());
-                    chainer.run()
-                        .success(function() {
-                            req.flash('success', 'Post (y sus comentarios) eliminado con éxito.');
-                            res.redirect('/posts');
+                    req.post.getFavourites()
+                        .success(function(favourites) {
+                            for (var i in favourites) {
+                                chainer.add(favourites[i].destroy()); // Eliminar favorito
+                            }
+                            for (var i in attachments) {
+                                chainer.add(attachments[i].destroy()); // Eliminar adjunto
+                                cloudinary.api.delete_resources(attachments[i].public_id, 
+                                function(result) {}, {resource_type: 'raw'}); 
+                            }
+                            chainer.add(req.post.destroy());
+                            chainer.run()
+                                .success(function() {
+                                    req.flash('success', 'Post (y sus comentarios) eliminado con éxito.');
+                                    res.redirect('/posts');
+                                })
+                                .error(function(errors) { next(errors[0]); });
                         })
-                        .error(function(errors) { next(errors[0]); });
+                        .error(function(error) { next(error); });
                 })
                 .error(function(error) { next(error); });
         })

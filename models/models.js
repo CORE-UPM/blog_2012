@@ -34,7 +34,7 @@ Post.hasMany(Attachment, {foreignKey: 'postId'});
 Post.belongsTo(User, {as: 'Author', foreignKey: 'authorId'});
 Comment.belongsTo(User, {as: 'Author', foreignKey: 'authorId'});
 Comment.belongsTo(Post, {foreignKey: 'postId'});
-Favourite.belongsTo(User, {foreignKey: 'userId'});
+Favourite.belongsTo(User, {as: 'Author', foreignKey: 'userId'});
 Favourite.belongsTo(Post, {foreignKey: 'postId'});
 Attachment.belongsTo(Post, {foreignKey: 'postId'});
 
