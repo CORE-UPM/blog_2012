@@ -8,6 +8,7 @@ var express = require('express'),
     routes = require('./routes'), // Solo para index
     autores = require('./routes/autores'),
     admin = require('./routes/admin'),
+    paginate = require('./routes/paginate').paginate,
     postController = require('./routes/post_controller'),
     userController = require('./routes/user_controller'),
     sessionController = require('./routes/session_controller'),
@@ -101,9 +102,15 @@ app.get('/login', sessionController.new);
 app.get('/logout', sessionController.destroy);
 app.post('/login', sessionController.create);
 
-app.get('/posts.:format?', postController.index);
+app.get('/posts.:format?', function(req, res, next) {
+	paginate(req, res, next, 'Post');
+}, postController.index);
+
 app.get('/posts/new', sessionController.requiresLogin, postController.new);
-app.get('/posts/:postid([0-9]+).:format?', postController.show);
+
+app.get('/posts/:postid([0-9]+).:format?', function(req, res, next) {
+	paginate(req, res, next, 'Comment', {where:{postId:req.params.postid}});
+}, postController.show);
 
 app.get('/posts/:postid([0-9]+)/edit', sessionController.requiresLogin, 
 	postController.loggedUserIsAuthor, postController.edit);
@@ -117,7 +124,9 @@ app.put('/posts/:postid([0-9]+)', sessionController.requiresLogin,
 app.delete('/posts/:postid([0-9]+)', sessionController.requiresLogin,
 	postController.loggedUserIsAuthor, postController.destroy);
 
-app.get('/users.:format?', userController.index);
+app.get('/users.:format?', function(req, res, next) {
+	paginate(req, res, next, 'User');
+}, userController.index);
 app.get('/users/new', userController.new);
 app.get('/users/:userid([0-9]+).:format?', userController.show);
 
@@ -129,7 +138,6 @@ app.get('/users/:userid([0-9]+)/photo/change', sessionController.requiresLogin,
 
 app.post('/users/:userid([0-9]+)/photo/change', sessionController.requiresLogin, 
 	userController.loggedUserIsUser, attachmentController.profile);
-
 
 app.delete('/users/:userid([0-9]+)/photo', sessionController.requiresLogin, 
 	userController.loggedUserIsUser, attachmentController.deletePhoto);

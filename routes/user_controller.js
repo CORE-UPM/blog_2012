@@ -26,7 +26,9 @@ exports.index = function(req, res, next) {
     var format = req.params.format || 'html';
     format = format.toLowerCase();
     models.User
-        .findAll({order: 'name'})
+        .findAll({offset: req.pagination.offset,
+                  limit: req.pagination.limit,
+                  order: 'name'})
         .success(function(users) {
             switch (format) {
                 case 'html':

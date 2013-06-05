@@ -16,7 +16,8 @@
     "path": "0.4.9",
     "xmlbuilder": "0.4.2",
     "pg": "0.6.x",
-    "cloudinary": ""
+    "cloudinary": "",
+    "nodejs-yapaginate": ""
 },
 
   "engines": {
