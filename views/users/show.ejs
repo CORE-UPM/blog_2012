@@ -42,6 +42,7 @@
 		<% if ((session.user && session.user.id == user.id)
 		|| (session.user && session.user.login == 'root')) { %>
 			<a class="btn btn-info" href="/users/<%= user.id %>/edit">Editar</a>
+			<a class="btn btn-warning" href="/users/<%= user.id %>/favourites">Favoritos</a>
 		<% } %>
 	</div>
 </div>

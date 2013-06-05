@@ -20,9 +20,15 @@ article {
 }
 
 .post {
+	color: #FFFFFF;
 	padding: 10px 20px 20px 20px;
 	margin-bottom: 30px;
-	background-color: #F8F8F8;
+	background: linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -moz-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#020031), color-stop(100%,#6D3353));
+	background: -webkit-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -o-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -ms-linear-gradient(45deg, #020031 0%, #6D3353 100%);
 	-webkit-border-radius: 16px;
 	-moz-border-radius: 16px;
 	border-radius: 16px;
@@ -44,7 +50,13 @@ article {
 .comment {
 	padding: 10px 20px 20px 20px;
 	margin-bottom: 30px;
-	background-color: #F8F8F8;
+	background: linear-gradient(45deg, #0A1C78 0%, #24ABEF 100%);
+	background: -moz-linear-gradient(45deg, #0A1C78 0%, #24ABEF 100%);
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#0A1C78), color-stop(100%,#24ABEF));
+	background: -webkit-linear-gradient(45deg, #0A1C78 0%, #24ABEF 100%);
+	background: -o-linear-gradient(45deg, #0A1C78 0%, #24ABEF 100%);
+	background: -ms-linear-gradient(45deg, #0A1C78 0%, #24ABEF 100%);
+	color: #D3D3D3;
 	-webkit-border-radius: 6px;
 	-moz-border-radius: 6px;
 	border-radius: 6px;
@@ -56,6 +68,9 @@ article {
 	letter-spacing: -1px;
 	color: inherit;
 }
+
+.comment strong {
+	color: #FFF;
 
 .comment p {
 	font-weight: 200;

@@ -8,16 +8,16 @@
 						<input type="hidden" name="_method" value="put">
 						<% if (posts[i].favourite == false) { %>
 							<button type="submit" class="btn btn-inverse pull-right">
-								<i class="icon-star-empty icon-white"></i>
+								<i class="icon-star icon-white"></i>
 							</button>
 						<% } else { %>
 							<button type="submit" class="btn btn-warning pull-right">
-								<i class="icon-star icon-white"></i>
+								<i class="icon-star"></i>
 							</button>
 						<% } %>
 					</form>
 				<% } %>
-				<a href="/posts/<%= posts[i].id %>" class='titlelink'>
+				<a href="/posts/<%= posts[i].id %>" class="titlelink">
 					<%= posts[i].title %>
 				</a>
 				<small>por <em><%= posts[i].author && posts[i].author.name || 'Anónimo' %></em></small>
@@ -38,5 +38,6 @@
 				</form>
 			<% } %>
 		</footer>
+		<br />
 	</div>
 <% }; %>
