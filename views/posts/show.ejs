@@ -1,6 +1,21 @@
 <div class="post">
 	<div class="page-header">
 		<h1>
+			<% if (session.user) { %>
+				<form method="post" class="form-horizontal"
+				action="/users/<%= session.user.id %>/favourites/<%= post.id %>" >
+					<input type="hidden" name="_method" value="put">
+					<% if (favourite == false) { %>
+						<button type="submit" class="btn btn-inverse pull-right">
+							<i class="icon-star-empty icon-white"></i>
+						</button>
+					<% } else { %>
+						<button type="submit" class="btn btn-warning pull-right">
+							<i class="icon-star icon-white"></i>
+						</button>
+					<% } %>	
+				</form>
+			<% } %>
 			<%= post.title %>
 			<small>por <em><%= post.author && post.author.name || 'Anónimo' %></em></small>
 		</h1>

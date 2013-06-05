@@ -2,11 +2,25 @@
 	<div class="post">
 		<div class="page-header">
 			<h1>
+				<% if (session.user) { %>
+					<form method="post" class="form-horizontal"
+					action="/users/<%= session.user.id %>/favourites/<%= posts[i].id %>" >
+						<input type="hidden" name="_method" value="put">
+						<% if (posts[i].favourite == false) { %>
+							<button type="submit" class="btn btn-inverse pull-right">
+								<i class="icon-star-empty icon-white"></i>
+							</button>
+						<% } else { %>
+							<button type="submit" class="btn btn-warning pull-right">
+								<i class="icon-star icon-white"></i>
+							</button>
+						<% } %>
+					</form>
+				<% } %>
 				<a href="/posts/<%= posts[i].id %>" class='titlelink'>
 					<%= posts[i].title %>
 				</a>
 				<small>por <em><%= posts[i].author && posts[i].author.name || 'Anónimo' %></em></small>
-				<br />
 				<small>Hay <%= posts[i].comments && posts[i].comments.length || '0' %> comentarios.</small>
 			</h1>
 		</div>

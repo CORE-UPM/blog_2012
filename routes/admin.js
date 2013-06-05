@@ -16,11 +16,17 @@ exports.show = function(req, res, next) {
 					delete posts_anonimos[i];
 				}
 			}
-			res.render('admin/show', {
-				posts: posts_anonimos,
-				visitas: count.getCount(), 
-				style: "admin_index" 
-			});
+			for (var i in posts_anonimos) {
+				if (posts_anonimos[i]) {
+					res.render('admin/show', {
+						posts: posts_anonimos,
+						visitas: count.getCount(), 
+						style: "admin_show" 
+					});
+				}
+			}
+			req.flash('info', 'No hay ningún post anónimo');
+			res.redirect('/admin');
 		})
 		.error(function(error) {
 			req.flash('error', 'Error al conseguir los posts sin autor');

@@ -31,41 +31,62 @@ exports.index = function(req, res, next) {
             include: [{model:models.User, as:'Author'}, 
                       {model:models.Comment, as:'Comments'}]})
         .success(function(posts) {
-            switch (format) {
-                case 'html':
-                case 'htm':
-                    res.render('posts/index', {
-                        posts: posts,
-                        visitas: count.getCount(),
-                        style: "post_index" 
+            var sessionId = -1;
+            if (req.session.user && req.session.user.id) {
+                sessionId = req.session.user.id;
+            }
+            models.Favourite.findAll({where: {userId: sessionId}})
+                .success(function(favourites) {
+                    var postIds = favourites.map(function(favourite) {
+                        return favourite.postId;
                     });
-                    break;
-                case 'json':
-                    var posts_json = posts;
-                    for (var i in posts_json) {
-                        delete posts_json[i].authorId;
-                        if (posts_json[i].author != null) {
-                            posts_json[i].author = posts_json[i].author.login;
-                        }
-                        else {
-                            posts_json[i].author = 'Anónimo';
-                        }
-                        if (posts_json[i].comments != null) {
-                            posts_json[i].comments = posts_json[i].comments.length;
-                        }
-                        else {
-                            posts_json[i].comments = 'No hay comentarios';
+                    for (var i in posts) {
+			posts[i].favourite = false;
+                        for (var j in postIds) {
+                            if (posts[i].id == postIds[j]) {
+                                posts[i].favourite = true;
+                            }
                         }
                     }
-                    res.send(posts_json);
-                    break;
-                case 'xml':
-                    res.send(posts_to_xml(posts));
-                    break;
-                default:
-                    console.log("Formato \"" + format + "\" no soportado");
-                    res.send(406);
-            }
+                    switch (format) {
+                        case 'html':
+                        case 'htm':
+                            res.render('posts/index', {
+                                posts: posts,
+                                visitas: count.getCount(),
+                                style: "post_index" 
+                            });
+                            break;
+                        case 'json':
+                            var posts_json = posts;
+                            for (var i in posts_json) {
+                                delete posts_json[i].authorId;
+                                if (posts_json[i].author != null) {
+                                    posts_json[i].author = posts_json[i].author.login;
+                                }
+                                else {
+                                    posts_json[i].author = 'Anónimo';
+                                }
+                                if (posts_json[i].comments != null) {
+                                    posts_json[i].comments = posts_json[i].comments.length;
+                                }
+                                else {
+                                    posts_json[i].comments = 'No hay comentarios';
+                                }
+                            }
+                            res.send(posts_json);
+                            break;
+                        case 'xml':
+                            res.send(posts_to_xml(posts));
+                            break;
+                        default:
+                            console.log("Formato \"" + format + "\" no soportado");
+                            res.send(406);
+                    }
+                })
+                .error(function(error) {
+                    next(error);
+                });
         })
         .error(function(error) {
             next(error);
@@ -95,35 +116,50 @@ exports.show = function(req, res, next) {
                             var new_comment = models.Comment.build({
                                 body: 'Introduzca el texto del comentario'
                             });
-                            switch (format) {
-                                case 'html':
-                                case 'htm':
-                                    res.render('posts/show', {
-                                        post: req.post, 
-                                        comments: comments,
-                                        comment: new_comment,
-                                        attachments: attachments,
-                                        visitas: count.getCount(), 
-                                        style: "post_show" 
-                                    });
-                                    break;
-                                case 'json':
-                                    var post_json = req.post;
-                                    delete post_json.authorId;
-                                    if (post_json.author != null) {
-                                        post_json.author = post_json.author.login;
-                                    }
-                                    post_json.comments = comments;
-                                    post_json.attachments = attachments;
-                                    res.send(post_json);
-                                    break;
-                                case 'xml':
-                                    res.send(post_to_xml(req.post, comments, attachments));
-                                    break;
-                                default:
-                                    console.log("Formato \"" + format + "\" no soportado");
-                                    res.send(406);
+                            var sessionId = -1;
+                            if (req.session.user && req.session.user.id) {
+                                sessionId = req.session.user.id;
                             }
+                            models.Favourite.find({where: {userId: sessionId, postId: req.post.id}})
+                                .success(function(favourite) {
+                                    var favorito = false;
+                                    if(favourite) {
+                                        favorito = true;
+                                    }
+                                    switch (format) {
+                                        case 'html':
+                                        case 'htm':
+                                            res.render('posts/show', {
+                                            post: req.post, 
+                                            comments: comments,
+                                            comment: new_comment,
+                                            favourite: favorito,
+                                            attachments: attachments,
+                                            visitas: count.getCount(), 
+                                            style: "post_show" 
+                                        });
+                                        break;
+                                    case 'json':
+                                        var post_json = req.post;
+                                        delete post_json.authorId;
+                                        if (post_json.author != null) {
+                                            post_json.author = post_json.author.login;
+                                        }
+                                        post_json.comments = comments;
+                                        post_json.attachments = attachments;
+                                        res.send(post_json);
+                                        break;
+                                    case 'xml':
+                                        res.send(post_to_xml(req.post, comments, attachments));
+                                        break;
+                                    default:
+                                        console.log("Formato \"" + format + "\" no soportado");
+                                        res.send(406);
+                                    }
+                                })
+                                .error(function(error) {
+                                    next(error);
+                                });
                         })
                         .error(function(error) {
                             next(error);
@@ -246,52 +282,153 @@ exports.destroy = function(req, res, next) {
         .error(function(error) { next(error); });
 }
 
-// GET /posts/search
+// GET /posts/search?pageno=#
+exports.searchPage = function(req, res, next) {
+    var format = req.params.format || 'html';
+    format = format.toLowerCase();
+    models.Post
+        .findAll({
+            offset: req.pagination.offset, 
+            limit: req.pagination.limit, 
+            where: ["title like ? OR body like ?", req.session.searchText, req.session.searchText], 
+            order: 'updatedAt DESC', 
+            include: [{model:models.User, as:'Author'}]})
+        .success(function(posts) {
+            var sessionId = -1;
+            if (req.session.user && req.session.user.id) {
+                sessionId = req.session.user.id;
+            }
+            models.Favourite.findAll({where: {userId: sessionId}})
+                .success(function(favourites) {
+                    var postIds = favourites.map(function(favourite) {
+                        return favourite.postId;
+                    });
+                    for (var i in posts) {
+			posts[i].favourite = false;
+                        for (var j in postIds) {
+                            if (posts[i].id == postIds[j]) {
+                                posts[i].favourite = true;
+                            }
+                        }
+                    }
+                    switch (format) {
+                        case 'html':
+                        case 'htm':
+                            res.render('posts/search', {
+                                posts: posts,
+                                visitas: count.getCount(),
+                                style: "post_search" 
+                            });
+                            break;
+                        case 'json':
+                            var posts_json = posts;
+                            for (var i in posts_json) {
+                                delete posts_json[i].authorId;
+                                if (posts_json[i].author != null) {
+                                    posts_json[i].author = posts_json[i].author.login;
+                                }
+                                else {
+                                    posts_json[i].author = 'Anónimo';
+                                }
+                                if (posts_json[i].comments != null) {
+                                    posts_json[i].comments = posts_json[i].comments.length;
+                                }
+                                else {
+                                    posts_json[i].comments = 'No hay comentarios';
+                                }
+                            }
+                            res.send(posts_json);
+                            break;
+                        case 'xml':
+                            res.send(posts_to_xml(posts));
+                            break;
+                        default:
+                            console.log("Formato \"" + format + "\" no soportado");
+                            res.send(406);
+                    } 
+                })
+                .error(function(error) {
+                    next(error);
+                });       
+        })
+        .error(function(error) {
+            console.log("Error: No pudieron listarse los posts.");
+            res.redirect('/');
+        });
+}
+
+// POST /posts/search
 exports.search = function(req, res, next) {
     var format = req.params.format || 'html';
     var text = req.body.find;
     text = text.replace(/[\s\t\n\r]+/gi, "%");
     text = "%" + text + "%";
+    req.session.searchText = text;
     format = format.toLowerCase();
     models.Post
-        .findAll({where: ["title like ? OR body like ?", text, text], order: 'updatedAt DESC', 
+        .findAll({
+            offset: req.pagination.offset, 
+            limit: req.pagination.limit, 
+            where: ["title like ? OR body like ?", text, text], 
+            order: 'updatedAt DESC', 
             include: [{model:models.User, as:'Author'}]})
         .success(function(posts) {
-            switch (format) {
-                case 'html':
-                case 'htm':
-                    res.render('posts/search', {
-                        posts: posts,
-                        visitas: count.getCount(),
-                        style: "post_search" 
+            var sessionId = -1;
+            if (req.session.user && req.session.user.id) {
+                sessionId = req.session.user.id;
+            }
+            models.Favourite.findAll({where: {userId: sessionId}})
+                .success(function(favourites) {
+                    var postIds = favourites.map(function(favourite) {
+                        return favourite.postId;
                     });
-                    break;
-                case 'json':
-                    var posts_json = posts;
-                    for (var i in posts_json) {
-                        delete posts_json[i].authorId;
-                        if (posts_json[i].author != null) {
-                            posts_json[i].author = posts_json[i].author.login;
-                        }
-                        else {
-                            posts_json[i].author = 'Anónimo';
-                        }
-                        if (posts_json[i].comments != null) {
-                            posts_json[i].comments = posts_json[i].comments.length;
-                        }
-                        else {
-                            posts_json[i].comments = 'No hay comentarios';
+                    for (var i in posts) {
+			posts[i].favourite = false;
+                        for (var j in postIds) {
+                            if (posts[i].id == postIds[j]) {
+                                posts[i].favourite = true;
+                            }
                         }
                     }
-                    res.send(posts_json);
-                    break;
-                case 'xml':
-                    res.send(posts_to_xml(posts));
-                    break;
-                default:
-                    console.log("Formato \"" + format + "\" no soportado");
-                    res.send(406);
-            }
+                    switch (format) {
+                        case 'html':
+                        case 'htm':
+                            res.render('posts/search', {
+                                posts: posts,
+                                visitas: count.getCount(),
+                                style: "post_search" 
+                            });
+                            break;
+                        case 'json':
+                            var posts_json = posts;
+                            for (var i in posts_json) {
+                                delete posts_json[i].authorId;
+                                if (posts_json[i].author != null) {
+                                    posts_json[i].author = posts_json[i].author.login;
+                                }
+                                else {
+                                    posts_json[i].author = 'Anónimo';
+                                }
+                                if (posts_json[i].comments != null) {
+                                    posts_json[i].comments = posts_json[i].comments.length;
+                                }
+                                else {
+                                    posts_json[i].comments = 'No hay comentarios';
+                                }
+                            }
+                            res.send(posts_json);
+                            break;
+                        case 'xml':
+                            res.send(posts_to_xml(posts));
+                            break;
+                        default:
+                            console.log("Formato \"" + format + "\" no soportado");
+                            res.send(406);
+                    } 
+                })
+                .error(function(error) {
+                    next(error);
+                });       
         })
         .error(function(error) {
             console.log("Error: No pudieron listarse los posts.");

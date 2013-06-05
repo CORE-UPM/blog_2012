@@ -12,8 +12,9 @@ var express = require('express'),
     postController = require('./routes/post_controller'),
     userController = require('./routes/user_controller'),
     sessionController = require('./routes/session_controller'),
-    commentController = require('./routes/comment_controller.js'),
-    attachmentController = require('./routes/attachment_controller.js'),
+    commentController = require('./routes/comment_controller'),
+    attachmentController = require('./routes/attachment_controller'),
+    favouritesController = require('./routes/favourites_controller'),
     count = require('./public/javascripts/count'),
     root = require('./public/javascripts/root'),
     http = require('http'),
@@ -116,7 +117,21 @@ app.get('/posts/:postid([0-9]+)/edit', sessionController.requiresLogin,
 	postController.loggedUserIsAuthor, postController.edit);
 
 app.post('/posts', sessionController.requiresLogin, postController.create);
-app.post('/posts/search', postController.search);
+
+app.get('/posts/search.:format?', function(req, res, next) {
+	paginate(req, res, next, 'Post', {
+		where: ["title like ? OR body like ?", req.session.searchText, req.session.searchText], 
+		order: 'updatedAt DESC'});
+}, postController.searchPage);
+
+app.post('/posts/search', function(req, res, next) {
+	var text = req.body.find;
+	text = text.replace(/[\s\t\n\r]+/gi, "%");
+	text = "%" + text + "%";
+	paginate(req, res, next, 'Post', {
+		where: ["title like ? OR body like ?", text, text], 
+		order: 'updatedAt DESC'});
+}, postController.search);
 
 app.put('/posts/:postid([0-9]+)', sessionController.requiresLogin, 
 	postController.loggedUserIsAuthor, postController.update);
@@ -146,6 +161,12 @@ app.post('/users', userController.create);
 
 app.put('/users/:userid([0-9]+)', sessionController.requiresLogin, 
 	userController.loggedUserIsUser, userController.update);
+
+app.get('/users/:userid([0-9]+)/favourites', sessionController.requiresLogin, 
+	userController.loggedUserIsUser, favouritesController.index);
+
+app.put('/users/:userid([0-9]+)/favourites/:postid([0-9]+)', sessionController.requiresLogin, 
+	userController.loggedUserIsUser, favouritesController.change);
 
 app.delete('/users/:userid([0-9]+)', sessionController.requiresLogin, 
 	userController.loggedUserIsRoot, userController.destroy);
