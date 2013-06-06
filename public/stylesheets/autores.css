@@ -1,4 +1,7 @@
 video {
 	width: 40%	!important;
 	height: auto	!important;
+	border-style: ridge;
+	border-width: 1px;
+	border-color: #00FFFF !important;
 }

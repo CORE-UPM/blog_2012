@@ -1,4 +1,4 @@
-var visitas = 0;
+var visitas = 1;
 exports.count = function (){
         return function (req, res, next){
             var method = (req.method || '');

@@ -203,7 +203,8 @@ exports.update = function(req, res, next) {
     req.user.name = req.body.user.name;
     req.user.email = req.body.user.email;
     var validate_errors = req.user.validate();
-    if (validate_errors || req.body.user.password) {
+    if (validate_errors || req.body.user.password != null 
+         || req.body.user.old_password != null || req.body.user.confirm_password != null) {
 	if (validate_errors) {
 	        console.log("Errores de validacion:", validate_errors);
         	req.flash('error', 'Los datos del formulario son incorrectos.');
@@ -212,7 +213,8 @@ exports.update = function(req, res, next) {
         	};
 	}
         var password = "";
-        if (req.body.user.password) {
+        if (req.body.user.password != null || req.body.user.old_password != null 
+            || req.body.user.confirm_password != null) {
             var old_password = req.body.user.old_password || '';
             var new_password = req.body.user.password;
             var confirm_password = req.body.user.confirm_password || '';
