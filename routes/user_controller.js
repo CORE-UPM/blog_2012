@@ -208,7 +208,7 @@ exports.update = function(req, res, next) {
 	        console.log("Errores de validacion:", validate_errors);
         	req.flash('error', 'Los datos del formulario son incorrectos.');
         	for (var err in validate_errors) {
-        	    req.flash('error', validate_error[err]);
+        	    req.flash('error', validate_errors[err]);
         	};
 	}
         var password = "";
