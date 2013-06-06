@@ -3,14 +3,24 @@ body {
 	padding-bottom: 40px;
 }
 
+.barra-magica {
+	background: linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -moz-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#020031), color-stop(100%,#6D3353));
+	background: -webkit-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -o-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -ms-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	margin: 0px;
+}
+
 .sidebar-nav {
-	padding: 9px 0;
-	background: linear-gradient(45deg, #003102 0%, #33536D 100%);
-	background: -moz-linear-gradient(45deg, #003102 0%, #33536D 100%);
-	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#003102), color-stop(100%,#33536D));
-	background: -webkit-linear-gradient(45deg, #003102 0%, #33536D 100%);
-	background: -o-linear-gradient(45deg, #003102 0%, #33536D 100%);
-	background: -ms-linear-gradient(45deg, #003102 0%, #33536D 100%);	
+	padding: 9px 0px;
+	background: linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -moz-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -webkit-gradient(linear, left bottom, right top, color-stop(0%,#020031), color-stop(100%,#6D3353));
+	background: -webkit-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -o-linear-gradient(45deg, #020031 0%, #6D3353 100%);
+	background: -ms-linear-gradient(45deg, #020031 0%, #6D3353 100%);	
 }
 
 article {
@@ -77,6 +87,7 @@ article {
 
 .comment strong {
 	color: #FFF;
+}
 
 .comment p {
 	font-weight: 200;
