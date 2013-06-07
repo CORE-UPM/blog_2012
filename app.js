@@ -81,11 +81,11 @@ else {
 
 app.locals.escapeText = function(text) {
 	return String(text)
-		.replace(/&(?!\w+;)/g, '&amp;')
-		.replace(/</g, '&lt;')
-		.replace(/>/g, '&gt;')
-		.replace(/"/g, '&quot;')
-		.replace(/\n/g, '<br>;')
+		.replace(/&(?!\w+;)/g, '&amp')
+		.replace(/</g, '&lt')
+		.replace(/>/g, '&gt')
+		.replace(/"/g, '&quot')
+		.replace(/\n/g, '<br>')
 };
 
 // Definición de rutas
