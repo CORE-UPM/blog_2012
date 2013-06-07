@@ -22,6 +22,9 @@ exports.load = function(req, res, next, id) {
 }
 
 exports.loggedUserIsAuthor = function(req, res, next) {
+	if (req.session.user && req.session.user.login == 'root') {
+		next();
+	}
 	if (req.session.user && req.session.user.id == req.comment.authorId) {
 		next();
 	}
