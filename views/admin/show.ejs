@@ -1,0 +1,34 @@
+<h2>Administración y configuración</h2>
+<h2>Posts Anónimos</h2>
+
+<% for (var i in posts) { %>
+	<div class="post">
+		<div class="page-header">
+			<h1>
+				<a href="/posts/<%= posts[i].id %>" class='titlelink'>
+					<%= posts[i].title %>
+				</a>
+				<small>por <em><%= posts[i].author && posts[i].author.name || 'Anónimo' %></em></small>
+				<small>Hay <%= posts[i].comments && posts[i].comments.length || '0' %> comentarios.</small>
+			</h1>
+		</div>
+
+		<p><%= posts[i].body.slice(0, 1000) %></p>
+		<footer class="pull-right">
+			<% if ((session.user && session.user.id == posts[i].authorId) 
+				|| (session.user && session.user.login == 'root')) { %>
+				<% var form_name = 'fpi' + i; %>
+				<form method='post' action='/posts/<%= posts[i].id %>' name="<%= form_name %>">
+					<input type='hidden' name='_method' value='delete'>
+					<a class="btn btn-warning btn-mini" href="/posts/<%= posts[i].id %>/edit">
+						<i class="icon-edit icon-white"></i> Editar</a>
+					<a class="btn btn-danger btn-mini" href="#" onclick="this.parentNode.submit()">
+						<i class="icon-trash icon-white"></i> Borrar</a>
+				</form>
+			<% } %>
+		</footer>
+		<br />
+	</div>
+<% }; %>
+<hr />
+<a class="btn btn-inverse" href="/admin"><i class="icon-arrow-left icon-white"></i> Volver</a>

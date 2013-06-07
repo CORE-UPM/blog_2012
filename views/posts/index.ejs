@@ -1,45 +1,55 @@
-
 <% for (var i in posts) { %>
-  <div class="post">
-    <div class="page-header">
-      <h1>
-        <a href='/posts/<%= posts[i].id %>' class='titlelink'> <%= posts[i].title %> </a>
-        <small>por <em> <%= posts[i].author && posts[i].author.name || "Sin autor" %> </em></small>
-      </h1>
-     <em> <%= posts[i].updatedAt.toLocaleDateString() %></em>
-   </div>
-      
-     <p>
-        <%= posts[i].body.slice(0,1000) %> ... 
-     </p>
+	<div class="post">
+		<div class="page-header">
+			<h1>
+				<% if (session.user) { %>
+					<form method="post" class="form-horizontal"
+					action="/users/<%= session.user.id %>/favourites/<%= posts[i].id %>" >
+						<input type="hidden" name="_method" value="put">
+						<% if (posts[i].favourite == false) { %>
+							<button type="submit" class="btn btn-inverse pull-right">
+								<i class="icon-star icon-white"></i>
+							</button>
+						<% } else { %>
+							<button type="submit" class="btn btn-warning pull-right">
+								<i class="icon-star"></i>
+							</button>
+						<% } %>
+					</form>
+				<% } %>
+				<a href="/posts/<%= posts[i].id %>" class="titlelink">
+					<%= posts[i].title %>
+				</a>
+				<small>por <em><%= posts[i].author && posts[i].author.name || 'Anónimo' %></em></small>
+				<br />
+				<% if ((posts[i].comments && posts[i].comments.length || '0') == '0') { %>
+					<small class="number">No hay ningún comentario</small>
+				<% } else {%>
+					<small class="number">Hay <%= posts[i].comments.length %> comentarios.</small>
+				<% } %>
+			</h1>
+		</div>
 
-     <footer class="pull-right">
-
-      <% if (session.user && session.user.id == posts[i].authorId) {%>
-
-        <% var form_name = 'fpi' + i; %>
-
-        <form method='post' action='/posts/<%= posts[i].id %>'
-              name='<%= form_name %>'>
-          <input type='hidden' name='_method' value='delete'>
-          <a class='btn btn-warning btn-mini' href="/posts/<%= posts[i].id %>/edit"> 
-             <i class='icon-edit icon-white'></i> Editar 
-          </a> 
-          <a class='btn btn-danger btn-mini' href="" 
-             onclick="return confirmarSubmit('¿Seguro que desea borrar el post?', '<%= form_name %>')"> 
-             <i class='icon-trash icon-white'></i> Borrar
-          </a>  
-        </form>
-
-      <% } %>
-
-     <footer>
-  </div>
-<%  }; %>
-
+		<p><%= posts[i].body.slice(0, 1000) %></p>
+		
+		<footer class="pull-right">
+			<% if ((session.user && session.user.id == posts[i].authorId) 
+				|| (session.user && session.user.login == 'root')) { %>
+				<% var form_name = 'fpi' + i; %>
+				<form method='post' action='/posts/<%= posts[i].id %>' name="<%= form_name %>">
+					<input type='hidden' name='_method' value='delete'>
+					<a class="btn btn-warning btn-mini" href="/posts/<%= posts[i].id %>/edit">
+						<i class="icon-edit icon-white"></i> Editar</a>
+					<a class="btn btn-danger btn-mini" href="#" onclick="this.parentNode.submit()">
+						<i class="icon-trash icon-white"></i> Borrar</a>
+				</form>
+			<% } %>
+		</footer>
+		<br />
+	</div>
+<% }; %>
 <footer>
-  <nav>
-    <a href="/posts/new"> <i class='icon-plus-sign'></i> Crear nuevo Post </a>
-  </nav>
+	<nav>
+		<a class="btn btn-primary" href="/posts/new"><i class="icon-plus-sign icon-white"></i> Añadir Post</a>
+	</nav>
 </footer>
-

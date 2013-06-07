@@ -1,0 +1,18 @@
+<div class='control-group <%- locals.validate_errors && validate_errors.title ? "error" : "" %>'>
+	<label class="control-label" for="post_title">Título:</label>
+	<div class="controls">
+		<input type="text" id="post_title" name="post[title]" class="input-xlarge"
+		size="80" value="<%= post.title %>" />
+	</div>
+</div>
+
+<div class='control-group <%- locals.validate_errors && validate_errors.body 
+		? "error" : "" %>'>
+	<label class="control-label" for="post_body">Contenido:</label>
+	<div class="controls">
+		<textarea id="post_body" name="post[body]" class="input-xxlarge" rows="10"><%= post.body %></textarea>
+	</div>
+</div>
+
+<button type="submit" class="btn btn-success"><i class="icon-lock icon-white"></i> Guardar</button>
+<button type="reset" class="btn btn-primary"><i class="icon-file icon-white"></i> Borrar campos</button>

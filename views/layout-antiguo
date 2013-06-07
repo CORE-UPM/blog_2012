@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+	<meta charset="utf-8">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/bootstrap.min.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/style.css">
+	<link rel="stylesheet" type="text/css" href="/stylesheets/<%= style %>.css">
+
+	<script src="http://code.jquery.com/jquery.min.js"></script>
+	<script src="/javascripts/bootstrap.min.js"></script>	
+
+	<title>Blog del Curioso</title>
+</head>
+<body>
+	<header>
+		<h1>El Blog del curioso</h1>
+		<div>
+			<a href="/">Inicio</a>
+			<a href="/autores">Autores</a>
+			<a href="/posts">Posts</a>
+			<a href="/users">Usuarios</a>
+			<% if (session.user && session.user.login == 'root') { %>
+				<a href="/admin">Administrador</a>
+			<% } %>
+			<div id ="search">
+				<form method="post" action="/posts/search">
+					<input type="text" name="find" id="search"/>
+					<input name="commit" type="submit" value="Buscar" />
+				</form>
+			</div>
+			<div id="logininfo">
+				<% if (session.user) { %>
+					<%= session.user.name %>
+					<a href="/logout">Cerrar Sesión</a>
+				<% } else { %>
+					<a href="/login?redir=/posts">Login</a>
+					<a href="/users/new">Registrarse</a>
+				<% } %>
+			</div>
+		</div>
+	</header>
+	<section>
+		<% var flash = locals.flash() %>
+		<% if (flash.info) { %>
+			<article id='flashinfo'>
+				<h3>Información</h3>
+				<ul>
+					<% for (var i in flash.info) { %>
+						<li> <%= flash.info[i] %> </li>
+					<% } %>
+				</ul>
+			</article>
+		<% } %>
+		<% if (flash.success) { %>
+			<article id='flashsuccess'>
+				<h3>Éxito</h3>
+				<ul>
+					<% for (var i in flash.success) { %>
+						<li> <%= flash.success[i] %> </li>
+					<% } %>
+				</ul>
+			</article>
+		<% } %>
+		<% if (flash.error) { %>
+			<article id='flasherror'>
+				<h3>Errores encontrados:</h3>
+				<ul>
+					<% for (var i in flash.error) { %>
+						<li> <%= flash.error[i] %> </li>
+					<% } %>
+				</ul>
+			</article>
+		<% } %>
+	</section>
+	<section>
+		<hr /> 
+		<%- body %>
+		<hr />
+	</section>
+	<footer>
+		<p>Número de visitas: <%= visitas %></p> 
+		<p>Desde el 15 de Mayo de 2013</p>
+	</footer>
+</body>
+</html> 

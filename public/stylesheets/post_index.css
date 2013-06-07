@@ -1,0 +1,10 @@
+small>em {
+	font-family: Palatino, "Palatino Linotype", "Palatino LT STD", "Book Antiqua", Georgia, serif;
+	color: #F0F0F0;
+	font-style: oblique;
+}
+
+.number {
+	font-style: italic;
+	font-size: 60%;
+}

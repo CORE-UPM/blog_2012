@@ -1,0 +1,16 @@
+<h1>Nueva foto de perfil</h1>
+<form method="post" action="/users/<%= user.id %>/photo/change" enctype="multipart/form-data" class="form-horizontal">
+	<div class="control-group">
+		<label class="control-label" for="attachment">Seleccione imágen (máximo 50KB)</label>
+		<div class="controls">
+			<input type="file" id="attachment" name="adjunto" />
+		</div>
+	</div>
+	<div class="controls">
+		
+                <button class='btn btn-success btn-mini' href='#' onclick="this.parentNode.submit()">
+                  <i class='icon-upload icon-white'></i> Subir
+                </button>
+	</div>
+</form>
+<a class="btn btn-danger" href="/users/<%= user.id %>"><i class="icon-remove icon-white"></i> Cancelar</a>
